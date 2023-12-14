@@ -1,0 +1,17 @@
+﻿@using Dosermana.WebUI.Models
+@using Dosermana.WebUI.HtmlHelpers
+@model ProductsListViewModel
+
+@{
+    ViewBag.Title = "Товары";
+}
+
+@foreach (var p in @Model.Products)
+{
+    @Html.Partial("ProductSummary", p)
+}
+
+<div class="btn-group pull-right">
+    @Html.PageLinks(Model.PagingInfo, x => Url.Action("List",
+        new { page = x, category = Model.CurrentCategory }))
+</div>
