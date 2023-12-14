@@ -6,6 +6,7 @@ using Dosermana.WebUI.Models;
 
 namespace Dosermana.WebUI.Controllers
 {
+    
     public class CartController : Controller
     {
         private IProductRepository repository;
@@ -16,14 +17,20 @@ namespace Dosermana.WebUI.Controllers
             orderProcessor = processor;
         }
 
-        public RedirectToRouteResult AddToCart(Cart cart, int productId, string returnUrl)
+        //[Authorize]
+        public RedirectToRouteResult AddToCart(Cart cart, int productId, int quantity, string returnUrl)
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             Product product = repository.Products
                 .FirstOrDefault(g => g.ProductId == productId);
 
             if (product != null)
             {
-                cart.AddItem(product, 1);
+                cart.AddItem(product, quantity);
             }
             return RedirectToAction("Index", new { returnUrl });
         }

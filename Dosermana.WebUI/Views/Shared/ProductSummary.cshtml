@@ -20,6 +20,11 @@
         <div class="pull-right">
             @Html.HiddenFor(x => x.ProductId)
             @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+
+
+            <input type="number" name="quantity" class="form-control" min="1" value="0" />
+
+
             <input type="submit" class="btn btn-success" value="Добавить в корзину" />
         </div>
     }
