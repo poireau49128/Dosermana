@@ -1,0 +1,25 @@
+﻿@model Dosermana.WebUI.Models.EditModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Редактировать данные профиля</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div>
+        @Html.ValidationSummary(true, "")
+        <div>
+            <p>Address: @Html.EditorFor(model => model.Address)</p>
+        </div>
+
+        <div>
+            <div>
+                <input type="submit" value="Сохранить" />
+            </div>
+        </div>
+    </div>
+}

@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNet.Identity
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -15,6 +17,28 @@
         <a class="navbar-brand" href="#">
             <span class="hidden-custom">ООО «ДОСЭРМАНА»</span>
         </a>
+
+
+        <div style="color: white">
+            @if (User.Identity.IsAuthenticated)
+            {
+                var userEmail = User.Identity.GetUserName();
+
+                <p>Почта: @userEmail</p>
+                @Html.ActionLink("Удалить аккаунт", "Delete", "Account")
+                @Html.ActionLink("Изменить аккаунт", "Edit", "Account")
+                @Html.ActionLink("Выйти", "Logout", "Account")
+            }
+            else
+            {
+                <a href="@Url.Action("Login", "Account")">Авторизоваться</a>
+            }
+        </div>
+        
+
+
+
+
         @Html.Action("Summary", "Cart")
     </div>
 
