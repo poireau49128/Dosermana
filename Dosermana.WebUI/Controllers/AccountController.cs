@@ -52,6 +52,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Dosermana.Domain.Entities;
 using Dosermana.WebUI.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -131,6 +132,17 @@ namespace AspNetIdentityApp.Controllers
                     {
                         IsPersistent = true
                     }, claim);
+
+
+
+
+                    var currentUser = new CurrentUser
+                    {
+                        UserId = User.Identity.GetUserId()
+                    };
+
+
+
                     if (String.IsNullOrEmpty(returnUrl))
                         return RedirectToAction("List", "Product");
                     return Redirect(returnUrl);

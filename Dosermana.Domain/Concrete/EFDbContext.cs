@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 
 namespace Dosermana.Domain.Concrete
 {
-    class EFDbContext : DbContext
+    public class EFDbContext : DbContext
     {
         public DbSet<Product> Products { get; set; }
+        public DbSet<Order> Orders { get; set; }
     }
 }

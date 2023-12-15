@@ -25,12 +25,17 @@ namespace Dosermana.Domain.Concrete
 
         public string FileLocation;
 
+
+        
+
         public EmailSettings()
         {
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
             string relativePath = "Store_emails";
             string absolutePath = Path.Combine(baseDirectory, relativePath);
             FileLocation = absolutePath;
+
+            
         }
     }
 
@@ -38,12 +43,16 @@ namespace Dosermana.Domain.Concrete
     {
         private EmailSettings emailSettings;
 
-        public EmailOrderProcessor(EmailSettings settings)
+        private readonly EFDbContext _dbContext;
+
+        public EmailOrderProcessor(EmailSettings settings, EFDbContext dbContext)
         {
             emailSettings = settings;
+
+            _dbContext = dbContext;
         }
 
-        public void ProcessOrder(Cart cart, ShippingDetails shippingInfo)
+        public void ProcessOrder(Cart cart, ShippingDetails shippingInfo, string userID)
         {
             using (var smtpClient = new SmtpClient())
             {
@@ -98,6 +107,25 @@ namespace Dosermana.Domain.Concrete
 
                 smtpClient.Send(mailMessage);
             }
+
+
+
+            foreach (var line in cart.Lines)
+            {
+                var order = new Order
+                {
+                    UserId = userID,
+                    ProductId = line.Product.ProductId,
+                    Quantity = line.Quantity,
+                    Status = "В обработке",
+                    Address = shippingInfo.Line1,
+                    OrderDate = DateTime.Now,
+                    Summary = line.Product.Price * line.Quantity
+                };
+
+                _dbContext.Orders.Add(order);
+            }
+            _dbContext.SaveChanges();
         }
     }
 }

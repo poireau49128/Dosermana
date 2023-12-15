@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using Dosermana.Domain.Entities;
 using Dosermana.Domain.Abstract;
 using Dosermana.WebUI.Models;
+using Microsoft.AspNet.Identity;
 
 namespace Dosermana.WebUI.Controllers
 {
@@ -69,6 +70,7 @@ namespace Dosermana.WebUI.Controllers
         [HttpPost]
         public ViewResult Checkout(Cart cart, ShippingDetails shippingDetails)
         {
+            string userId = User.Identity.GetUserId();
             if (cart.Lines.Count() == 0)
             {
                 ModelState.AddModelError("", "Извините, ваша корзина пуста!");
@@ -76,7 +78,7 @@ namespace Dosermana.WebUI.Controllers
 
             if (ModelState.IsValid)
             {
-                orderProcessor.ProcessOrder(cart, shippingDetails);
+                orderProcessor.ProcessOrder(cart, shippingDetails, userId);
                 cart.Clear();
                 return View("Completed");
             }
