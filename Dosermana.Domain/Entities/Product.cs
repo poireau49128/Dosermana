@@ -21,18 +21,20 @@ namespace Dosermana.Domain.Entities
         [Required(ErrorMessage = "Пожалуйста, введите цвет продукта")]
         public string Color { get; set; }
 
-        [Display(Name = "Количество на складе")]
+        [Display(Name = "Остаток на складе в Гродно")]
         [Required]
         [Range(0, int.MaxValue, ErrorMessage = "Пожалуйста, введите неотрицательное значение для количества")]
-        public int Quantity { get; set; }
+        public int Quantity_Grodno { get; set; }
+
+        [Display(Name = "Остаток на складе в Гродно")]
+        [Required]
+        [Range(0, int.MaxValue, ErrorMessage = "Пожалуйста, введите неотрицательное значение для количества")]
+        public int Quantity_Moscow { get; set; }
 
         [Display(Name = "Цена (руб)")]
         [Required]
         [Range(0.01, double.MaxValue, ErrorMessage = "Пожалуйста, введите положительное значение для цены")]
         public decimal Price { get; set; }
-
-        [Display(Name = "Имя картинки")]
-        public string PictureName { get; set; }
 
         [Display(Name = "Размеры")]
         public string Sizes { get; set; }

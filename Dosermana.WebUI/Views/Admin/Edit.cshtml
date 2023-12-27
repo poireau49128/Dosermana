@@ -17,33 +17,6 @@
             @Html.HiddenFor(m => m.ProductId)
             @foreach (var property in ViewData.ModelMetadata.Properties)
             {
-                @*if (property.PropertyName != "ProductId")
-                {
-                    <div class="form-group">
-                        <label>@(property.DisplayName ?? property.PropertyName)</label>
-                        @if (property.PropertyName == "PictureName")
-                        {
-                            <div class="input-group">
-                                @Html.TextBoxFor(m => m.PictureName, new { @class = "form-control", @readonly = "readonly" })
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button" id="btnUpload">Добавить</button>
-                                </span>
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button" id="btnDelete">Удалить</button>
-                                </span>
-                            </div>
-                        }
-                        else
-                        {
-                            @Html.TextBox(property.PropertyName, null,
-                                new { @class = "form-control" })
-                        }
-
-                        @Html.ValidationMessage(property.PropertyName)
-                    </div>
-                }*@
-
-
                 switch (property.PropertyName)
                 {
                     case "ProductId":
@@ -64,30 +37,43 @@
                 }
             }
 
-            <div class="form-group">
-                <div style="position:relative;">
-                    <label>Картинка</label>
-                    <a class='btn' href='javascript:;'>
-                        Выберите файл...
-                        <input type="file" name="Image" size="40"
-                               style="position:absolute;z-index:2;top:0;
+        <div class="form-group">
+            <div style="position:relative;">
+                <label>Картинка</label>
+                <a class='btn' href='javascript:;'>
+                    Выберите файл...
+                    <input type="file" name="Image" size="40"
+                           style="position:absolute;z-index:2;top:0;
                                         left:0;filter: alpha(opacity=0); opacity:0;
                                         background-color:transparent;color:transparent;"
-                               onchange='$("#upload-file-info").html($(this).val());'>
-                    </a>
-                    <span class='label label-info' id="upload-file-info"></span>
-                </div>
-                @if (Model.ImageData == null)
+                                        accept="image/*"
+                           @*onchange='$("#upload-file-info").html($(this).val());'*@ onchange='previewImage(event);'>
+                </a>
+                <span class='label label-info' id="upload-file-info"></span>
+            </div>
+            @*@if (Model.ImageData == null)
+            {
+                <div class="form-control-static">Нет картинки</div>
+            }
+            else
+            {
+                <img class="img-thumbnail" width="150" height="150"
+                        src="@Url.Action("GetImage", "Product",
+                            new { Model.ProductId })" />
+            }*@
+            <div id="preview-container">
+                @if (Model.ImageData != null)
                 {
-                    <div class="form-control-static">Нет картинки</div>
+                    <img class="img-thumbnail" width="150" height="150"
+                            src="@Url.Action("GetImage", "Product",
+                        new { Model.ProductId })" />
                 }
                 else
                 {
-                    <img class="img-thumbnail" width="150" height="150"
-                         src="@Url.Action("GetImage", "Product",
-                                new { Model.ProductId })" />
+                    <div class="form-control-static">Нет картинки</div>
                 }
             </div>
+        </div>
         </div>
         <div class="panel-footer">
             <input type="submit" value="Сохранить" class="btn btn-primary" />
@@ -100,56 +86,19 @@
 </div>
 
 
+<script>
+    function previewImage(event) {
+        var input = event.target;
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
 
-<!--@section scripts {
-    <script>
-        $(document).ready(function () {
-            $('#btnUpload').click(function () {
-                // Открываем диалог выбора файла
-                $('<input type="file" accept="image/*">').on('change', function () {
-                    var file = this.files[0];
-                    // Отправляем файл на сервер для сохранения
-                    var formData = new FormData();
-                    formData.append('file', file);
-                    $.ajax({
-                        url: '@Url.Action("UploadImage", "Admin")',
-                        type: 'POST',
-                        data: formData,
-                        processData: false,
-                        contentType: false,-->
+            reader.onload = function (e) {
+                var previewContainer = document.getElementById('preview-container');
+                previewContainer.innerHTML = '<img class="img-thumbnail" width="150" height="150" src="' + e.target.result + '" />';
+                $("#upload-file-info").html(input.files[0].name);
+            }
 
-                        @*success: function (data) {
-                            // Обновляем значение поля PictureName и отображаем выбранное изображение
-                            $('#PictureName').val(data.fileName);
-                            $('<img>').attr('src', '@Url.Content("~/Images/")' + data.fileName).appendTo('#imageContainer');
-                        },*@
-
-
-                        <!--success: function (data) {
-                            // Удаляем предыдущее отображение картинки
-                            $('#imageContainer').empty();
-                            // Обновляем значение поля PictureName и отображаем выбранное изображение
-                            $('#PictureName').val(data.fileName);
-                            $('<img>').attr('src', '@Url.Content("~/Images/")' + data.fileName).appendTo('#imageContainer');
-                        },
-
-
-
-                        error: function (xhr, status, error) {
-                            alert(error);
-                        }
-                    });
-                }).click();
-            });
-        });
-
-        $(document).ready(function () {
-            $('#btnDelete').click(function () {
-                // Очищаем значение поля PictureName
-                $('#PictureName').val(null);
-                // Очищаем контейнер с отображением картинки
-                $('#imageContainer').empty();
-            });
-        });
-    </script>-->
-}
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>

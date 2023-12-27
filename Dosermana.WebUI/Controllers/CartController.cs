@@ -4,6 +4,7 @@ using Dosermana.Domain.Entities;
 using Dosermana.Domain.Abstract;
 using Dosermana.WebUI.Models;
 using Microsoft.AspNet.Identity;
+using Dosermana.Domain.Concrete;
 
 namespace Dosermana.WebUI.Controllers
 {
@@ -12,10 +13,13 @@ namespace Dosermana.WebUI.Controllers
     {
         private IProductRepository repository;
         private IOrderProcessor orderProcessor;
-        public CartController(IProductRepository repo, IOrderProcessor processor)
+
+        private readonly EFDbContext _dbContext;
+        public CartController(IProductRepository repo, IOrderProcessor processor, EFDbContext dbcontext)
         {
             repository = repo;
             orderProcessor = processor;
+            _dbContext = dbcontext;
         }
 
         //[Authorize]
@@ -60,6 +64,15 @@ namespace Dosermana.WebUI.Controllers
         public PartialViewResult Summary(Cart cart)
         {
             return PartialView(cart);
+        }
+
+        public ActionResult Orders()
+        {
+            var userId = User.Identity.GetUserId();
+            var userOrders = _dbContext.Orders
+                .Where(o => o.UserId == userId)
+                .ToList();
+            return View(userOrders);
         }
 
         public ViewResult Checkout()

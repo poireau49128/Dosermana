@@ -28,9 +28,9 @@ namespace Dosermana.Domain.Concrete
                 {
                     dbEntry.Name = product.Name;
                     dbEntry.Color = product.Color;
-                    dbEntry.Quantity = product.Quantity;
+                    dbEntry.Quantity_Grodno = product.Quantity_Grodno;
+                    dbEntry.Quantity_Moscow = product.Quantity_Moscow;
                     dbEntry.Price = product.Price;
-                    dbEntry.PictureName = product.PictureName;
                     dbEntry.Sizes = product.Sizes;
                     dbEntry.Category = product.Category;
                     dbEntry.ImageData = product.ImageData;
