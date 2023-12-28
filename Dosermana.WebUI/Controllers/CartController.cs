@@ -5,21 +5,42 @@ using Dosermana.Domain.Abstract;
 using Dosermana.WebUI.Models;
 using Microsoft.AspNet.Identity;
 using Dosermana.Domain.Concrete;
+using System.Web;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace Dosermana.WebUI.Controllers
 {
     
     public class CartController : Controller
     {
+
+        private ApplicationUserManager _userManager;
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                if (_userManager == null)
+                {
+                    _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                }
+                return _userManager;
+            }
+        }
+
+
         private IProductRepository repository;
         private IOrderProcessor orderProcessor;
+        //private readonly UserManager<ApplicationUser> _userManager;
+
 
         private readonly EFDbContext _dbContext;
-        public CartController(IProductRepository repo, IOrderProcessor processor, EFDbContext dbcontext)
+        public CartController(IProductRepository repo, IOrderProcessor processor, EFDbContext dbcontext/*, UserManager<ApplicationUser> userManager*/)
         {
             repository = repo;
             orderProcessor = processor;
             _dbContext = dbcontext;
+            //_userManager = userManager;
         }
 
         //[Authorize]
@@ -77,13 +98,42 @@ namespace Dosermana.WebUI.Controllers
 
         public ViewResult Checkout()
         {
-            return View(new ShippingDetails());
+            var currentUser = UserManager.FindById(User.Identity.GetUserId());
+
+            CurrentUser user = new CurrentUser
+            {
+                Id = currentUser.Id,
+                Email = currentUser.Email,
+                Address = currentUser.Address
+            };
+            return View(user);
         }
 
+
+        //public ViewResult Checkout(Cart cart, ShippingDetails shippingDetails)
+        //{
+        //    string userId = User.Identity.GetUserId();
+        //    string userEmail = User.Identity.GetUserName();
+
+        //    if (cart.Lines.Count() == 0)
+        //    {
+        //        ModelState.AddModelError("", "Извините, ваша корзина пуста!");
+        //    }
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        orderProcessor.ProcessOrder(cart, shippingDetails, userId, userEmail);
+        //        cart.Clear();
+        //        return View(User);
+        //    }
+        //    else
+        //    {
+        //        return View(shippingDetails);
+        //    }
+        //}
         [HttpPost]
-        public ViewResult Checkout(Cart cart, ShippingDetails shippingDetails)
+        public ViewResult Checkout(Cart cart, CurrentUser user)
         {
-            string userId = User.Identity.GetUserId();
             if (cart.Lines.Count() == 0)
             {
                 ModelState.AddModelError("", "Извините, ваша корзина пуста!");
@@ -91,13 +141,13 @@ namespace Dosermana.WebUI.Controllers
 
             if (ModelState.IsValid)
             {
-                orderProcessor.ProcessOrder(cart, shippingDetails, userId);
+                orderProcessor.ProcessOrder(cart, user);
                 cart.Clear();
                 return View("Completed");
             }
             else
             {
-                return View(shippingDetails);
+                return View(user);
             }
         }
     }

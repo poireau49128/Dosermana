@@ -9,19 +9,26 @@ using Dosermana.Domain.Entities;
 
 namespace Dosermana.WebUI.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "admin")]
     public class AdminController : Controller
     {
         IProductRepository repository;
+        IOrderRepository repository_orders;
 
-        public AdminController(IProductRepository repo)
+        public AdminController(IProductRepository repo, IOrderRepository orders)
         {
             repository = repo;
+            repository_orders = orders;
         }
 
         public ViewResult Index()
         {
             return View(repository.Products);
+        }
+
+        public ViewResult Orders()
+        {
+            return View(repository_orders.Orders);
         }
 
         public ViewResult Edit(int productId)

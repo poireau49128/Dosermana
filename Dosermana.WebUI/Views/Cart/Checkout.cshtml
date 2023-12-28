@@ -1,11 +1,13 @@
-﻿@model Dosermana.Domain.Entities.ShippingDetails
+﻿@*@model Dosermana.Domain.Entities.ShippingDetails*@
+@*@model Dosermana.WebUI.Models.ApplicationUser*@
+@model Dosermana.Domain.Entities.CurrentUser
 
 @{
     ViewBag.Title = "«ДОСЭРМАНА»: форма заказа";
 }
 
 <h2>Оформить заказ сейчас</h2>
-<p>Пожалуйста введи ваши контактные данные, и мы сразу отправим товар!</p>
+<p>Пожалуйста проверьте правильность ваших контактных данныех</p>
 
 
 @using (Html.BeginForm())
@@ -14,20 +16,28 @@
     <h3>Данные</h3>
     <div class="form-group">
         <label>Ваше имя:</label>
-        @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+        @*@Html.TextBoxFor(x => x.Name, new { @class = "form-control" })*@
+        @*@Html.TextBoxFor(x => x.userDetails.UserEmail, new { @class = "form-control" })*@
+        @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
     </div>
 
-    <h3>Адрес доставки</h3>
-    foreach (var property in ViewData.ModelMetadata.Properties)
-    {
-        if (property.PropertyName != "Name")
+    <div class="form-group">
+        <label>Адрес доставки:</label>
+        @*@Html.TextBoxFor(x => x.Name, new { @class = "form-control" })*@
+        @Html.TextBoxFor(x => x.Address, new { @class = "form-control" })
+    </div>
+    @*foreach (var property in ViewData.ModelMetadata.Properties)
         {
-            <div class="form-group">
-                <label>@(property.DisplayName ?? property.PropertyName)</label>
-                @Html.TextBox(property.PropertyName, null, new { @class = "form-control" })
-            </div>
-        }
-    }
+            if (property.PropertyName != "Name")
+            {
+                <div class="form-group">
+                    <label>@(property.DisplayName ?? property.PropertyName)</label>
+                    @Html.TextBox(property.PropertyName, null, new { @class = "form-control" })
+                </div>
+            }
+        }*@
+    @Html.HiddenFor(x => x.Id)
+
 
     <div class="text-center">
         <input class="btn btn-primary" type="submit" value="Обработать заказ" />

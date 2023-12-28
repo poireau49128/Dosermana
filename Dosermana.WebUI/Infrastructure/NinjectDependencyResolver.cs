@@ -35,7 +35,8 @@ namespace Dosermana.WebUI.Infrastructure
         private void AddBindings()
         {
             kernel.Bind<IProductRepository>().To<EFProductRepository>();
-            
+            kernel.Bind<IOrderRepository>().To<EFOrderRepository>();
+
 
             EmailSettings emailSettings = new EmailSettings
             {

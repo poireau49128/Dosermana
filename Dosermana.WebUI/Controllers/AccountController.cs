@@ -136,10 +136,10 @@ namespace AspNetIdentityApp.Controllers
 
 
 
-                    var currentUser = new CurrentUser
-                    {
-                        UserId = User.Identity.GetUserId()
-                    };
+                    //var currentUser = new CurrentUser
+                    //{
+                    //    UserId = User.Identity.GetUserId()
+                    //};
 
 
 

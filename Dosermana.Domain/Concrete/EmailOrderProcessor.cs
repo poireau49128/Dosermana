@@ -52,73 +52,91 @@ namespace Dosermana.Domain.Concrete
             _dbContext = dbContext;
         }
 
-        public void ProcessOrder(Cart cart, ShippingDetails shippingInfo, string userID)
+        //public void ProcessOrder(Cart cart, ShippingDetails shippingInfo, string userID, string userEmail)
+        //{
+        //    using (var smtpClient = new SmtpClient())
+        //    {
+        //        smtpClient.EnableSsl = emailSettings.UseSsl;
+        //        smtpClient.Host = emailSettings.ServerName;
+        //        smtpClient.Port = emailSettings.ServerPort;
+        //        smtpClient.UseDefaultCredentials = false;
+        //        smtpClient.Credentials
+        //            = new NetworkCredential(emailSettings.Username, emailSettings.Password);
+
+        //        if (emailSettings.WriteAsFile)
+        //        {
+        //            smtpClient.DeliveryMethod
+        //                = SmtpDeliveryMethod.SpecifiedPickupDirectory;
+        //            smtpClient.PickupDirectoryLocation = emailSettings.FileLocation;
+        //            smtpClient.EnableSsl = false;
+        //        }
+
+        //        StringBuilder body = new StringBuilder()
+        //            .AppendLine("Новый заказ обработан")
+        //            .AppendLine("---")
+        //            .AppendLine("Товары:");
+
+        //        foreach (var line in cart.Lines)
+        //        {
+        //            var subtotal = line.Product.Price * line.Quantity;
+        //            body.AppendFormat("{0} x {1} {2} (итого: {3:c}",
+        //                line.Quantity, line.Product.Name, line.Product.Color, subtotal);
+        //        }
+
+        //        body.AppendFormat("Общая стоимость: {0:c}", cart.ComputeTotalValue())
+        //            .AppendLine("---")
+        //            .AppendLine("Доставка:")
+        //            .AppendLine(shippingInfo.Name)
+        //            .AppendLine(shippingInfo.Address)
+        //            .AppendLine("---");
+
+        //        MailMessage mailMessage = new MailMessage(
+        //                               emailSettings.MailFromAddress,	// От кого
+        //                               emailSettings.MailToAddress,		// Кому
+        //                               "Новый заказ отправлен!",		// Тема
+        //                               body.ToString()); 				// Тело письма
+
+        //        if (emailSettings.WriteAsFile)
+        //        {
+        //            mailMessage.BodyEncoding = Encoding.UTF8;
+        //        }
+
+        //        smtpClient.Send(mailMessage);
+        //    }
+
+
+
+        //    foreach (var line in cart.Lines)
+        //    {
+        //        var order = new Order
+        //        {
+        //            UserId = userID,
+        //            UserEmail = userEmail,
+        //            ProductId = line.Product.ProductId,
+        //            Quantity = line.Quantity,
+        //            Status = "В обработке",
+        //            Address = shippingInfo.Address,
+        //            OrderDate = DateTime.Now,
+        //            Summary = line.Product.Price * line.Quantity
+        //        };
+
+        //        _dbContext.Orders.Add(order);
+        //    }
+        //    _dbContext.SaveChanges();
+        //}
+
+        public void ProcessOrder(Cart cart, CurrentUser user)
         {
-            using (var smtpClient = new SmtpClient())
-            {
-                smtpClient.EnableSsl = emailSettings.UseSsl;
-                smtpClient.Host = emailSettings.ServerName;
-                smtpClient.Port = emailSettings.ServerPort;
-                smtpClient.UseDefaultCredentials = false;
-                smtpClient.Credentials
-                    = new NetworkCredential(emailSettings.Username, emailSettings.Password);
-
-                if (emailSettings.WriteAsFile)
-                {
-                    smtpClient.DeliveryMethod
-                        = SmtpDeliveryMethod.SpecifiedPickupDirectory;
-                    smtpClient.PickupDirectoryLocation = emailSettings.FileLocation;
-                    smtpClient.EnableSsl = false;
-                }
-
-                StringBuilder body = new StringBuilder()
-                    .AppendLine("Новый заказ обработан")
-                    .AppendLine("---")
-                    .AppendLine("Товары:");
-
-                foreach (var line in cart.Lines)
-                {
-                    var subtotal = line.Product.Price * line.Quantity;
-                    body.AppendFormat("{0} x {1} {2} (итого: {3:c}",
-                        line.Quantity, line.Product.Name, line.Product.Color, subtotal);
-                }
-
-                body.AppendFormat("Общая стоимость: {0:c}", cart.ComputeTotalValue())
-                    .AppendLine("---")
-                    .AppendLine("Доставка:")
-                    .AppendLine(shippingInfo.Name)
-                    .AppendLine(shippingInfo.Line1)
-                    .AppendLine(shippingInfo.Line2 ?? "")
-                    .AppendLine(shippingInfo.Line3 ?? "")
-                    .AppendLine(shippingInfo.City)
-                    .AppendLine(shippingInfo.Country)
-                    .AppendLine("---");
-
-                MailMessage mailMessage = new MailMessage(
-                                       emailSettings.MailFromAddress,	// От кого
-                                       emailSettings.MailToAddress,		// Кому
-                                       "Новый заказ отправлен!",		// Тема
-                                       body.ToString()); 				// Тело письма
-
-                if (emailSettings.WriteAsFile)
-                {
-                    mailMessage.BodyEncoding = Encoding.UTF8;
-                }
-
-                smtpClient.Send(mailMessage);
-            }
-
-
-
             foreach (var line in cart.Lines)
             {
                 var order = new Order
                 {
-                    UserId = userID,
+                    UserId = user.Id,
+                    UserEmail = user.Email,
                     ProductId = line.Product.ProductId,
                     Quantity = line.Quantity,
                     Status = "В обработке",
-                    Address = shippingInfo.Line1,
+                    Address = user.Address,
                     OrderDate = DateTime.Now,
                     Summary = line.Product.Price * line.Quantity
                 };

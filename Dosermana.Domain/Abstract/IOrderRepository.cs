@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace Dosermana.Domain.Abstract
 {
-    public interface IOrderProcessor
+    public interface IOrderRepository
     {
-        //void ProcessOrder(Cart cart, ShippingDetails shippingDetails, string userID, string userEmail);
-        void ProcessOrder(Cart cart, CurrentUser user);
+        IEnumerable<Order> Orders { get; }
     }
 }

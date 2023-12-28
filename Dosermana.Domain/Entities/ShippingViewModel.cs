@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace Dosermana.Domain.Entities
 {
-    public class CurrentUser
+    public class ShippingViewModel
     {
-        public string Id { get; set; }
-        public string Email { get; set; }
-        public string Address { get; set; }
+        //public ShippingDetails shippingDetails { get; set; }
+        public CurrentUser userDetails { get; set; }
     }
 }
