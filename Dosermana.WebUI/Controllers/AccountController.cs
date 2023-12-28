@@ -133,16 +133,6 @@ namespace AspNetIdentityApp.Controllers
                         IsPersistent = true
                     }, claim);
 
-
-
-
-                    //var currentUser = new CurrentUser
-                    //{
-                    //    UserId = User.Identity.GetUserId()
-                    //};
-
-
-
                     if (String.IsNullOrEmpty(returnUrl))
                         return RedirectToAction("List", "Product");
                     return Redirect(returnUrl);

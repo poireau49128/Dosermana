@@ -49,6 +49,16 @@ namespace Dosermana.WebUI.Controllers
                     product.ImageData = new byte[image.ContentLength];
                     image.InputStream.Read(product.ImageData, 0, image.ContentLength);
                 }
+                else
+                {
+                    Product existingProduct = repository.Products.FirstOrDefault(p => p.ProductId == product.ProductId);
+                    if (existingProduct != null)
+                    {
+                        product.ImageData = existingProduct.ImageData;
+                        product.ImageMimeType = existingProduct.ImageMimeType;
+                    }
+                }
+
                 repository.SaveProduct(product);
                 TempData["message"] = string.Format("Изменения \"{0} {1}\" были сохранены", product.Name, product.Color);
                 return RedirectToAction("Index");
