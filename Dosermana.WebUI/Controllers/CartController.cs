@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Dosermana.Domain.Concrete;
 using System.Web;
 using Microsoft.AspNet.Identity.Owin;
+using System.Data.Entity;
 
 namespace Dosermana.WebUI.Controllers
 {
@@ -75,6 +76,7 @@ namespace Dosermana.WebUI.Controllers
 
         public ViewResult Index(Cart cart, string returnUrl)
         {
+            string userID = User.Identity.GetUserId();
             return View(new CartIndexViewModel
             {
                 Cart = cart,
@@ -90,10 +92,20 @@ namespace Dosermana.WebUI.Controllers
         public ActionResult Orders()
         {
             var userId = User.Identity.GetUserId();
-            var userOrders = _dbContext.Orders
-                .Where(o => o.UserId == userId)
-                .ToList();
-            return View(userOrders);
+            using (var dbContext = new EFDbContext())
+            {
+                var orders = dbContext.Orders
+                    .Where(o => o.UserId == userId)
+                    .Include(o => o.Product)
+                    .ToList();
+                return View(orders);
+            }
+
+            //var userId = User.Identity.GetUserId();
+            //var userOrders = _dbContext.Orders
+            //    .Where(o => o.UserId == userId)
+            //    .ToList();
+            //return View(userOrders);
         }
 
         public ViewResult Checkout()

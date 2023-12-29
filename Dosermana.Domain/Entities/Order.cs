@@ -19,5 +19,18 @@ namespace Dosermana.Domain.Entities
         public string Address { get; set; }
         public DateTime OrderDate { get; set; }
         public decimal Summary { get; set; }
+
+        public Product Product { get; set; }
+        public string GetProductName()
+        {
+            if (Product != null)
+            {
+                return Product.Name;
+            }
+            else
+            {
+                return "Unknown";
+            }
+        }
     }
 }

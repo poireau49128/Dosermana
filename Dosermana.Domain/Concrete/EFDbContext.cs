@@ -12,5 +12,14 @@ namespace Dosermana.Domain.Concrete
     {
         public DbSet<Product> Products { get; set; }
         public DbSet<Order> Orders { get; set; }
+
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Order>()
+                .HasRequired(o => o.Product)
+                .WithMany()
+                .HasForeignKey(o => o.ProductId);
+        }
     }
 }
