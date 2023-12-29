@@ -1,0 +1,38 @@
+﻿@model Dosermana.Domain.Entities.Order
+@{
+    ViewBag.Title = "Админ панель: редактирование заказа";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="panel">
+    <div class="panel-heading">
+        <h3>Редактирование заказа №@Model.OrderId</h3>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        <div class="panel-body">
+            @Html.HiddenFor(m => m.OrderId)
+            @Html.HiddenFor(m => m.UserId)
+            @Html.HiddenFor(m => m.Product)
+            @foreach (var property in ViewData.ModelMetadata.Properties)
+            {
+                if (property.PropertyName != "OrderId" && property.PropertyName != "UserId" && property.PropertyName != "Product")
+                {
+                    <div class="form-group">
+                        <label>@(property.DisplayName ?? property.PropertyName)</label>
+                            @Html.TextBox(property.PropertyName, null,
+                                new { @class = "form-control" })
+                    </div>
+                }
+            }
+        </div>
+        <div class="panel-footer">
+            <input type="submit" value="Сохранить" class="btn btn-primary" />
+            @Html.ActionLink("Отменить изменения и вернуться к списку", "Orders", null, new
+            {
+                @class = "btn btn-default"
+            })
+        </div>
+    }
+</div>

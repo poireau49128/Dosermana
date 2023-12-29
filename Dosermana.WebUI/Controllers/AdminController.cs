@@ -31,6 +31,43 @@ namespace Dosermana.WebUI.Controllers
             return View(repository_orders.Orders);
         }
 
+        public ViewResult EditOrder(int orderId)
+        {
+            Order order = repository_orders.Orders
+                .FirstOrDefault(r => r.OrderId == orderId);
+            return View(order);
+        }
+        [HttpPost]
+        //public ActionResult EditOrder(int orderId, string newStatus)
+        //{
+        //    // Получить заказ из базы данных по orderId
+        //    var order = repository_orders.Orders.FirstOrDefault(o => o.OrderId == orderId);
+
+        //    if (order != null)
+        //    {
+        //        // Обновить статус заказа
+        //        order.Status = newStatus;
+        //        repository_orders.SaveOrder(order);
+        //    }
+
+        //    // Перенаправить обратно на страницу "Orders"
+        //    return RedirectToAction("Orders");
+        //}
+        public ActionResult EditOrder(Order order)
+        {
+            if (ModelState.IsValid)
+            {
+                repository_orders.SaveOrder(order);
+                TempData["message"] = string.Format("Изменения в заказе №\"{0}\" были сохранены", order.OrderId);
+                return RedirectToAction("Orders");
+            }
+            else
+            {
+                // Что-то не так со значениями данных
+                return View(order);
+            }
+        }
+
         public ViewResult Edit(int productId)
         {
             Product product = repository.Products

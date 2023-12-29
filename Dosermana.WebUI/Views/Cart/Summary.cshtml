@@ -2,11 +2,11 @@
 
 <div class="navbar-right hidden-xs">
     <div class="btn-group-vertical">
-        @Html.ActionLink("Корзина", "Orders", "Cart",
+        @Html.ActionLink("Заказы", "Orders", "Cart",
         new { returnUrl = Request.Url.PathAndQuery },
         new { @class = "btn btn-default navbar-btn" })
 
-        @Html.ActionLink("Заказать", "Index", "Cart",
+        @Html.ActionLink("Корзина", "Index", "Cart",
         new { returnUrl = Request.Url.PathAndQuery },
         new { @class = "btn btn-default navbar-btn" })
     </div>
