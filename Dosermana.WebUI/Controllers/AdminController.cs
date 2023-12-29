@@ -26,9 +26,22 @@ namespace Dosermana.WebUI.Controllers
             return View(repository.Products);
         }
 
-        public ViewResult Orders()
+        //public ViewResult Orders()
+        //{
+        //    return View(repository_orders.Orders);
+        //}
+        public ActionResult Orders(string[] status)
         {
-            return View(repository_orders.Orders);
+            // Получаем все заказы
+            var orders = repository_orders.Orders.ToList();
+
+            // Если выбран хотя бы один статус, фильтруем заказы
+            if (status != null && status.Length > 0)
+            {
+                orders = orders.Where(o => status.Contains(o.Status)).ToList();
+            }
+
+            return View(orders);
         }
 
         public ViewResult EditOrder(int orderId)

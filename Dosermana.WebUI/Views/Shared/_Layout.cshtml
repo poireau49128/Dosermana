@@ -24,7 +24,7 @@
             {
                 var userEmail = User.Identity.GetUserName();
 
-                <p>Почта: @userEmail</p>
+                <p>Логин: @userEmail</p>
                 @Html.ActionLink("Удалить аккаунт", "Delete", "Account")
                 @Html.ActionLink("Изменить аккаунт", "Edit", "Account")
                 @Html.ActionLink("Выйти", "Logout", "Account")

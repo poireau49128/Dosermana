@@ -95,7 +95,7 @@ namespace Dosermana.WebUI.Controllers
             using (var dbContext = new EFDbContext())
             {
                 var orders = dbContext.Orders
-                    .Where(o => o.UserId == userId)
+                    .Where(o => o.UserId == userId && o.Status != "Выполнен")
                     .Include(o => o.Product)
                     .ToList();
                 return View(orders);

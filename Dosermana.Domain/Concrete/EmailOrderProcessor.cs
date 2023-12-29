@@ -135,7 +135,7 @@ namespace Dosermana.Domain.Concrete
                     UserEmail = user.Email,
                     ProductId = line.Product.ProductId,
                     Quantity = line.Quantity,
-                    Status = "В обработке",
+                    Status = "Ожидание",
                     Address = user.Address,
                     OrderDate = DateTime.Now,
                     Summary = line.Product.Price * line.Quantity
