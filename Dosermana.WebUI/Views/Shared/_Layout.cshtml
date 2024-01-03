@@ -4,43 +4,117 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
     <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
     <link href="~/Content/ErrorStyles.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 
     <link href="~/Content/Layout.css" rel="stylesheet" />
     <title>@ViewBag.Title</title>
 </head>
 <body>
-    <div class="navbar navbar-inverse" role="navigation">
-        <a class="navbar-brand" href="#">
-            <span class="hidden-custom">ООО «ДОСЭРМАНА»</span>
-        </a>
-
-
-        <div style="color: white">
+    <nav class="navbar navbar-inverse" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">ООО «ДОСЭРМАНА»</a>
+            </div>
             @if (User.Identity.IsAuthenticated)
             {
                 var userEmail = User.Identity.GetUserName();
+                string userRole = ((System.Security.Claims.ClaimsIdentity)User.Identity).FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img src="~/Content/images/user.png" />
+                        </a>
+                        <ul class="dropdown-menu">
 
-                <p>Логин: @userEmail</p>
-                @Html.ActionLink("Удалить аккаунт", "Delete", "Account")
-                @Html.ActionLink("Изменить аккаунт", "Edit", "Account")
-                @Html.ActionLink("Выйти", "Logout", "Account")
+                            
+
+                            <li> Логин: @userEmail</li>
+                            <li role="separator" class="divider"></li>
+
+                            <li>@Html.ActionLink("Заказы", "Orders", "Cart")</li>
+                            <li>@Html.ActionLink("Корзина", "Index", "Cart")</li>
+                            <li role="separator" class="divider"></li>
+
+
+                            <li>@Html.ActionLink("Удалить аккаунт", "Delete", "Account")</li>
+                            <li>@Html.ActionLink("Изменить адрес", "Edit", "Account")</li>
+                            <li role="separator" class="divider"></li>
+
+                            
+                            @if (userRole == "admin")
+                            {
+                            <li>@Html.ActionLink("Админ-товары", "Index", "Admin")</li>
+                            <li>@Html.ActionLink("Админ-заказы", "Orders", "Admin")</li>
+                            <li role="separator" class="divider"></li>
+                            }
+
+                            <li>@Html.ActionLink("Выйти", "Logout", "Account")</li>
+
+                        </ul>
+                    </li>
+                </ul>
             }
             else
             {
-                <a href="@Url.Action("Login", "Account")">Авторизоваться</a>
+                <div class="nav navbar-nav navbar-right">
+                    <div class="register">
+                        <a class="nav-link" href="@Url.Action("Register", "Account")"><span class="fas fa-user"></span>Register</a>
+                    </div>
+                    <div class="login">
+                        <a class="nav-link" href="@Url.Action("Login", "Account")"><span class="fas fa-sign-in-alt"></span>Log in</a>
+                    </div>
+                </div>
+                
             }
+            @*<ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <img src="~/Content/images/user.png"/>
+                </a>
+                <ul class="dropdown-menu">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        var userEmail = User.Identity.GetUserName();
+
+                        <li> Логин: @userEmail</li>
+                        <li role="separator" class="divider"></li>
+
+                        <li>@Html.ActionLink("Заказы", "Orders", "Cart")</li>
+                        <li>@Html.ActionLink("Корзина", "Index", "Cart")</li>
+                        <li role="separator" class="divider"></li>
+
+
+                        <li>@Html.ActionLink("Удалить аккаунт", "Delete", "Account")</li>
+                        <li>@Html.ActionLink("Изменить адрес", "Edit", "Account")</li>
+                        <li role="separator" class="divider"></li>
+
+                        string userRole = ((System.Security.Claims.ClaimsIdentity)User.Identity).FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
+                        if (userRole == "admin")
+                        {
+                            <li>@Html.ActionLink("Админ-товары", "Index", "Admin")</li>
+                            <li>@Html.ActionLink("Админ-заказы", "Orders", "Admin")</li>
+                            <li role="separator" class="divider"></li>
+                        }
+
+                        <li>@Html.ActionLink("Выйти", "Logout", "Account")</li>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Login", "Account")">Авторизоваться</a>
+                    }
+                </ul>
+            </li>
+        </ul>*@
         </div>
-        
-
-
-
-
         @Html.Action("Summary", "Cart")
-    </div>
+    </nav>
 
     <div class="visible-xs">
         @Html.Action("Menu", "Nav", new { horizontalNav = true })
@@ -54,5 +128,13 @@
             @RenderBody()
         </div>
     </div>
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
 </body>
 </html>
