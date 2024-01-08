@@ -76,7 +76,8 @@ namespace Dosermana.WebUI.Controllers
 
         public ViewResult Index(Cart cart, string returnUrl)
         {
-            string userID = User.Identity.GetUserId();
+            var currentUser = UserManager.FindById(User.Identity.GetUserId());
+            ViewBag.Price_coefficient = currentUser.Price_coefficient;
             return View(new CartIndexViewModel
             {
                 Cart = cart,

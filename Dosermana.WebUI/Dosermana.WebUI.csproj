@@ -240,7 +240,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\images\" />
-    <Folder Include="Store_emails\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Dosermana.Domain\Dosermana.Domain.csproj">

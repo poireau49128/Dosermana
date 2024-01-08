@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using Dosermana.Domain.Abstract;
 using Dosermana.Domain.Entities;
 using Dosermana.WebUI.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Dosermana.WebUI.Controllers
 {
@@ -21,6 +23,17 @@ namespace Dosermana.WebUI.Controllers
 
         public ViewResult List(string category, int page = 1)
         {
+            decimal Price_coefficient = 1;
+            if (User.Identity.IsAuthenticated)
+            {
+                var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationContext()));
+                var userId = User.Identity.GetUserId();
+                var user = userManager.FindById(userId);
+                Price_coefficient = user.Price_coefficient;
+            }
+            ViewBag.Price_coefficient = Price_coefficient;
+
+
             ProductsListViewModel model = new ProductsListViewModel
             {
                 Products = repository.Products

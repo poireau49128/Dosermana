@@ -1,6 +1,5 @@
 ﻿@model Dosermana.Domain.Entities.Product
 
-
 <style>
     .main {
         display: flex;
@@ -23,14 +22,6 @@
 </style>
 
 <div class="card">
-    @if (Page.CurrentUser != null)
-    {
-        <span>@*@test.Price_coefficient*@</span>
-    }
-    else
-    {
-        <span>2</span>
-    }
     @if (Model.ImageData != null)
     {
         <img class="card-img-top" src="@Url.Action("GetImage", "Product", new { Model.ProductId })" alt="Card image cap">
@@ -39,7 +30,10 @@
         <h5 class="card-title"><strong>@Model.Name @Model.Color</strong></h5>
         <p class="card-text">На складе в Гродно: @Model.Quantity_Grodno</p>
         <p class="card-text">На складе в Москве: @Model.Quantity_Moscow</p>
-        <p class="card-title">@Model.Price.ToString("0.00 руб")</p>
+        @{ 
+            var price = Model.Price * ViewBag.Price_coefficient;
+        }
+        <p class="card-title">@price.ToString("0.00 руб")</p>
         @using (Html.BeginForm("AddToCart", "Cart"))
         {
             @Html.HiddenFor(x => x.ProductId)

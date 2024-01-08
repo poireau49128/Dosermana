@@ -27,9 +27,12 @@
         <tr>
             <td class="text-center">@line.Quantity</td>
             <td class="text-left">@line.Product.Name</td>
-            <td class="text-right">@line.Product.Price.ToString("0.00 руб")</td>
+            @{ 
+                decimal price = line.Product.Price * ViewBag.Price_coefficient;
+            }
+            <td class="text-right">@price.ToString("0.00 руб")</td>
             <td class="text-right">
-                @((line.Quantity * line.Product.Price).ToString("0.00 руб"))
+                @((line.Quantity * price).ToString("0.00 руб"))
             </td>
             <td>
                 @using (Html.BeginForm("RemoveFromCart", "Cart"))
