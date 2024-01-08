@@ -155,6 +155,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\IISProfile.pubxml" />
     <None Include="Scripts\jquery-1.9.0.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -184,6 +186,15 @@
     <Compile Include="Infrastructure\Binders\CartModelBinder.cs" />
     <Compile Include="Infrastructure\Concrete\FormAuthProvider.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
+    <Compile Include="Migrations\202401080731081_InitialCreate.cs" />
+    <Compile Include="Migrations\202401080731081_InitialCreate.designer.cs">
+      <DependentUpon>202401080731081_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202401080817115_PendingChanges.cs" />
+    <Compile Include="Migrations\202401080817115_PendingChanges.designer.cs">
+      <DependentUpon>202401080817115_PendingChanges.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationContext.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\ApplicationUserManager.cs" />
@@ -236,6 +247,14 @@
       <Project>{f1d01fab-4ff4-40d9-aadb-a6c65941ec81}</Project>
       <Name>Dosermana.Domain</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202401080731081_InitialCreate.resx">
+      <DependentUpon>202401080731081_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202401080817115_PendingChanges.resx">
+      <DependentUpon>202401080817115_PendingChanges.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

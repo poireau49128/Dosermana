@@ -2,10 +2,11 @@
 
 
 <style>
-    .main{
+    .main {
         display: flex;
         flex-direction: row;
     }
+
     .card {
         width: 280px;
         margin: 10px;
@@ -13,39 +14,47 @@
         border-radius: .25rem;
         display: flex;
         flex-direction: column;
-
         padding: 10px;
     }
 
-    .card img{
-        width: 100%;
-    }
+        .card img {
+            width: 100%;
+        }
 </style>
 
-    <div class="card">
-        @if (Model.ImageData != null)
+<div class="card">
+    @if (Page.CurrentUser != null)
+    {
+        <span>@*@test.Price_coefficient*@</span>
+    }
+    else
+    {
+        <span>2</span>
+    }
+    @if (Model.ImageData != null)
+    {
+        <img class="card-img-top" src="@Url.Action("GetImage", "Product", new { Model.ProductId })" alt="Card image cap">
+    }
+    <div class="card-body">
+        <h5 class="card-title"><strong>@Model.Name @Model.Color</strong></h5>
+        <p class="card-text">На складе в Гродно: @Model.Quantity_Grodno</p>
+        <p class="card-text">На складе в Москве: @Model.Quantity_Moscow</p>
+        <p class="card-title">@Model.Price.ToString("0.00 руб")</p>
+        @using (Html.BeginForm("AddToCart", "Cart"))
         {
-            <img class="card-img-top" src="@Url.Action("GetImage", "Product", new { Model.ProductId })" alt="Card image cap"> 
-        }
-        <div class="card-body">
-            <h5 class="card-title"><strong>@Model.Name @Model.Color</strong></h5>
-            <p class="card-text">На складе в Гродно: @Model.Quantity_Grodno</p>
-            <p class="card-text">На складе в Москве: @Model.Quantity_Moscow</p>
-            @using (Html.BeginForm("AddToCart", "Cart"))
-            {
-                    @Html.HiddenFor(x => x.ProductId)
-                    @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+            @Html.HiddenFor(x => x.ProductId)
+            @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
 
-                <div style="display: flex; flex-direction: row;">   
-                    <input type="number" name="quantity" class="form-control" min="1" value="0" />
-                    <input type="submit" class="btn btn-primary" value="В корзину" />
-                </div>
-                    
-            }
-        </div>
-        @*<h3>
+            <div style="display: flex; flex-direction: row;">
+                <input type="number" name="quantity" class="form-control" min="1" value="0" />
+                <input type="submit" class="btn btn-primary" value="В корзину" />
+            </div>
+
+        }
+    </div>
+    @*<h3>
             <strong>@Model.Name @Model.Color</strong>
-            <span class="pull-right label label-primary">@Model.Price.ToString("0.00 руб")</span>
+            <span class="card-title">@Model.Price.ToString("0.00 руб")</span>
         </h3>
         @using (Html.BeginForm("AddToCart", "Cart"))
         {
@@ -62,4 +71,4 @@
         }
         <span class="lead">Остаток на складе в Гродно: @Model.Quantity_Grodno</span>
         <span class="lead">Остаток на складе в Москве: @Model.Quantity_Moscow</span>*@
-    </div>
+</div>
