@@ -93,6 +93,8 @@ namespace Dosermana.WebUI.Controllers
         public ActionResult Orders()
         {
             var userId = User.Identity.GetUserId();
+            var currentUser = UserManager.FindById(User.Identity.GetUserId());
+            ViewBag.Price_coefficient = currentUser.Price_coefficient;
             using (var dbContext = new EFDbContext())
             {
                 var orders = dbContext.Orders
@@ -112,12 +114,14 @@ namespace Dosermana.WebUI.Controllers
         public ViewResult Checkout()
         {
             var currentUser = UserManager.FindById(User.Identity.GetUserId());
-
+            var test = currentUser.Price_coefficient;
+            var test2 = currentUser.Id;
             CurrentUser user = new CurrentUser
             {
                 Id = currentUser.Id,
                 Email = currentUser.Email,
-                Address = currentUser.Address
+                Address = currentUser.Address,
+                Price_coefficient = currentUser.Price_coefficient,
             };
             return View(user);
         }

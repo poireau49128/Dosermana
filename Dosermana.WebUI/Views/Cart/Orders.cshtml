@@ -31,7 +31,10 @@
             <tr>
                 <td class="text-left">@line.Product.Name @line.Product.Color</td>
                 <td class="text-center">@line.Quantity</td>
-                <td class="text-right">@line.Product.Price.ToString("0.00 руб")</td>
+                @{ 
+                    decimal prod_price = line.Product.Price * ViewBag.Price_coefficient;
+                }
+                <td class="text-right">@prod_price.ToString("0.00 руб")</td>
                 <td class="text-right">@line.Summary.ToString("0.00 руб")</td>
                 <td class="text-right">@line.Status</td>
             </tr>

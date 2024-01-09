@@ -49,7 +49,10 @@
         <tr>
             <td colspan="3" class="text-right">Итого:</td>
             <td class="text-right">
-                @Model.Cart.ComputeTotalValue().ToString("0.00 руб")
+                @{
+                    decimal summ = Model.Cart.ComputeTotalValue() * ViewBag.Price_coefficient;
+                }
+                @summ.ToString("0.00 руб")
             </td>
         </tr>
     </tfoot>

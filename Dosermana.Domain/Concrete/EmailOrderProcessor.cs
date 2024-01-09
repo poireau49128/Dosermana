@@ -129,6 +129,8 @@ namespace Dosermana.Domain.Concrete
         {
             foreach (var line in cart.Lines)
             {
+                var test = user.Price_coefficient;
+                var test2 = line.Product.Price * line.Quantity * user.Price_coefficient;
                 var order = new Order
                 {
                     UserId = user.Id,
@@ -138,7 +140,7 @@ namespace Dosermana.Domain.Concrete
                     Status = "Ожидание",
                     Address = user.Address,
                     OrderDate = DateTime.Now,
-                    Summary = line.Product.Price * line.Quantity
+                    Summary = line.Product.Price * line.Quantity * user.Price_coefficient,
                 };
 
                 _dbContext.Orders.Add(order);
