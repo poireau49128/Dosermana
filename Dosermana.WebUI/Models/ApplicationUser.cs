@@ -8,6 +8,7 @@ namespace Dosermana.WebUI.Models
         public decimal Price_coefficient { get; set; }
         public ApplicationUser()
         {
+            Price_coefficient = 1;
         }
     }
 }

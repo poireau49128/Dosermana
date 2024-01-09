@@ -50,9 +50,10 @@
                             
                             @if (userRole == "admin")
                             {
-                            <li>@Html.ActionLink("Админ-товары", "Index", "Admin")</li>
-                            <li>@Html.ActionLink("Админ-заказы", "Orders", "Admin")</li>
-                            <li role="separator" class="divider"></li>
+                                <li>@Html.ActionLink("Админ-товары", "Index", "Admin")</li>
+                                <li>@Html.ActionLink("Админ-заказы", "Orders", "Admin")</li>
+                                <li>@Html.ActionLink("Админ-пользователи", "Users", "Admin")</li>
+                                <li role="separator" class="divider"></li>
                             }
 
                             <li>@Html.ActionLink("Выйти", "Logout", "Account")</li>

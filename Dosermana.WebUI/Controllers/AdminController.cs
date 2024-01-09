@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Dosermana.Domain.Abstract;
 using Dosermana.Domain.Entities;
+using Dosermana.WebUI.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace Dosermana.WebUI.Controllers
 {
@@ -14,6 +18,18 @@ namespace Dosermana.WebUI.Controllers
     {
         IProductRepository repository;
         IOrderRepository repository_orders;
+        private ApplicationUserManager _userManager;
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                if (_userManager == null)
+                {
+                    _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                }
+                return _userManager;
+            }
+        }
 
         public AdminController(IProductRepository repo, IOrderRepository orders)
         {
@@ -26,10 +42,53 @@ namespace Dosermana.WebUI.Controllers
             return View(repository.Products);
         }
 
-        //public ViewResult Orders()
-        //{
-        //    return View(repository_orders.Orders);
-        //}
+        public ActionResult Users()
+        {
+            UserManager<ApplicationUser> _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            return View(_userManager.Users.ToList());
+        }
+
+
+        public async Task<ViewResult> EditUser(string userID)
+        {
+            ApplicationUser user = await UserManager.FindByIdAsync(userID);
+            if (user == null)
+            {
+                return null;
+            }
+            EditUserViewModel model = new EditUserViewModel { Id = user.Id, Name = user.UserName, Address = user.Address, Price_coefficient = user.Price_coefficient };
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<ActionResult> EditUser(EditUserViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                ApplicationUser user = await UserManager.FindByIdAsync(model.Id);
+                if (user != null)
+                {
+                    user.Email = model.Name;
+                    user.UserName = model.Name;
+                    user.Address = model.Address;
+                    user.Price_coefficient = model.Price_coefficient;
+
+                    var result = await _userManager.UpdateAsync(user);
+                    if (result.Succeeded)
+                    {
+                        TempData["message"] = string.Format("Изменения пользователя {0} были сохранены", model.Name);
+                        return RedirectToAction("Users");
+                    }
+                    else
+                    {
+                        return View(model);
+                    }
+                }
+            }
+            return View(model);
+        }
+
+
+
         public ActionResult Orders(string[] status)
         {
             // Получаем все заказы
@@ -51,21 +110,6 @@ namespace Dosermana.WebUI.Controllers
             return View(order);
         }
         [HttpPost]
-        //public ActionResult EditOrder(int orderId, string newStatus)
-        //{
-        //    // Получить заказ из базы данных по orderId
-        //    var order = repository_orders.Orders.FirstOrDefault(o => o.OrderId == orderId);
-
-        //    if (order != null)
-        //    {
-        //        // Обновить статус заказа
-        //        order.Status = newStatus;
-        //        repository_orders.SaveOrder(order);
-        //    }
-
-        //    // Перенаправить обратно на страницу "Orders"
-        //    return RedirectToAction("Orders");
-        //}
         public ActionResult EditOrder(Order order)
         {
             if (ModelState.IsValid)

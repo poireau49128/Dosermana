@@ -200,6 +200,7 @@
     <Compile Include="Models\ApplicationUserManager.cs" />
     <Compile Include="Models\CartIndexViewModel.cs" />
     <Compile Include="Models\EditModel.cs" />
+    <Compile Include="Models\EditUserViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\PagingInfo.cs" />
     <Compile Include="Models\ProductsListViewModel.cs" />
@@ -230,6 +231,8 @@
     <Content Include="Views\Cart\Orders.cshtml" />
     <Content Include="Views\Admin\Orders.cshtml" />
     <Content Include="Views\Admin\EditOrder.cshtml" />
+    <Content Include="Views\Admin\Users.cshtml" />
+    <Content Include="Views\Admin\EditUser.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

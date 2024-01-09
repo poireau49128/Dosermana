@@ -1,0 +1,82 @@
+﻿@model Dosermana.WebUI.Models.EditUserViewModel
+
+
+@{
+    ViewBag.Title = "Админ панель: редактирование пользователя";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="panel">
+    <div class="panel-heading">
+        <h3>Редактирование пользователя @Model.Name</h3>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        <div class="panel-body">
+            @Html.HiddenFor(m => m.Id)
+            @foreach (var property in ViewData.ModelMetadata.Properties)
+            {
+                if (property.PropertyName != "Id"/* && property.PropertyName != "UserId" && property.PropertyName != "Product"*/)
+                {
+                    @*if (property.PropertyName == "Status")
+                    {
+                        <div class="form-group">
+                            <label>@(property.DisplayName ?? property.PropertyName)</label>
+                            @Html.DropDownList("Status", new SelectList(new[]
+                            {
+                                new SelectListItem { Text = "Ожидание", Value = "Ожидание" },
+                                new SelectListItem { Text = "В обработке", Value = "В обработке" },
+                                new SelectListItem { Text = "Выполнен", Value = "Выполнен" }
+                            }, "Value", "Text", Model.Status), new { @class = "form-control" })
+                        </div>
+                    }
+                    else
+                    {*@
+                        <div class="form-group">
+                            <label>@(property.DisplayName ?? property.PropertyName)</label>
+                            @Html.TextBox(property.PropertyName, null,
+                                new { @class = "form-control" })
+                        </div>
+                    //}
+
+                }
+            }
+        </div>
+        <div class="panel-footer">
+            <input type="submit" value="Сохранить" class="btn btn-primary" />
+            @Html.ActionLink("Отменить изменения и вернуться к списку", "Users", null, new
+            {
+                @class = "btn btn-default"
+            })
+        </div>
+    }
+</div>
+
+
+
+
+@*@{
+        ViewBag.Title = "Редактирование пользователя";
+    }
+    <form asp-action="Edit" asp-controller="Users">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group">
+            <input type="hidden" asp-for="Id" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Email" class="control-label">Name</label>
+            <input type="text" asp-for="Email" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Address" class="control-label">Address</label>
+            <input type="text" asp-for="Address" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Price_coefficient" class="control-label">Price_coefficient</label>
+            <input type="number" asp-for="Price_coefficient" class="form-control" />
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Сохранить" class="btn btn-outline-secondary" />
+        </div>
+    </form>*@
