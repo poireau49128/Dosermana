@@ -42,6 +42,10 @@ namespace Dosermana.Domain.Entities
         [Display(Name = "Категория")]
         [Required(ErrorMessage = "Пожалуйста, введите категорию продукта")]
         public string Category { get; set; }
+
+        [Display(Name = "Подкатегория")]
+        [Required(ErrorMessage = "Пожалуйста, введите подкатегорию продукта")]
+        public string SubCategory { get; set; }
         public string FileName { get; set; }
     }
 }

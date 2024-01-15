@@ -38,7 +38,7 @@ namespace Dosermana.WebUI.Controllers
             ProductsListViewModel model = new ProductsListViewModel
             {
                 Products = repository.Products
-            .Where(p => category == null || p.Category == category)
+            .Where(p => category == null || p.SubCategory == category)
             .OrderBy(product => product.ProductId)
             .Skip((page - 1) * pageSize)
             .Take(pageSize),
@@ -48,7 +48,7 @@ namespace Dosermana.WebUI.Controllers
                     ItemsPerPage = pageSize,
                     TotalItems = category == null ?
         repository.Products.Count() :
-        repository.Products.Where(game => game.Category == category).Count()
+        repository.Products.Where(product => product.SubCategory == category).Count()
                 },
                 CurrentCategory = category
             };

@@ -12,15 +12,34 @@ namespace Dosermana.WebUI.Controllers
         {
             repository = repo;
         }
-        public PartialViewResult Menu(string category = null, bool horizontalNav = false)
+        public PartialViewResult Menu(string selectedCategory = null, bool horizontalNav = false)
         {
-            ViewBag.SelectedCategory = category;
+            ViewBag.SelectedCategory = selectedCategory;
 
-            IEnumerable<string> categories = repository.Products
+            Dictionary<string, List<string>> categoryDictionary = new Dictionary<string, List<string>>();
+
+            var categories = repository.Products
                 .Select(product => product.Category)
                 .Distinct()
                 .OrderBy(x => x);
-            return PartialView("FlexMenu", categories);
+
+            foreach (var category in categories)
+            {
+                var subcategories = repository.Products
+                    .Where(product => product.Category == category)
+                    .Select(product => product.SubCategory)
+                    .Distinct()
+                    .OrderBy(x => x)
+                    .ToList();
+
+                categoryDictionary.Add(category, subcategories);
+            }
+
+            //IEnumerable<string> categories = repository.Products
+            //    .Select(product => product.Category)
+            //    .Distinct()
+            //    .OrderBy(x => x);
+            return PartialView("FlexMenu", categoryDictionary);
         }
     }
 }
