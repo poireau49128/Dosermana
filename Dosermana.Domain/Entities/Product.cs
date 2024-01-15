@@ -42,8 +42,6 @@ namespace Dosermana.Domain.Entities
         [Display(Name = "Категория")]
         [Required(ErrorMessage = "Пожалуйста, введите категорию продукта")]
         public string Category { get; set; }
-
-        public byte[] ImageData { get; set; }
-        public string ImageMimeType { get; set; }
+        public string FileName { get; set; }
     }
 }

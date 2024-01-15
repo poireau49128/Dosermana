@@ -26,7 +26,7 @@
         {
         <tr>
             <td class="text-center">@line.Quantity</td>
-            <td class="text-left">@line.Product.Name</td>
+            <td class="text-left">@line.Product.Name @line.Product.Color</td>
             @{ 
                 decimal price = line.Product.Price * ViewBag.Price_coefficient;
             }

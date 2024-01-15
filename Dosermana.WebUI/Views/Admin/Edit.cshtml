@@ -20,8 +20,7 @@
                 switch (property.PropertyName)
                 {
                     case "ProductId":
-                    case "ImageData":
-                    case "ImageMimeType":
+                    case "FileName":
                         // Ничего не делать
                         break;
                     default:
@@ -47,7 +46,7 @@
                                         left:0;filter: alpha(opacity=0); opacity:0;
                                         background-color:transparent;color:transparent;"
                                         accept="image/*"
-                           @*onchange='$("#upload-file-info").html($(this).val());'*@ onchange='previewImage(event);'>
+                           onchange='$("#upload-file-info").html($(this).val());' onchange='previewImage(event);'>
                 </a>
                 <span class='label label-info' id="upload-file-info"></span>
             </div>
@@ -62,7 +61,7 @@
                             new { Model.ProductId })" />
             }*@
             <div id="preview-container">
-                @if (Model.ImageData != null)
+                @if (Model.FileName != null)
                 {
                     <img class="img-thumbnail" width="150" height="150"
                             src="@Url.Action("GetImage", "Product",
@@ -101,4 +100,49 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
+</script>
+
+
+
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#selectPictureButton').click(function () {
+            // Open the picture selection dialog or navigate to a separate page for picture selection
+            // You can use jQuery UI's dialog for the modal dialog:
+            $('<div>').dialog({
+                title: 'Select Picture',
+                modal: true,
+                width: 500,
+                height: 400,
+                open: function () {
+                    // Perform any necessary initialization or setup for the picture selection dialog
+                },
+                close: function () {
+                    // Clean up after the dialog is closed, if needed
+                },
+                buttons: {
+                    Save: function () {
+                        // Get the selected picture and save it
+                        var selectedPicture = $('#selectedPicture').val();
+
+                        // Update the preview image
+                        $('#previewImage').attr('src', selectedPicture);
+
+                        // Save the picture to the project folder and record the picture name in the database
+                        // You will need to implement the server-side logic to handle this, such as an AJAX request to a controller action
+
+                        // Close the dialog
+                        $(this).dialog('close');
+                    },
+                    Cancel: function () {
+                        // Close the dialog without saving
+                        $(this).dialog('close');
+                    }
+                }
+            });
+        });
+    });
 </script>

@@ -139,17 +139,18 @@ namespace Dosermana.WebUI.Controllers
             {
                 if (image != null)
                 {
-                    product.ImageMimeType = image.ContentType;
-                    product.ImageData = new byte[image.ContentLength];
-                    image.InputStream.Read(product.ImageData, 0, image.ContentLength);
+                    product.FileName = UploadImage(image);
+                    //product.ImageMimeType = image.ContentType;
+                    //product.ImageData = new byte[image.ContentLength];
+                    //image.InputStream.Read(product.ImageData, 0, image.ContentLength);
                 }
                 else
                 {
                     Product existingProduct = repository.Products.FirstOrDefault(p => p.ProductId == product.ProductId);
                     if (existingProduct != null)
                     {
-                        product.ImageData = existingProduct.ImageData;
-                        product.ImageMimeType = existingProduct.ImageMimeType;
+                        //product.ImageData = existingProduct.ImageData;
+                        //product.ImageMimeType = existingProduct.ImageMimeType;
                     }
                 }
 
@@ -182,8 +183,21 @@ namespace Dosermana.WebUI.Controllers
         }
 
 
-        [HttpPost]
-        public ActionResult UploadImage(HttpPostedFileBase file)
+        //[HttpPost]
+        //public ActionResult UploadImage(HttpPostedFileBase file)
+        //{
+        //    if (file != null && file.ContentLength > 0)
+        //    {
+        //        var fileName = Path.GetFileName(file.FileName);
+        //        var filePath = Path.Combine(Server.MapPath("~/Images/"), fileName);
+        //        file.SaveAs(filePath);
+
+        //        return Json(new { fileName });
+        //    }
+
+        //    return HttpNotFound();
+        //}
+        public string UploadImage(HttpPostedFileBase file)
         {
             if (file != null && file.ContentLength > 0)
             {
@@ -191,10 +205,10 @@ namespace Dosermana.WebUI.Controllers
                 var filePath = Path.Combine(Server.MapPath("~/Images/"), fileName);
                 file.SaveAs(filePath);
 
-                return Json(new { fileName });
+                return fileName;
             }
 
-            return HttpNotFound();
+            return null;
         }
     }
 }

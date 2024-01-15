@@ -22,15 +22,20 @@
 </style>
 
 <div class="card">
-    @if (Model.ImageData != null)
+    @*@if (Model.ImageData != null)
+        {
+            <img class="card-img-top" src="@Url.Action("GetImage", "Product", new { Model.ProductId })" alt="Card image cap">
+        }*@
+    @if (Model.FileName != null)
     {
-        <img class="card-img-top" src="@Url.Action("GetImage", "Product", new { Model.ProductId })" alt="Card image cap">
+        string imageUrl = $"~/Images/{Model.FileName}";
+        <img class="card-img-top" src="@Url.Content(imageUrl)" alt="Card image cap">
     }
     <div class="card-body">
         <h5 class="card-title"><strong>@Model.Name @Model.Color</strong></h5>
         <p class="card-text">На складе в Гродно: @Model.Quantity_Grodno</p>
         <p class="card-text">На складе в Москве: @Model.Quantity_Moscow</p>
-        @{ 
+        @{
             var price = Model.Price * ViewBag.Price_coefficient;
         }
         <p class="card-title">@price.ToString("0.00 руб")</p>

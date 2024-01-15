@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -54,14 +55,29 @@ namespace Dosermana.WebUI.Controllers
             return View(model);
         }
 
-        public FileContentResult GetImage(int productId)
-        {
-            Product product = repository.Products
-                .FirstOrDefault(g => g.ProductId == productId);
+        //public FileContentResult GetImage(int productId)
+        //{
+        //    Product product = repository.Products
+        //        .FirstOrDefault(g => g.ProductId == productId);
 
-            if (product != null)
+        //    if (product != null)
+        //    {
+        //        //return File(product.ImageData, product.ImageMimeType);
+        //        return null;
+        //    }
+        //    else
+        //    {
+        //        return null;
+        //    }
+        //}
+        public FilePathResult GetImage(int productId)
+        {
+            Product product = repository.Products.FirstOrDefault(g => g.ProductId == productId);
+
+            if (product != null && !string.IsNullOrEmpty(product.FileName))
             {
-                return File(product.ImageData, product.ImageMimeType);
+                string picturePath = Path.Combine(Server.MapPath("~/Images"), product.FileName);
+                return File(picturePath, "image/jpeg"); // Adjust the MIME type if necessary
             }
             else
             {
