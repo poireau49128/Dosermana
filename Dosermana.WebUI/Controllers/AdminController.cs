@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Dosermana.Domain.Abstract;
+using Dosermana.Domain.Concrete;
 using Dosermana.Domain.Entities;
 using Dosermana.WebUI.Models;
 using Microsoft.AspNet.Identity;
@@ -19,6 +21,8 @@ namespace Dosermana.WebUI.Controllers
         IProductRepository repository;
         IOrderRepository repository_orders;
         private ApplicationUserManager _userManager;
+
+        private readonly EFDbContext _dbContext;
         public ApplicationUserManager UserManager
         {
             get
@@ -31,10 +35,11 @@ namespace Dosermana.WebUI.Controllers
             }
         }
 
-        public AdminController(IProductRepository repo, IOrderRepository orders)
+        public AdminController(IProductRepository repo, IOrderRepository orders, EFDbContext dbcontext)
         {
             repository = repo;
             repository_orders = orders;
+            _dbContext = dbcontext;
         }
 
         public ViewResult Index()
@@ -92,15 +97,51 @@ namespace Dosermana.WebUI.Controllers
         public ActionResult Orders(string[] status)
         {
             // Получаем все заказы
-            var orders = repository_orders.Orders.ToList();
+            //var orders = repository_orders.Orders.Include(o => o.Product).ToList();
 
             // Если выбран хотя бы один статус, фильтруем заказы
-            if (status != null && status.Length > 0)
+            using (var dbContext = new EFDbContext())
             {
-                orders = orders.Where(o => status.Contains(o.Status)).ToList();
+                //Order orders;
+                var userId = User.Identity.GetUserId();
+                var currentUser = UserManager.FindById(User.Identity.GetUserId());
+                if (status != null && status.Length > 0)
+                {
+                    var orders = dbContext.Orders
+                    .Where(o => status.Contains(o.Status))
+                    .Include(o => o.Product)
+                    .ToList();
+                    return View(orders);
+                }
+                else
+                {
+                    var orders = dbContext.Orders
+                    .Include(o => o.Product)
+                    .ToList();
+                    return View(orders);
+                }
+                
             }
 
-            return View(orders);
+            //if (status != null && status.Length > 0)
+            //{
+            //    orders = orders.Where(o => status.Contains(o.Status)).Include(o => o.Product).ToList();
+            //}
+
+            //return View(orders);
+        }
+
+
+        public string GetProductById(int productId)
+        {
+            Product product = repository.Products
+                .FirstOrDefault(p => p.ProductId == productId);
+            if (product != null)
+            {
+                return $"{product.Name} {product.Color}";
+            }
+
+            return string.Empty;
         }
 
         public ViewResult EditOrder(int orderId)

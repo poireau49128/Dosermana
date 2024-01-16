@@ -5,6 +5,7 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
+
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3>Список заказов</h3>
@@ -51,7 +52,10 @@
                 <tr>
                     <td class="text-right">@item.OrderId</td>
                     <td>@item.UserEmail</td>
-                    <td class="text-center">@item.ProductId</td>
+                    @{ 
+                        string name = item.Product.Name + " " + item.Product.Color;
+                    }
+                    <td class="text-center">@name</td>
                     <td class="text-center">@item.Quantity</td>
                     <td class="text-right">@item.Summary.ToString("0.00 руб")</td>
                     <td class="text-right">@item.OrderDate</td>

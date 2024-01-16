@@ -61,13 +61,16 @@
             <div class="dropdown-menu">
                 @foreach (var subcategory in category.Value)
                 {
+                @*<div class="btn btn-block btn-default btn-lg">*@
                     @Html.RouteLink(subcategory, new
                     {
                         controller = "Product",
                         action = "List",
                         category = subcategory,
                         page = 1
-                    }, new { @class = "dropdown-item" })
+                    }, new { @class = "dropdown-item btn btn-block btn-default btn-lg" })
+                @*</div>*@
+                    
                 }
             </div>
         </div>
