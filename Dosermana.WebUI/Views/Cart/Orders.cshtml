@@ -15,11 +15,12 @@
 <table id="cartTable" class="table">
     <thead>
         <tr>
-            <th>Продукт</th>
-            <th>Кол-во</th>
-            <th class="text-right">Цена за единицу товара</th>
-            <th class="text-right">Общая цена</th>
-            <th class="text-right">Статус заказа</th>
+            <th class="text-center">Продукт</th>
+            <th class="text-center">Кол-во</th>
+            <th class="text-center">Цена за единицу товара</th>
+            <th class="text-center">Общая цена</th>
+            <th class="text-center">Статус заказа</th>
+            <th class="text-center">Примечание</th>
         </tr>
     </thead>
     <tbody>
@@ -29,14 +30,15 @@
         @foreach (var line in Model)
         {
             <tr>
-                <td class="text-left">@line.Product.Name @line.Product.Color</td>
+                <td class="text-center">@line.Product.Name @line.Product.Color</td>
                 <td class="text-center">@line.Quantity</td>
                 @{ 
                     decimal prod_price = line.Product.Price * ViewBag.Price_coefficient;
                 }
-                <td class="text-right">@prod_price.ToString("0.00 руб")</td>
-                <td class="text-right">@line.Summary.ToString("0.00 руб")</td>
-                <td class="text-right">@line.Status</td>
+                <td class="text-center">@prod_price.ToString("0.00 руб")</td>
+                <td class="text-center">@line.Summary.ToString("0.00 руб")</td>
+                <td class="text-center">@line.Status</td>
+                <td class="text-center">@line.Note</td>
             </tr>
 
             totalCost += @line.Summary;
@@ -44,7 +46,7 @@
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="3" class="text-right">Итого:</td>
+            <td colspan="5" class="text-right">Итого:</td>
             <td class="text-right">
                 @totalCost.ToString("0.00 руб")
             </td>

@@ -45,22 +45,24 @@
                 <th class="text-center">Дата заказа</th>
                 <th class="text-center">Адрес</th>
                 <th class="text-center">Статус заказа</th>
+                <th class="text-center">Примечания</th>
                 <th class="text-center">Изменить</th>
             </tr>
             @foreach (var item in Model)
             {
                 <tr>
-                    <td class="text-right">@item.OrderId</td>
-                    <td>@item.UserEmail</td>
+                    <td class="text-center">@item.OrderId</td>
+                    <td class="text-center">@item.UserEmail</td>
                     @{ 
                         string name = item.Product.Name + " " + item.Product.Color;
                     }
                     <td class="text-center">@name</td>
                     <td class="text-center">@item.Quantity</td>
-                    <td class="text-right">@item.Summary.ToString("0.00 руб")</td>
-                    <td class="text-right">@item.OrderDate</td>
-                    <td class="text-right">@item.Address</td>
-                    <td class="text-right">@item.Status</td>
+                    <td class="text-center">@item.Summary.ToString("0.00 руб")</td>
+                    <td class="text-center">@item.OrderDate</td>
+                    <td class="text-center">@item.Address</td>
+                    <td class="text-center">@item.Status</td>
+                    <td class="text-center">@item.Note</td>
                     <td class="text-center">
                         <button type="button" class="btn btn-default">
                             @Html.ActionLink("Изменить", "EditOrder", new { item.OrderId })

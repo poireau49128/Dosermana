@@ -35,6 +35,7 @@ namespace Dosermana.Domain.Concrete
                     dbEntry.Address = order.Address;
                     dbEntry.OrderDate = order.OrderDate;
                     dbEntry.Summary = order.Summary;
+                    dbEntry.Note = order.Note;
                 }
             }
             context.SaveChanges();

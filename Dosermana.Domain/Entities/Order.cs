@@ -40,16 +40,8 @@ namespace Dosermana.Domain.Entities
 
         [HiddenInput(DisplayValue = false)]
         public Product Product { get; set; }
-        public string GetProductName()
-        {
-            if (Product != null)
-            {
-                return Product.Name;
-            }
-            else
-            {
-                return "Unknown";
-            }
-        }
+
+        [Display(Name = "Примечание")]
+        public string Note { get; set; }
     }
 }

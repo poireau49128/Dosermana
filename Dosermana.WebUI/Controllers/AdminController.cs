@@ -96,15 +96,8 @@ namespace Dosermana.WebUI.Controllers
 
         public ActionResult Orders(string[] status)
         {
-            // Получаем все заказы
-            //var orders = repository_orders.Orders.Include(o => o.Product).ToList();
-
-            // Если выбран хотя бы один статус, фильтруем заказы
             using (var dbContext = new EFDbContext())
             {
-                //Order orders;
-                var userId = User.Identity.GetUserId();
-                var currentUser = UserManager.FindById(User.Identity.GetUserId());
                 if (status != null && status.Length > 0)
                 {
                     var orders = dbContext.Orders
@@ -122,13 +115,6 @@ namespace Dosermana.WebUI.Controllers
                 }
                 
             }
-
-            //if (status != null && status.Length > 0)
-            //{
-            //    orders = orders.Where(o => status.Contains(o.Status)).Include(o => o.Product).ToList();
-            //}
-
-            //return View(orders);
         }
 
 
