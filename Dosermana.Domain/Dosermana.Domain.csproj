@@ -83,16 +83,26 @@
     <Compile Include="Entities\Cart.cs" />
     <Compile Include="Entities\CurrentUser.cs" />
     <Compile Include="Entities\Order.cs" />
+    <Compile Include="Entities\OrderItem.cs" />
     <Compile Include="Entities\Product.cs" />
     <Compile Include="Entities\ShippingDetails.cs" />
     <Compile Include="Entities\ShippingViewModel.cs" />
+    <Compile Include="Migrations\202401161121106_NewRelations.cs" />
+    <Compile Include="Migrations\202401161121106_NewRelations.designer.cs">
+      <DependentUpon>202401161121106_NewRelations.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202401161121106_NewRelations.resx">
+      <DependentUpon>202401161121106_NewRelations.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

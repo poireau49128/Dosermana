@@ -194,6 +194,10 @@
     <Compile Include="Migrations\202401080817115_PendingChanges.designer.cs">
       <DependentUpon>202401080817115_PendingChanges.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202401161035463_AddOrderItemModel.cs" />
+    <Compile Include="Migrations\202401161035463_AddOrderItemModel.designer.cs">
+      <DependentUpon>202401161035463_AddOrderItemModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationContext.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
@@ -257,6 +261,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202401080817115_PendingChanges.resx">
       <DependentUpon>202401080817115_PendingChanges.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202401161035463_AddOrderItemModel.resx">
+      <DependentUpon>202401161035463_AddOrderItemModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

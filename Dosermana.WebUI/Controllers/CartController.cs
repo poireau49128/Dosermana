@@ -90,32 +90,31 @@ namespace Dosermana.WebUI.Controllers
             return PartialView(cart);
         }
 
-        public ActionResult Orders()
-        {
-            var userId = User.Identity.GetUserId();
-            var currentUser = UserManager.FindById(User.Identity.GetUserId());
-            ViewBag.Price_coefficient = currentUser.Price_coefficient;
-            using (var dbContext = new EFDbContext())
-            {
-                var orders = dbContext.Orders
-                    .Where(o => o.UserId == userId && o.Status != "Выполнен")
-                    .Include(o => o.Product)
-                    .ToList();
-                return View(orders);
-            }
+        //public ActionResult Orders()
+        //{
+        //    var userId = User.Identity.GetUserId();
+        //    var currentUser = UserManager.FindById(User.Identity.GetUserId());
+        //    ViewBag.Price_coefficient = currentUser.Price_coefficient;
+        //    using (var dbContext = new EFDbContext())
+        //    {
+        //        var orders = dbContext.Orders
+        //            .Where(o => o.UserId == userId && o.Status != "Выполнен")
+        //            .Include(o => o.Product)
+        //            .ToList();
+        //        return View(orders);
+        //    }
 
-            //var userId = User.Identity.GetUserId();
-            //var userOrders = _dbContext.Orders
-            //    .Where(o => o.UserId == userId)
-            //    .ToList();
-            //return View(userOrders);
-        }
+        //    //var userId = User.Identity.GetUserId();
+        //    //var userOrders = _dbContext.Orders
+        //    //    .Where(o => o.UserId == userId)
+        //    //    .ToList();
+        //    //return View(userOrders);
+        //}
 
         public ViewResult Checkout()
         {
             var currentUser = UserManager.FindById(User.Identity.GetUserId());
-            var test = currentUser.Price_coefficient;
-            var test2 = currentUser.Id;
+
             CurrentUser user = new CurrentUser
             {
                 Id = currentUser.Id,

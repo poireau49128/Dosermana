@@ -20,12 +20,6 @@ namespace Dosermana.Domain.Entities
         [Display(Name = "Имя пользователя")]
         public string UserEmail { get; set; }
 
-        [Display(Name = "ИД продукта")]
-        public int ProductId { get; set; }
-
-        [Display(Name = "Количество")]
-        public int Quantity { get; set; }
-
         [Display(Name = "Статус заказа")]
         public string Status { get; set; }
 
@@ -38,10 +32,9 @@ namespace Dosermana.Domain.Entities
         [Display(Name = "Общая стоимость")]
         public decimal Summary { get; set; }
 
-        [HiddenInput(DisplayValue = false)]
-        public Product Product { get; set; }
-
         [Display(Name = "Примечание")]
         public string Note { get; set; }
+
+        public List<OrderItem> OrderItems { get; set; }
     }
 }
