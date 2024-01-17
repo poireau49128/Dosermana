@@ -15,38 +15,54 @@
 <table id="cartTable" class="table">
     <thead>
         <tr>
-            <th class="text-center">Продукт</th>
-            <th class="text-center">Кол-во</th>
-            <th class="text-center">Цена за единицу товара</th>
+            <th class="text-center">Номер заказа</th>
+            <th class="text-center">Продукты</th>
+            <th class="text-center">Количество</th>
             <th class="text-center">Общая цена</th>
+            <th class="text-center">Дата заказа</th>
+            <th class="text-center">Адрес доставки</th>
             <th class="text-center">Статус заказа</th>
             <th class="text-center">Примечание</th>
         </tr>
     </thead>
     <tbody>
-        @{ 
+        @{
             decimal totalCost = 0;
         }
-        @foreach (var line in Model)
+        @foreach (var item in Model)
         {
             <tr>
-                <td class="text-center">@line.Product.Name @line.Product.Color</td>
-                <td class="text-center">@line.Quantity</td>
-                @{ 
-                    decimal prod_price = line.Product.Price * ViewBag.Price_coefficient;
-                }
-                <td class="text-center">@prod_price.ToString("0.00 руб")</td>
-                <td class="text-center">@line.Summary.ToString("0.00 руб")</td>
-                <td class="text-center">@line.Status</td>
-                <td class="text-center">@line.Note</td>
+                <td class="text-center">@item.OrderId</td>
+                <td class="text-center">
+                    @foreach (var orderItem in item.OrderItems)
+                    {
+                        <div>
+                            @orderItem.Product.Name @orderItem.Product.Color
+                        </div>
+                    }
+                </td>
+                <td class="text-center">
+                    @foreach (var orderItem in item.OrderItems)
+                    {
+                        <div>
+                            @orderItem.Quantity
+                        </div>
+                    }
+                </td>
+                <td class="text-center">@item.Summary.ToString("0.00 руб")</td>
+                <td class="text-center">@item.OrderDate</td>
+                <td class="text-center">@item.Address</td>
+                <td class="text-center">@item.Status</td>
+                <td class="text-center">@item.Note</td>
             </tr>
-
-            totalCost += @line.Summary;
+            
+                totalCost += item.Summary;
+            
         }
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="5" class="text-right">Итого:</td>
+            <td colspan="7" class="text-right">Итого:</td>
             <td class="text-right">
                 @totalCost.ToString("0.00 руб")
             </td>

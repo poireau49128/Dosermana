@@ -8,6 +8,7 @@ using Dosermana.Domain.Concrete;
 using System.Web;
 using Microsoft.AspNet.Identity.Owin;
 using System.Data.Entity;
+using System.Collections.Generic;
 
 namespace Dosermana.WebUI.Controllers
 {
@@ -90,26 +91,31 @@ namespace Dosermana.WebUI.Controllers
             return PartialView(cart);
         }
 
-        //public ActionResult Orders()
-        //{
-        //    var userId = User.Identity.GetUserId();
-        //    var currentUser = UserManager.FindById(User.Identity.GetUserId());
-        //    ViewBag.Price_coefficient = currentUser.Price_coefficient;
-        //    using (var dbContext = new EFDbContext())
-        //    {
-        //        var orders = dbContext.Orders
-        //            .Where(o => o.UserId == userId && o.Status != "Выполнен")
-        //            .Include(o => o.Product)
-        //            .ToList();
-        //        return View(orders);
-        //    }
+        public ActionResult Orders()
+        {
+            var userId = User.Identity.GetUserId();
+            var currentUser = UserManager.FindById(User.Identity.GetUserId());
+            ViewBag.Price_coefficient = currentUser.Price_coefficient;
+            using (var dbContext = new EFDbContext())
+            {
+                //var orders = dbContext.Orders
+                //    .Where(o => o.UserId == userId && o.Status != "Выполнен")
+                //    .Include(o => o.Product)
+                //    .ToList();
+                List<Order> orders = dbContext.Orders
+                        .Where(o => o.UserId == userId && o.Status != "Выполнен")
+                        .Include(o => o.OrderItems)
+                        .Include(o => o.OrderItems.Select(oi => oi.Product))
+                        .ToList();
+                return View(orders);
+            }
 
-        //    //var userId = User.Identity.GetUserId();
-        //    //var userOrders = _dbContext.Orders
-        //    //    .Where(o => o.UserId == userId)
-        //    //    .ToList();
-        //    //return View(userOrders);
-        //}
+            //var userId = User.Identity.GetUserId();
+            //var userOrders = _dbContext.Orders
+            //    .Where(o => o.UserId == userId)
+            //    .ToList();
+            //return View(userOrders);
+        }
 
         public ViewResult Checkout()
         {

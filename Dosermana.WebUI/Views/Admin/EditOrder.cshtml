@@ -4,7 +4,110 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
+
+<style>
+    .readonly {
+        border: 1px solid #ccc;
+        background-color: #f8f8f8;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #555555;
+        height: auto;
+        resize: none;
+        overflow: hidden;
+    }
+</style>
+
 <div class="panel">
+    <div class="panel-heading">
+        <h3>Редактирование заказа №@Model.OrderId</h3>
+    </div>
+
+    @using (Html.BeginForm("EditOrder", "Admin", FormMethod.Post))
+    {
+        <div class="panel-body">
+            @Html.HiddenFor(m => m.OrderId)
+            @Html.HiddenFor(m => m.UserId)
+            
+            <div class="form-group">
+                <label>Имя пользователя</label>
+                @Html.TextBoxFor(m => m.UserEmail, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+
+            @*<div class="form-group">
+            @foreach(var item in Model.OrderItems)
+            {
+                
+                @Html.TextBoxFor(@item.Product.Name @item.Product.Color - @item.Quantity шт.)
+               
+            }
+            </div>*@
+        <table class="table table-striped table-condensed table-bordered">
+            <tr>
+                <th class="text-center">Продукт</th>
+                <th class="text-center">Цвет</th>
+                <th class="text-center">Количество</th>
+            </tr>
+            
+                @{
+                    string productsText = "";
+                    foreach (var item in Model.OrderItems)
+                    {
+                        productsText += $"{item.Product.Name} {item.Product.Color} - {item.Quantity} шт. <br />";
+                        <tr>
+                            <td class="text-center">@item.Product.Name</td>
+                            <td class="text-center">@item.Product.Color</td>
+                            <td class="text-center">@item.Quantity</td>
+                        </tr>
+                    }
+                }
+
+            
+        </table>
+            @*<div class="form-group">
+                <label>Продукты</label>*@
+               
+                @*<input type="text" class="form-control" value="@productsText" readonly="readonly" />*@
+                @*<textarea class="form-control" readonly="readonly">@productsText</textarea>*@
+                @*<div id="productsBlock" class="form-control readonly">@Html.Raw(productsText)</div>
+            </div>*@
+
+            <div class="form-group">
+                <label>Общая стоимость</label>
+                @Html.TextBoxFor(m => m.Summary, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+            <div class="form-group">
+                <label>Дата заказа</label>
+                @Html.TextBoxFor(m => m.OrderDate, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+            <div class="form-group">
+                <label>Адрес</label>
+                @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+            </div>
+
+            <div class="form-group">
+                <label>Статус заказа</label>
+                @Html.DropDownListFor(m => m.Status, new SelectList(new[]
+                {
+                    new SelectListItem { Text = "Ожидание", Value = "Ожидание" },
+                    new SelectListItem { Text = "В обработке", Value = "В обработке" },
+                    new SelectListItem { Text = "Выполнен", Value = "Выполнен" }
+                }, "Value", "Text"), new { @class = "form-control" })
+            </div>
+
+            <div class="form-group">
+                <label>Примечания</label>
+                @Html.TextBoxFor(m => m.Note, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="panel-footer">
+            <input type="submit" value="Сохранить" class="btn btn-primary" />
+            @Html.ActionLink("Отменить изменения и вернуться к списку", "Orders", "Admin", null, new { @class = "btn btn-default" })
+        </div>
+            }
+</div>
+@*<div class="panel">
     <div class="panel-heading">
         <h3>Редактирование заказа №@Model.OrderId</h3>
     </div>
@@ -51,4 +154,4 @@
             })
         </div>
     }
-</div>
+</div>*@

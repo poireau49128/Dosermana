@@ -5,8 +5,85 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-
 <div class="panel panel-default">
+    <div class="panel-heading">
+        <h3>Список заказов</h3>
+
+        @using (Html.BeginForm("Orders", "Admin", FormMethod.Get))
+        {
+            <div>
+                <label>
+                    <input type="checkbox" name="status" value="В обработке" />
+                    В обработке
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" name="status" value="Ожидание" />
+                    Ожидание
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" name="status" value="Выполнен" />
+                    Выполнен
+                </label>
+            </div>
+            <button type="submit" class="btn btn-default">Применить фильтр</button>
+        }
+    </div>
+
+    <div class="panel-body">
+        <table class="table table-striped table-condensed table-bordered">
+            <tr>
+                <th class="text-center">Номер заказа</th>
+                <th class="text-center">Имя пользователя</th>
+                <th class="text-center">Продукт</th>
+                <th class="text-center">Кол-во</th>
+                <th class="text-center">Общая стоимость</th>
+                <th class="text-center">Дата заказа</th>
+                <th class="text-center">Адрес</th>
+                <th class="text-center">Статус заказа</th>
+                <th class="text-center">Примечания</th>
+                <th class="text-center">Изменить</th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="text-center">@item.OrderId</td>
+                    <td class="text-center">@item.UserEmail</td>
+                    <td class="text-center">
+                        @foreach (var orderItem in item.OrderItems)
+                        {
+                            <div>
+                                @orderItem.Product.Name @orderItem.Product.Color
+                            </div>
+                        }
+                    </td>
+                    <td class="text-center">
+                        @foreach (var orderItem in item.OrderItems)
+                        {
+                            <div>
+                                @orderItem.Quantity
+                            </div>
+                        }
+                    </td>
+                    <td class="text-center">@item.Summary.ToString("0.00 руб")</td>
+                    <td class="text-center">@item.OrderDate</td>
+                    <td class="text-center">@item.Address</td>
+                    <td class="text-center">@item.Status</td>
+                    <td class="text-center">@item.Note</td>
+                    <td class="text-center">
+                        <button type="button" class="btn btn-default">
+                            @Html.ActionLink("Изменить", "EditOrder", new { item.OrderId })
+                        </button>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+@*<div class="panel panel-default">
     <div class="panel-heading">
         <h3>Список заказов</h3>
 
@@ -73,4 +150,4 @@
         </table>
     </div>
 
-</div>
+</div>*@

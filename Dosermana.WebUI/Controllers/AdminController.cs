@@ -92,30 +92,32 @@ namespace Dosermana.WebUI.Controllers
             return View(model);
         }
 
+        public ActionResult Orders(string[] status)
+        {
+            using (var dbContext = new EFDbContext())
+            {
+                if (status != null && status.Length > 0)
+                {
+                    List<Order> orders = dbContext.Orders
+                        .Where(o => status.Contains(o.Status))
+                        .Include(o => o.OrderItems)
+                        .Include(o => o.OrderItems.Select(oi => oi.Product))
+                        .ToList();
 
+                    return View(orders);
+                }
+                else
+                {
+                    List<Order> orders = dbContext.Orders
+                        .Include(o => o.OrderItems)
+                        .Include(o => o.OrderItems.Select(oi => oi.Product))
+                        .ToList();
 
-        //public ActionResult Orders(string[] status)
-        //{
-        //    using (var dbContext = new EFDbContext())
-        //    {
-        //        if (status != null && status.Length > 0)
-        //        {
-        //            var orders = dbContext.Orders
-        //            .Where(o => status.Contains(o.Status))
-        //            .Include(o => o.Product)
-        //            .ToList();
-        //            return View(orders);
-        //        }
-        //        else
-        //        {
-        //            var orders = dbContext.Orders
-        //            .Include(o => o.Product)
-        //            .ToList();
-        //            return View(orders);
-        //        }
-                
-        //    }
-        //}
+                    return View(orders);
+                }
+                    
+            }
+        }
 
 
         public string GetProductById(int productId)

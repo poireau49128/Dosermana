@@ -32,10 +32,10 @@
             @foreach (var user in Model)
             {
                 <tr>
-                    <td>@user.UserName</td>
+                    <td class="text-center">@user.UserName</td>
                     <td class="text-center">@user.Address</td>
                     <td class="text-center">@user.Price_coefficient</td>
-                    <td>@(userManager.IsInRole(user.Id, "admin") ? "Yes" : "No")</td>
+                    <td class="text-center">@(userManager.IsInRole(user.Id, "admin") ? "Yes" : "No")</td>
                     <td class="text-center">
                         <button type="button" class="btn btn-default">
                             @Html.ActionLink("Изменить", "EditUser", new { userID = user.Id })
