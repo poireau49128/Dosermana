@@ -146,7 +146,21 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\ErrorStyles.css" />
+    <Content Include="Content\images\clock.png" />
+    <Content Include="Content\images\decors.jpg" />
+    <Content Include="Content\images\enter.png" />
+    <Content Include="Content\images\fronts.jpg" />
+    <Content Include="Content\images\furniture.png" />
+    <Content Include="Content\images\logo.png" />
+    <Content Include="Content\images\marker.png" />
+    <Content Include="Content\images\phone.png" />
+    <Content Include="Content\images\pogon.jpg" />
+    <Content Include="Content\images\shopping-cart.png" />
+    <Content Include="Content\images\telegram.png" />
+    <Content Include="Content\images\viber.png" />
+    <Content Include="Content\images\whatsapp.png" />
     <Content Include="Content\js\dropDown.js" />
+    <Content Include="Content\js\swiper.js" />
     <Content Include="Content\Layout.css" />
     <Content Include="Content\Login.css" />
     <Content Include="Content\Site.css" />
@@ -245,7 +259,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\images\" />
     <Folder Include="Images\" />
   </ItemGroup>
   <ItemGroup>

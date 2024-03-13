@@ -14,120 +14,296 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 
     <link href="~/Content/Layout.css" rel="stylesheet" />
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
     <title>@ViewBag.Title</title>
 </head>
 <body>
-    <nav class="navbar navbar-inverse" role="navigation">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">ООО «ДОСЭРМАНА»</a>
+
+    <header>
+        <div class="hamburger-menu">
+            <input id="menu__toggle" type="checkbox" />
+            <label class="menu__btn" for="menu__toggle">
+                
+                <span></span>
+
+            </label>
+            <div class="menu__box__top">
+                
             </div>
-            @if (User.Identity.IsAuthenticated)
-            {
-                var userEmail = User.Identity.GetUserName();
-                string userRole = ((System.Security.Claims.ClaimsIdentity)User.Identity).FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="~/Content/images/user.png" />
-                        </a>
-                        <ul class="dropdown-menu">
-
-                            
-
-                            <li> Логин: @userEmail</li>
-                            <li role="separator" class="divider"></li>
-
-                            <li>@Html.ActionLink("Заказы", "Orders", "Cart")</li>
-                            <li>@Html.ActionLink("Корзина", "Index", "Cart")</li>
-                            <li role="separator" class="divider"></li>
-
-
-                            <li>@Html.ActionLink("Удалить аккаунт", "Delete", "Account")</li>
-                            <li>@Html.ActionLink("Изменить адрес", "Edit", "Account")</li>
-                            <li role="separator" class="divider"></li>
-
-                            
-                            @if (userRole == "admin")
-                            {
-                                <li>@Html.ActionLink("Админ-товары", "Index", "Admin")</li>
-                                <li>@Html.ActionLink("Админ-заказы", "Orders", "Admin")</li>
-                                <li>@Html.ActionLink("Админ-пользователи", "Users", "Admin")</li>
-                                <li role="separator" class="divider"></li>
-                            }
-
-                            <li>@Html.ActionLink("Выйти", "Logout", "Account")</li>
-
-                        </ul>
-                    </li>
-                </ul>
-            }
-            else
-            {
-                <div class="nav navbar-nav navbar-right">
-                    <div class="register">
-                        <a class="nav-link" href="@Url.Action("Register", "Account")"><span class="fas fa-user"></span>Register</a>
+            <ul class="menu__box">
+                <li>
+                    <label class="multilevel_ul menu__item" for="item-1">
+                        Аккаунт
+                        <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M8 5 L20 12 L8 19" />
+                        </svg>
+                    </label>
+                    <input type="checkbox" id="item-1" name="item-1" class="m-menu__checkbox">
+                    <div class="m-menu">
+                        <div class="m-menu__header">
+                            <label class="m-menu__toggle" for="item-1">
+                                <svg width="35" height="35" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="1" stroke-linecap="butt" stroke-linejoin="arcs">
+                                    <path d="M19 12H6M12 5l-7 7 7 7" />
+                                </svg>
+                            </label>
+                            <span>Аккаунт</span>
+                        </div>
+                        <ul>
+                            <li><label class="menu__item">Заказы</label></li>
+                            <li><label class="menu__item">Корзина</label></li>
+                            <li><label class="menu__item">Изменить адрес</label></li>
+                            <li><label class="menu__item">Удалить аккаунт</label></li>
                     </div>
-                    <div class="login">
-                        <a class="nav-link" href="@Url.Action("Login", "Account")"><span class="fas fa-sign-in-alt"></span>Log in</a>
+                </li>
+
+                <li>
+                    <label class="multilevel_ul menu__item" for="item-2">
+                        Админ-панель
+                        <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M8 5 L20 12 L8 19" />
+                        </svg>
+                    </label>
+                    <input type="checkbox" id="item-2" name="item-2" class="m-menu__checkbox">
+                    <div class="m-menu">
+                        <div class="m-menu__header">
+                            <label class="m-menu__toggle" for="item-2">
+                                <svg width="35" height="35" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="1" stroke-linecap="butt" stroke-linejoin="arcs">
+                                    <path d="M19 12H6M12 5l-7 7 7 7" />
+                                </svg>
+                            </label>
+                            <span>Админ-панель</span>
+                        </div>
+                        <ul>
+                            <li><label class="menu__item">Товары</label></li>
+                            <li><label class="menu__item">Заказы</label></li>
+                            <li><label class="menu__item">Пользователи</label></li>
+                    </div>
+                </li>
+
+
+                <li><hr style="width: 100%; background-color: #999999; height: 1px;"></li>
+                <li><a class="menu__item" href="#">О нас</a></li>
+                <li><a class="menu__item" href="#">Каталог</a></li>
+                <li><a class="menu__item" href="#">Новости</a></li>
+                <li><a class="menu__item" href="#">Где купить</a></li>
+                <li><a class="menu__item" href="#">Доствка</a></li>
+                <li><hr style="width: 100%; background-color: #999999; height: 1px;"></li>
+                <li class="menu__item__info"><img src="~/Content/images/clock.png" alt="Время работы" /><span class="menu__item menu__item__info">Режим работы:<br /> пн-пт 8:00-18:00</span></li>
+                <li class="menu__item__info"><img src="~/Content/images/marker.png" alt="Адрес" /><span class="menu__item menu__item__info">ул. Краснопартизанская 53<br />230011 г. Гродно<br />Республика Беларусь</span></li>
+                <li class="menu__item__info"><img src="~/Content/images/phone.png" alt="Телефон" /><span class="menu__item menu__item__info">+375 29 000 00 00<br /> +375 29 000 00 00</span></li>
+                <li class="menu__item__info" style="padding: 0">
+                    <div class="links" style="justify-content: space-between; width: 50%; margin: auto;">
+                        <a href="https://google.com">
+                            <img src="~/Content/images/viber.png" alt="Вайбер" />
+                        </a>
+                        <a href="https://google.com">
+                            <img src="~/Content/images/whatsapp.png" alt="Ватсап" />
+                        </a>
+                        <a href="https://google.com">
+                            <img src="~/Content/images/telegram.png" alt="Телеграм" />
+                        </a>
+                    </div>
+                </li>
+
+
+            </ul>
+        </div>
+
+        <div class="header-info">
+            <div class="header-logo">
+                <img src="~/Content/images/logo.png" alt="Alternate Text" />
+            </div>
+            <div class="header-block duty">
+                <img src="~/Content/images/clock.png" alt="Время работы" />
+                <div class="header-block-info">
+                    <span>РЕЖИМ РАБОТЫ:</span>
+                    <span>Пн-Пт 8:00-18:00</span>
+                </div>
+            </div>
+            <div class="header-block address">
+                <img src="~/Content/images/marker.png" alt="Адрес" />
+                <div class="header-block-info">
+                    <span>ул. Краснопартизанская 53</span>
+                    <span>230011 г. Гродно</span>
+                    <span>Республика Беларусь</span>
+                </div>
+
+            </div>
+            <div class="header-block phone-links">
+                <div class="header-block phone">
+                    <img src="~/Content/images/phone.png" alt="Телефон" />
+                    <div class="header-block-info">
+                        <span>+375 29 000 00 00</span>
+                        <span>+375 29 000 00 00</span>
                     </div>
                 </div>
-                
-            }
-            @*<ul class="nav navbar-nav navbar-right">
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <img src="~/Content/images/user.png"/>
-                </a>
-                <ul class="dropdown-menu">
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        var userEmail = User.Identity.GetUserName();
-
-                        <li> Логин: @userEmail</li>
-                        <li role="separator" class="divider"></li>
-
-                        <li>@Html.ActionLink("Заказы", "Orders", "Cart")</li>
-                        <li>@Html.ActionLink("Корзина", "Index", "Cart")</li>
-                        <li role="separator" class="divider"></li>
+                <div class="links">
+                    <a href="https://google.com">
+                        <img src="~/Content/images/viber.png" alt="Вайбер" />
+                    </a>
+                    <a href="https://google.com">
+                        <img src="~/Content/images/whatsapp.png" alt="Ватсап" />
+                    </a>
+                    <a href="https://google.com">
+                        <img src="~/Content/images/telegram.png" alt="Телеграм" />
+                    </a>
+                </div>
+            </div>
 
 
-                        <li>@Html.ActionLink("Удалить аккаунт", "Delete", "Account")</li>
-                        <li>@Html.ActionLink("Изменить адрес", "Edit", "Account")</li>
-                        <li role="separator" class="divider"></li>
+            <div class="buttons">
+                <div class="button button-account">
+                    <a href="@Url.Action("Login", "Account")" class="header-button">
+                        <img src="~/Content/images/enter.png" alt="Вход" />
+                        <span>Аккаунт</span>
+                    </a>
+                </div>
+                <div class="button button-cart">
+                    <a href="@Url.Action("Index", "Cart")" class="header-button">
+                        <span>Корзина</span>
+                        <img src="~/Content/images/shopping-cart.png" alt="Корзина" />
+                    </a>
+                </div>
+            </div>
 
-                        string userRole = ((System.Security.Claims.ClaimsIdentity)User.Identity).FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
-                        if (userRole == "admin")
-                        {
-                            <li>@Html.ActionLink("Админ-товары", "Index", "Admin")</li>
-                            <li>@Html.ActionLink("Админ-заказы", "Orders", "Admin")</li>
-                            <li role="separator" class="divider"></li>
-                        }
-
-                        <li>@Html.ActionLink("Выйти", "Logout", "Account")</li>
-                    }
-                    else
-                    {
-                        <a href="@Url.Action("Login", "Account")">Авторизоваться</a>
-                    }
-                </ul>
-            </li>
-        </ul>*@
         </div>
-        @Html.Action("Summary", "Cart")
-    </nav>
+        <nav>
+            <ul class="menu">
+                <li><a href="#">О НАС</a></li>
+                <li><a href="#">КАТАЛОГ</a></li>
+                <li><a href="#">НОВОСТИ</a></li>
+                <li><a href="#">ГДЕ КУПИТЬ</a></li>
+                <li><a href="#">ДОСТАВКА</a></li>
+            </ul>
+        </nav>
+    </header>
 
-    <div class="visible-xs">
-        @Html.Action("Menu", "Nav", new { horizontalNav = true })
-    </div>
+    <main>
+        <!-- Slider main container -->
+        <div class="swiper swiper-main" rewind="true">
+            <!-- Additional required wrapper -->
+            <div class="swiper-wrapper">
 
-    <div class="row panel">
-        <div id="categories" class="col-sm-3 hidden-xs">
-            @Html.Action("Menu", "Nav")
+                <!-- Slides -->
+                <div class="swiper-slide">
+                    <div class="block">
+                        <div class="sub-block">
+                            <div class="sub-content">
+                                <h1>Фасады</h1>
+                                <div class="text">
+                                    Мебельные фасады для кухонь, гостиных, гардеробов и другой корпусной мебели
+                                </div>
+                                <button><a href="/Production?type=0" style="color: white">Подробнее</a></button>
+                            </div>
+                        </div>
+                        <div class="image">
+                            <img src="~/Content/images/fronts.jpg" alt="" />
+                            <div class="sub-block">
+                                <h1>Фасады</h1>
+                                <div class="text">
+                                    Мебельные фасады для кухонь, гостиных,<br> гардеробов и другой корпусной мебели
+                                </div>
+                                <button><a href="/Production?type=0" style="color: white">Подробнее</a></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="block">
+                        <div class="sub-block">
+                            <div class="sub-content">
+                                <h1>Интерьерные декоры</h1>
+                                <div class="text">
+                                    Декоративные рейки в интерьере - современный прием для отделки стен и зонирования
+                                </div>
+                                <button><a href="/Production?type=5" style="color: white">Подробнее</a></button>
+                            </div>
+                        </div>
+                        <div class="image">
+                            <img src="~/Content/images/decors.jpg" alt="" />
+                            <div class="sub-block">
+                                <h1>Интерьерные декоры</h1>
+                                <div class="text">
+                                    Декоративные рейки в интерьере -<br> современный прием для отделки стен и зонирования
+                                </div>
+                                <button><a href="/Production?type=5" style="color: white">Подробнее</a></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="block">
+                        <div class="sub-block">
+                            <div class="sub-content">
+                                <h1>Декор и погонаж</h1>
+                                <div class="text">
+                                    Декоротивные элементы придают кухне особенный индивидуальный вид.
+                                </div>
+                                <button><a href="/Production?type=1" style="color: white">Подробнее</a></button>
+                            </div>
+                        </div>
+                        <div class="image">
+                            <img src="~/Content/images/pogon.jpg" alt="" />
+                            <div class="sub-block">
+                                <h1>Декор и погонаж</h1>
+                                <div class="text">
+                                    Декоротивные элементы придают кухне <br> особенный индивидуальный вид.
+                                </div>
+                                <button><a href="/Production?type=1" style="color: white">Подробнее</a></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="block">
+                        <div class="sub-block">
+                            <div class="sub-content">
+                                <h1>Мебель</h1>
+                                <div class="text">
+                                    В нашем каталоге мебели можно выбрать как классические модели гостиных и стенок, так и ультра современные комплекты.
+                                </div>
+                                <button><a href="/Production?type=2" style="color: white">Подробнее</a></button>
+                            </div>
+                        </div>
+                        <div class="image">
+                            <img src="~/Content/images/furniture.png" alt="" />
+                            <div class="sub-block">
+                                <h1>Мебель</h1>
+                                <div class="text">
+                                    В нашем каталоге мебели можно выбрать как классические модели <br> гостиных и стенок, так и ультра современные комплекты.
+                                </div>
+                                <button><a href="/Production?type=2" style="color: white">Подробнее</a></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="swiper-scrollbar"></div>
         </div>
-        <div class="col-xs-12 col-sm-8">
-            @RenderBody()
-        </div>
+    </main>
+
+    <script src="https://kit.fontawesome.com/76d835b4d7.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="~/Content/js/swiper.js"></script>
+
+
+
+
+
+
+
+
+
+    <div class="">
+        @RenderBody()
     </div>
 
 
