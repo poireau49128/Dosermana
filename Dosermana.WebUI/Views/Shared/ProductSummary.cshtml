@@ -1,73 +1,65 @@
 ﻿@model Dosermana.Domain.Entities.Product
 
-<style>
-    .main {
-        display: flex;
-        flex-direction: row;
-    }
 
-    .card {
-        width: 280px;
-        margin: 10px;
-        border: 1px solid rgba(0,0,0,.125);
-        border-radius: .25rem;
-        display: flex;
-        flex-direction: column;
-        padding: 10px;
-    }
+<link href="~/Content/products.css" rel="stylesheet" />
 
-        .card img {
-            width: 100%;
-        }
-</style>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
+
+
 
 <div class="card">
-    @*@if (Model.ImageData != null)
+    <div class="card-image">
+        @if (Model.FileName != null)
         {
-            <img class="card-img-top" src="@Url.Action("GetImage", "Product", new { Model.ProductId })" alt="Card image cap">
-        }*@
-    @if (Model.FileName != null)
-    {
-        string imageUrl = $"~/Images/{Model.FileName}";
-        <img class="card-img-top" src="@Url.Content(imageUrl)" alt="Card image cap">
-    }
+            string imageUrl = $"~/Images/{Model.FileName}";
+            <img class="card-img-top" src="@Url.Content(imageUrl)" alt="Card image cap">
+        }
+    </div>
     <div class="card-body">
-        <h5 class="card-title"><strong>@Model.Name @Model.Color</strong></h5>
-        <p class="card-text">На складе в Гродно: @Model.Quantity_Grodno</p>
-        <p class="card-text">На складе в Москве: @Model.Quantity_Moscow</p>
+        <div class="card-title">
+            <span class="card-name">@Model.Name</span>
+            <span class="card-sizes">@Model.Sizes</span>
+            <span class="card-sizes">@Model.Color</span>
+        </div>
+        <p class="card-quantity">На складе в Гродно: @Model.Quantity_Grodno</p>
+        <p class="card-quantity">На складе в Москве: @Model.Quantity_Moscow</p>
         @{
             var price = Model.Price * ViewBag.Price_coefficient;
         }
-        <p class="card-title">@price.ToString("0.00 руб")</p>
+        <p class="card-price">@price.ToString("0.00 руб")</p>
         @using (Html.BeginForm("AddToCart", "Cart"))
         {
             @Html.HiddenFor(x => x.ProductId)
             @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
 
-            <div style="display: flex; flex-direction: row;">
-                <input type="number" name="quantity" class="form-control" min="1" value="0" />
-                <input type="submit" class="btn btn-primary" value="В корзину" />
-            </div>
+            <div style="display: flex; flex-direction: row; justify-content: center;">
+                <div class="number-input">
+                    <button onclick="decrementValue(event)" class="minus"></button>
+                    <input class="form-control" min="1" name="quantity" value="0" type="number">
+                    <button onclick="incrementValue(event)" class="plus"></button>
+                </div>
 
+            </div>
+            <input type="submit" class="btn" value="В корзину" style="display: flex; margin: 10px auto; background-color: #955F31; color: white; width: 155px; font-size: 18px; justify-content: center; align-items: center;"/>
+
+            <script>
+                function incrementValue(event) {
+                    event.preventDefault();
+                    var input = event.target.parentNode.querySelector('input[type=number]');
+                    var value = parseInt(input.value, 10);
+                    input.value = value + 1;
+                }
+
+                function decrementValue(event) {
+                    event.preventDefault();
+                    var input = event.target.parentNode.querySelector('input[type=number]');
+                    var value = parseInt(input.value, 10);
+                    if (value > 0) {
+                        input.value = value - 1;
+                    }
+                }
+            </script>
         }
     </div>
-    @*<h3>
-            <strong>@Model.Name @Model.Color</strong>
-            <span class="card-title">@Model.Price.ToString("0.00 руб")</span>
-        </h3>
-        @using (Html.BeginForm("AddToCart", "Cart"))
-        {
-            <div class="pull-right">
-                @Html.HiddenFor(x => x.ProductId)
-                @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
-
-
-                <input type="number" name="quantity" class="form-control" min="1" value="0" />
-
-
-                <input type="submit" class="btn btn-success" value="Добавить в корзину" />
-            </div>
-        }
-        <span class="lead">Остаток на складе в Гродно: @Model.Quantity_Grodno</span>
-        <span class="lead">Остаток на складе в Москве: @Model.Quantity_Moscow</span>*@
 </div>

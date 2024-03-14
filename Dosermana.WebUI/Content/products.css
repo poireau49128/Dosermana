@@ -1,3 +1,131 @@
 ﻿.product {
     border: solid 1px #CDCDCD;
 }
+
+.main {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.card {
+    width: 350px;
+    margin: 10px;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+    .card img {
+        width: 100%;
+    }
+    .card-image{
+        background-color: white;
+        padding: 20px 10px;
+    }
+    .card-title {
+        display: flex;
+        color: white;
+        
+        font-size: 18px;
+        font-weight: 500;
+    }
+        .card-name{
+            background-color: #955F31;
+            padding: 5px;
+        }
+        .card-sizes {
+            background-color: #DADADA;
+            padding: 5px;
+            color: black;
+        }
+    .card-quantity{
+        font-size: 15px;
+    }
+    .card-price{
+        color: black;
+        font-size: 18px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 500;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+input[type="number"] {
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}
+
+.number-input {
+    border: 2px solid #ddd;
+    display: inline-flex;
+}
+
+    .number-input,
+    .number-input * {
+        box-sizing: border-box;
+    }
+
+        .number-input button {
+            outline: none;
+            -webkit-appearance: none;
+            background-color: transparent;
+            border: none;
+            align-items: center;
+            justify-content: center;
+            width: 3rem;
+            height: 3rem;
+            cursor: pointer;
+            margin: 0;
+            position: relative;
+
+            color: black;
+        }
+
+            .number-input button::after {
+                content: "+";
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 30px;
+            }
+
+            .number-input .minus::after {
+                content: "-";
+            }
+
+        .number-input input[type=number] {
+            font-family: sans-serif;
+            width: 70px;
+            padding: .5rem;
+            border: solid #ddd;
+            border-width: 0 2px;
+            font-size: 2rem;
+            height: 3rem;
+            font-weight: bold;
+            text-align: center;
+        }

@@ -5,14 +5,9 @@
 @{
     ViewBag.Title = "Товары";
 }
+<link href="~/Content/products.css" rel="stylesheet" />
 
-<style>
-    .main{
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-    }
-</style>
+
 <div class="main">
     @foreach (var p in @Model.Products)
     {
