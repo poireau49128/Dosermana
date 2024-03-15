@@ -1,123 +1,47 @@
-﻿@*@model IEnumerable<string>*@
-@model Dictionary<string, List<string>>
+﻿@model Dictionary<string, List<string>>
 
 @{
     bool horizontal = ((bool)(ViewContext.RouteData.Values["horizontalNav"] ?? false));
     string wrapperClasses = horizontal ? "btn-group btn-group-sm btn-group-justified" : null;
 }
 
-@*<div class="@wrapperClasses">
 
-    @Html.ActionLink("Домой", "List", "Product", null,
-    new
-    {
-        @class = horizontal ? "btn btn-default btn-sm" :
-            "btn btn-block btn-default btn-lg"
-    })
-
-    @foreach (var link in Model)
-    {
-        @Html.RouteLink(link, new
-        {
-            controller = "Product",
-            action = "List",
-            category = link,
-            page = 1
-        }, new
-        {
-            @class = (horizontal ? "btn btn-default btn-sm"
-                : "btn btn-block btn-default btn-lg")
-                + (link == ViewBag.SelectedCategory ? " btn-primary" : "")
-        })
-    }
-
-</div>*@
+<link href="~/Content/flex-menu.css" rel="stylesheet" />
 
 <div class="@wrapperClasses">
-    @Html.ActionLink("Домой", "List", "Product", null,
-    new
-    {
-        @class = horizontal ? "btn btn-default btn-sm" :
-            "btn btn-block btn-default btn-lg"
-    })
-
     @foreach (var category in Model)
     {
-        <div class="dropdown">
-            @Html.RouteLink(category.Key, new
-            {
-                controller = "Product",
-                action = "List",
-                category = category.Key,
-                page = 1
-            }, new
-            {
-                @class = (horizontal ? "btn btn-default btn-sm"
-                : "btn btn-block btn-default btn-lg")
-                + (category.Key == ViewBag.SelectedCategory ? " btn-primary" : ""),
-                data_toggle = "dropdown"
-            })
-
-            <div class="dropdown-menu">
+    <div class="dropdown">
+        @{
+            string input_id = category.Key + "-menu-toggle";
+        }
+        <input class="menu-toggle" id="@input_id" type="checkbox" />
+        <label for="@input_id" class="dropdown-name" style="font-weight: normal; flex-direction: column">
+            <span style="width: 100%; display: flex; justify-content: space-between;">
+                <span class="dropdown-toggle">
+                    @category.Key
+                </span>
+                <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 8 L12 20 L19 8" />
+                </svg>
+            </span>
+            <span class="drop-menu">
                 @foreach (var subcategory in category.Value)
                 {
-                @*<div class="btn btn-block btn-default btn-lg">*@
-                    @Html.RouteLink(subcategory, new
+                    @*@Html.RouteLink(subcategory, new
                     {
                         controller = "Product",
                         action = "List",
                         category = subcategory,
                         page = 1
-                    }, new { @class = "dropdown-item btn btn-block btn-default btn-lg" })
-                @*</div>*@
-                    
+                    //}, new { @class = "dropdown-item btn btn-block btn-default btn-lg"})
+                    }, new { @class = "" })*@
+
+                    <a href="@Url.Action("List", "Product", new { category = subcategory, page = 1 })" class="dropdown-item">@subcategory</a>
                 }
-            </div>
-        </div>
+            </span>
+        </label>
+
+    </div>
     }
 </div>
-
-@*<div class="@wrapperClasses">
-    @Html.ActionLink("Домой", "List", "Product", null,
-    new
-    {
-        @class = horizontal ? "btn btn-default btn-sm" :
-            "btn btn-block btn-default btn-lg"
-    })
-
-    @foreach (var category in Model)
-    {
-        <div class="dropdown">
-            <div class="category-block">
-                @Html.RouteLink(category.Key, new
-                {
-                    controller = "Product",
-                    action = "List",
-                    category = category.Key,
-                    page = 1
-                }, new
-                {
-                    @class = (horizontal ? "btn btn-default btn-sm"
-                    : "btn btn-block btn-default btn-lg")
-                    + (category.Key == ViewBag.SelectedCategory ? " btn-primary" : ""),
-                    data_toggle = "dropdown"
-                })
-            </div>
-
-            <div class="dropdown-menu">
-                @foreach (var subcategory in category.Value)
-                {
-                    <div class="subcategory-block">
-                        @Html.RouteLink(subcategory, new
-                        {
-                            controller = "Product",
-                            action = "List",
-                            category = subcategory,
-                            page = 1
-                        }, new { @class = "dropdown-item" })
-                    </div>
-                }
-            </div>
-        </div>
-    }
-</div>*@

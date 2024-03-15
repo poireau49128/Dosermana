@@ -1,0 +1,44 @@
+﻿.menu-toggle {
+    display: none;
+}
+
+    .menu-toggle:checked ~ .dropdown-name svg {
+        transform: rotate(180deg);
+        transition: transform 1s;
+    }
+
+    .menu-toggle:not(:checked) ~ .dropdown-name svg {
+        transition: transform 1s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+
+.drop-menu {
+    display: none;
+    width: 100%;
+    margin-left: 50px;
+}
+
+
+.menu-toggle:checked + .dropdown-name .drop-menu {
+    display: flex;
+    flex-direction: column
+}
+
+.dropdown-name {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 10px;
+    font-size: 20px;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    padding-left: 50px;
+}
+    .dropdown-name:hover .dropdown-toggle {
+        text-decoration: underline;
+    }
+
+.dropdown-name span {
+    color: black ;
+}

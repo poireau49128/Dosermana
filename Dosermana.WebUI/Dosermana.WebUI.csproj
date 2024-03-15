@@ -146,6 +146,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\ErrorStyles.css" />
+    <Content Include="Content\flex-menu.css" />
     <Content Include="Content\images\clock.png" />
     <Content Include="Content\images\decors.jpg" />
     <Content Include="Content\images\enter.png" />
