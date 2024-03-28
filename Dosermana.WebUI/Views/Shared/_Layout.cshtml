@@ -109,7 +109,7 @@
 
                 <li><hr style="width: 100%; background-color: #999999; height: 1px;"></li>
                 <li><a class="menu__item" href="#">О нас</a></li>
-                <li><a class="menu__item" href="#">Каталог</a></li>
+                <li><a class="menu__item" href="/">Каталог</a></li>
                 <li><a class="menu__item" href="#">Новости</a></li>
                 <li><a class="menu__item" href="#">Где купить</a></li>
                 <li><a class="menu__item" href="#">Доствка</a></li>
@@ -241,7 +241,7 @@
         <nav>
             <ul class="menu">
                 <li><a href="#">О НАС</a></li>
-                <li><a href="#">КАТАЛОГ</a></li>
+                <li><a href="/">КАТАЛОГ</a></li>
                 <li><a href="#">НОВОСТИ</a></li>
                 <li><a href="#">ГДЕ КУПИТЬ</a></li>
                 <li><a href="#">ДОСТАВКА</a></li>
@@ -363,22 +363,19 @@
 
 
 
+    <div class="wrapper">
+        @RenderBody()
+    </div>
+    
 
-
-
-    @*<div class="">
-            @RenderBody()
-        </div>*@
-    <div class="body">
-        @*<div id="categories" class="col-sm-3 hidden-xs">*@
+    @*<div class="body">
         <div id="categories" class="left-nav">
             @Html.Action("Menu", "Nav")
         </div>
-        @*<div class="col-xs-12 col-sm-8">*@
         <div class="content">
             @RenderBody()
         </div>
-    </div>
+    </div>*@
 
 
 

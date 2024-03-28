@@ -55,6 +55,23 @@ namespace Dosermana.WebUI.Controllers
             return View(model);
         }
 
+        public ViewResult Details(int productId)
+        {
+            decimal Price_coefficient = 1;
+            if (User.Identity.IsAuthenticated)
+            {
+                var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationContext()));
+                var userId = User.Identity.GetUserId();
+                var user = userManager.FindById(userId);
+                Price_coefficient = user.Price_coefficient;
+            }
+            ViewBag.Price_coefficient = Price_coefficient;
+
+            Product product = repository.Products
+                .FirstOrDefault(p => p.ProductId == productId);
+            return View(product);
+        }
+
         //public FileContentResult GetImage(int productId)
         //{
         //    Product product = repository.Products

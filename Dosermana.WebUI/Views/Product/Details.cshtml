@@ -1,0 +1,75 @@
+﻿@model Dosermana.Domain.Entities.Product
+
+    @{
+        ViewBag.Title = "Details";
+    }
+<link href="~/Content/details.css" rel="stylesheet" />
+
+<div class="body">
+    <div id="categories" class="left-nav">
+        @Html.Action("Menu", "Nav")
+    </div>
+    <div class="content">
+        <div class="prod-desc">
+
+        </div>
+        <div class="prod">
+            <div class="prod-img">
+                @if (Model.FileName != null)
+                {
+                    string imageUrl = $"~/Images/{Model.FileName}";
+                    <img class="card-img-top" src="@Url.Content(imageUrl)" alt="Card image cap">
+                }
+            </div>
+            <div class="prod-main">
+                <div class="prod-title">
+                    <span class="card-name">@Model.Name</span>
+                    <span class="card-sizes">@Model.Sizes</span>
+                    <span class="card-sizes">@Model.Color</span>
+                </div>
+                <div class="prod-details">
+
+                </div>
+                <div class="prod-buy">
+                    @{
+                        var price = Model.Price * ViewBag.Price_coefficient;
+                    }
+                    <p class="card-price">@price.ToString("0.00 руб")</p>
+                    @using (Html.BeginForm("AddToCart", "Cart"))
+                    {
+                        @Html.HiddenFor(x => x.ProductId)
+                        @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+
+                        <div style="display: flex; flex-direction: row; justify-content: center;">
+                            <div class="number-input">
+                                <button onclick="decrementValue(event)" class="minus"></button>
+                                <input class="form-control" min="1" name="quantity" value="0" type="number">
+                                <button onclick="incrementValue(event)" class="plus"></button>
+                            </div>
+
+                        </div>
+                        <input type="submit" class="btn" value="В корзину" style="display: flex; margin: 10px auto; background-color: #955F31; color: white; width: 155px; font-size: 18px; justify-content: center; align-items: center;" />
+
+                        <script>
+                            function incrementValue(event) {
+                                event.preventDefault();
+                                var input = event.target.parentNode.querySelector('input[type=number]');
+                                var value = parseInt(input.value, 10);
+                                input.value = value + 1;
+                            }
+
+                            function decrementValue(event) {
+                                event.preventDefault();
+                                var input = event.target.parentNode.querySelector('input[type=number]');
+                                var value = parseInt(input.value, 10);
+                                if (value > 0) {
+                                    input.value = value - 1;
+                                }
+                            }
+                        </script>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

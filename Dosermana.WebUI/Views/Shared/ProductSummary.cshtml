@@ -41,7 +41,7 @@
                 </div>
 
             </div>
-            <input type="submit" class="btn" value="В корзину" style="display: flex; margin: 10px auto; background-color: #955F31; color: white; width: 155px; font-size: 18px; justify-content: center; align-items: center;"/>
+            <input type="submit" class="btn" value="В корзину" style="display: flex; margin: 10px auto; background-color: #955F31; color: white; width: 155px; font-size: 18px; justify-content: center; align-items: center;" />
 
             <script>
                 function incrementValue(event) {
@@ -61,5 +61,6 @@
                 }
             </script>
         }
+        @Html.ActionLink("Подробнее", "Details", "Product", new { productId = Model.ProductId }, null)
     </div>
 </div>

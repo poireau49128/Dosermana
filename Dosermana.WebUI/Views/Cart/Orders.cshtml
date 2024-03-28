@@ -12,61 +12,63 @@
 
 
 <h2>Ваши заказы</h2>
-<table id="cartTable" class="table">
-    <thead>
-        <tr>
-            <th class="text-center">Номер заказа</th>
-            <th class="text-center">Продукты</th>
-            <th class="text-center">Количество</th>
-            <th class="text-center">Общая цена</th>
-            <th class="text-center">Дата заказа</th>
-            <th class="text-center">Адрес доставки</th>
-            <th class="text-center">Статус заказа</th>
-            <th class="text-center">Примечание</th>
-        </tr>
-    </thead>
-    <tbody>
-        @{
-            decimal totalCost = 0;
-        }
-        @foreach (var item in Model)
-        {
+<div style="overflow-x: auto;">
+    <table id="cartTable" class="table">
+        <thead>
             <tr>
-                <td class="text-center">@item.OrderId</td>
-                <td class="text-center">
-                    @foreach (var orderItem in item.OrderItems)
-                    {
-                        <div>
-                            @orderItem.Product.Name @orderItem.Product.Color
-                        </div>
-                    }
-                </td>
-                <td class="text-center">
-                    @foreach (var orderItem in item.OrderItems)
-                    {
-                        <div>
-                            @orderItem.Quantity
-                        </div>
-                    }
-                </td>
-                <td class="text-center">@item.Summary.ToString("0.00 руб")</td>
-                <td class="text-center">@item.OrderDate</td>
-                <td class="text-center">@item.Address</td>
-                <td class="text-center">@item.Status</td>
-                <td class="text-center">@item.Note</td>
+                <th class="text-center">Номер заказа</th>
+                <th class="text-center">Продукты</th>
+                <th class="text-center">Количество</th>
+                <th class="text-center">Общая цена</th>
+                <th class="text-center">Дата заказа</th>
+                <th class="text-center">Адрес доставки</th>
+                <th class="text-center">Статус заказа</th>
+                <th class="text-center">Примечание</th>
             </tr>
-            
+        </thead>
+        <tbody>
+            @{
+                decimal totalCost = 0;
+            }
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="text-center">@item.OrderId</td>
+                    <td class="text-center">
+                        @foreach (var orderItem in item.OrderItems)
+                        {
+                            <div>
+                                @orderItem.Product.Name @orderItem.Product.Color
+                            </div>
+                        }
+                    </td>
+                    <td class="text-center">
+                        @foreach (var orderItem in item.OrderItems)
+                        {
+                            <div>
+                                @orderItem.Quantity
+                            </div>
+                        }
+                    </td>
+                    <td class="text-center">@item.Summary.ToString("0.00 руб")</td>
+                    <td class="text-center">@item.OrderDate</td>
+                    <td class="text-center">@item.Address</td>
+                    <td class="text-center">@item.Status</td>
+                    <td class="text-center">@item.Note</td>
+                </tr>
+
                 totalCost += item.Summary;
-            
-        }
-    </tbody>
-    <tfoot>
-        <tr>
-            <td colspan="7" class="text-right">Итого:</td>
-            <td class="text-right">
-                @totalCost.ToString("0.00 руб")
-            </td>
-        </tr>
-    </tfoot>
-</table>
+
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="7" class="text-right">Итого:</td>
+                <td class="text-right">
+                    @totalCost.ToString("0.00 руб")
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
 

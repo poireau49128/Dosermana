@@ -29,75 +29,20 @@
 
 
 
-
-
-.product {
-    border: solid 1px #CDCDCD;
-}
-
-.main {
+.prod{
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
 }
 
-.card {
-    width: 300px;
-    margin: 10px;
-    border: 1px solid rgba(0,0,0,.125);
-    border-radius: .25rem;
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
+.prod-img{
+    width: 45%;
 }
-    .card img {
+    .prod-img img {
         width: 100%;
     }
-    .card-image{
-        background-color: white;
-        padding: 20px 10px;
-    }
-    .card-title {
-        display: flex;
-        color: white;
-        
-        font-size: 18px;
-        font-weight: 500;
-    }
-        .card-name{
-            background-color: #955F31;
-            padding: 5px;
-        }
-        .card-sizes {
-            background-color: #DADADA;
-            padding: 5px;
-            color: black;
-        }
-    .card-quantity{
-        font-size: 15px;
-    }
-    .card-price{
-        color: black;
-        font-size: 18px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-weight: 500;
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
+.prod-main {
+    width: 45%;
+}
 
 
 
@@ -134,7 +79,6 @@ input[type=number]::-webkit-outer-spin-button {
             cursor: pointer;
             margin: 0;
             position: relative;
-
             color: black;
         }
 
@@ -147,9 +91,9 @@ input[type=number]::-webkit-outer-spin-button {
                 font-size: 30px;
             }
 
-            .number-input .minus::after {
-                content: "-";
-            }
+        .number-input .minus::after {
+            content: "-";
+        }
 
         .number-input input[type=number] {
             font-family: sans-serif;
