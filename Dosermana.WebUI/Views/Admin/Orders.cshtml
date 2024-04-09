@@ -9,7 +9,7 @@
     <div class="panel-heading">
         <h3>Список заказов</h3>
 
-        @using (Html.BeginForm("Orders", "Admin", FormMethod.Get))
+        @*@using (Html.BeginForm("Orders", "Admin", FormMethod.Get))
         {
             <div>
                 <label>
@@ -31,7 +31,47 @@
             </div>
             <button type="submit" class="btn btn-default">Применить фильтр</button>
         }
+        @using (Html.BeginForm("Orders", "Admin", FormMethod.Get))
+        {
+            <input type="text" name="export" value="excel" />
+            <button type="submit">Export to Excel</button>
+        }*@
+        @using (Html.BeginForm("Orders", "Admin", FormMethod.Get))
+        {
+            <div>
+                <label>
+                    <input type="checkbox" name="status" value="В обработке" />
+                    В обработке
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" name="status" value="Ожидание" />
+                    Ожидание
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" name="status" value="Выполнен" />
+                    Выполнен
+                </label>
+            </div>
+            <button type="submit" class="btn btn-default" id="applyFilterButton">Применить фильтр</button>
+        }
+
+        @* Экспорт с выбранными фильтрами *@
+        <form action="@Url.Action("Orders", "Admin")" method="get">
+            <input type="hidden" name="status" value="@Request.QueryString["status"]" />
+            <input type="hidden" name="export" value="excel" />
+            <button type="submit">Export to Excel</button>
+        </form>
+
+
+
+
     </div>
+
+
 
     <div class="panel-body">
         <table class="table table-striped table-condensed table-bordered">

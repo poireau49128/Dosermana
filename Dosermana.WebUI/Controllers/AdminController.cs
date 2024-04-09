@@ -12,6 +12,8 @@ using Dosermana.Domain.Entities;
 using Dosermana.WebUI.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
 
 namespace Dosermana.WebUI.Controllers
 {
@@ -92,32 +94,306 @@ namespace Dosermana.WebUI.Controllers
             return View(model);
         }
 
+        //public ActionResult Orders(string[] status)
+        //{
+        //    using (var dbContext = new EFDbContext())
+        //    {
+        //        if (status != null && status.Length > 0)
+        //        {
+        //            List<Order> orders = dbContext.Orders
+        //                .Where(o => status.Contains(o.Status))
+        //                .Include(o => o.OrderItems)
+        //                .Include(o => o.OrderItems.Select(oi => oi.Product))
+        //                .ToList();
+
+        //            return View(orders);
+        //        }
+        //        else
+        //        {
+        //            List<Order> orders = dbContext.Orders
+        //                .Include(o => o.OrderItems)
+        //                .Include(o => o.OrderItems.Select(oi => oi.Product))
+        //                .ToList();
+
+        //            return View(orders);
+        //        }
+
+        //    }
+        //}
+        //public ActionResult Orders(string[] status)
+        //{
+        //    using (var dbContext = new EFDbContext())
+        //    {
+        //        List<Order> orders;
+
+        //        if (status != null && status.Length > 0)
+        //        {
+        //            orders = dbContext.Orders
+        //                .Where(o => status.Contains(o.Status))
+        //                .Include(o => o.OrderItems)
+        //                .Include(o => o.OrderItems.Select(oi => oi.Product))
+        //                .ToList();
+        //        }
+        //        else
+        //        {
+        //            orders = dbContext.Orders
+        //                .Include(o => o.OrderItems)
+        //                .Include(o => o.OrderItems.Select(oi => oi.Product))
+        //                .ToList();
+        //        }
+
+        //        var test = orders.Count;
+        //        ViewBag.SelectedStatus = status;
+
+        //        // Export to Excel if requested
+        //        if (Request.QueryString["export"] == "excel")
+        //        {
+        //            // Получаем отфильтрованные заказы
+        //            var filteredOrders = orders.Where(o => status.Contains(o.Status)).ToList();
+
+        //            var package = new ExcelPackage();
+        //            var worksheet = package.Workbook.Worksheets.Add("Orders");
+
+        //            // Set column headers
+        //            worksheet.Cells[1, 1].Value = "Order ID";
+        //            worksheet.Cells[1, 2].Value = "Status";
+        //            worksheet.Cells[1, 3].Value = "Order Date";
+        //            // Add more columns as needed
+
+        //            // Populate data rows
+        //            foreach (var order in filteredOrders)
+        //            {
+        //                worksheet.Cells[worksheet.Dimension.End.Row + 1, 1].Value = order.OrderId;
+        //                worksheet.Cells[worksheet.Dimension.End.Row, 2].Value = order.Status;
+        //                worksheet.Cells[worksheet.Dimension.End.Row, 3].Value = order.OrderDate;
+        //                // Add more data columns as needed
+        //            }
+
+        //            // Set response headers for file download
+        //            Response.Clear();
+        //            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+        //            Response.AddHeader("content-disposition", "attachment;  filename=Orders.xlsx");
+        //            Response.BinaryWrite(package.GetAsByteArray());
+        //            Response.End();
+
+        //            return null; // Prevent rendering the view
+        //        }
+
+        //        return View(orders);
+        //    }
+        //}
+        //public ActionResult Orders(string[] status)
+        //{
+        //    using (var dbContext = new EFDbContext())
+        //    {
+        //        List<Order> orders;
+
+        //        if (status != null && status.Length > 0)
+        //        {
+        //            orders = dbContext.Orders
+        //                .Where(o => status.Contains(o.Status))
+        //                .Include(o => o.OrderItems)
+        //                .Include(o => o.OrderItems.Select(oi => oi.Product))
+        //                .ToList();
+
+        //            ViewBag.T = 123;
+        //        }
+        //        else
+        //        {
+        //            orders = dbContext.Orders
+        //                .Include(o => o.OrderItems)
+        //                .Include(o => o.OrderItems.Select(oi => oi.Product))
+        //                .ToList();
+        //        }
+        //        var test = orders.Count;
+        //        // Export to Excel if requested
+        //        if (Request.QueryString["export"] == "excel")
+        //        {
+        //            ExportToExcel();
+        //        }
+
+        //        return View(orders);
+        //    }
+        //}
         public ActionResult Orders(string[] status)
         {
             using (var dbContext = new EFDbContext())
             {
+                List<Order> orders;
+
+                
+
                 if (status != null && status.Length > 0)
                 {
-                    List<Order> orders = dbContext.Orders
+                    orders = dbContext.Orders
                         .Where(o => status.Contains(o.Status))
                         .Include(o => o.OrderItems)
                         .Include(o => o.OrderItems.Select(oi => oi.Product))
                         .ToList();
 
-                    return View(orders);
+                    ViewBag.T = 123;
                 }
                 else
                 {
-                    List<Order> orders = dbContext.Orders
+                    orders = dbContext.Orders
                         .Include(o => o.OrderItems)
                         .Include(o => o.OrderItems.Select(oi => oi.Product))
                         .ToList();
-
-                    return View(orders);
                 }
-                    
+
+                // Export to Excel if requested
+                if (Request.QueryString["export"] == "excel")
+                {
+                    return ExportToExcel(status); // Передайте параметры фильтрации в метод ExportToExcel
+                }
+
+                return View(orders);
             }
         }
+
+        private ActionResult ExportToExcel(string[] status)
+        {
+            using (var dbContext = new EFDbContext())
+            {
+                List<Order> orders;
+
+                // Применить фильтрацию, если есть параметры
+                if (status != null && status.Length > 0 && status[0] != "")
+                {
+                    status = status[0].Split(',');
+                    orders = dbContext.Orders
+                        .Where(o => status.Contains(o.Status))
+                        .Include(o => o.OrderItems)
+                        .Include(o => o.OrderItems.Select(oi => oi.Product))
+                        .ToList();
+                }
+                else
+                {
+                    orders = dbContext.Orders
+                        .Include(o => o.OrderItems)
+                        .Include(o => o.OrderItems.Select(oi => oi.Product))
+                        .ToList();
+                }
+
+                // Остальной код экспорта в Excel остается без изменений
+                // ...
+
+                var package = new ExcelPackage();
+                var worksheet = package.Workbook.Worksheets.Add("Orders");
+
+                // Set column headers
+                worksheet.Cells[1, 1].Value = "Номер заказа";
+                worksheet.Cells[1, 2].Value = "Имя пользователя";
+                worksheet.Cells[1, 3].Value = "Продукты";
+                worksheet.Cells[1, 4].Value = "Количество";
+                worksheet.Cells[1, 5].Value = "Общая стоимость";
+                worksheet.Cells[1, 6].Value = "Дата заказа";
+                worksheet.Cells[1, 7].Value = "Адрес";
+                worksheet.Cells[1, 8].Value = "Статус заказа";
+                worksheet.Cells[1, 9].Value = "Примечание";
+                // Add more columns as needed
+
+                // Populate data rows
+                int currentRow = worksheet.Dimension.End.Row + 1;
+                foreach (var order in orders)
+                {
+                    var orderStartRow = currentRow;
+
+                    worksheet.Cells[orderStartRow, 1].Value = order.OrderId;
+                    worksheet.Cells[orderStartRow, 2].Value = order.UserEmail;
+
+
+                    
+
+
+                    foreach (var orderItem in order.OrderItems)
+                    {
+                        worksheet.Cells[currentRow, 3].Value = orderItem.Product.Name + " " + orderItem.Product.Color;
+                        worksheet.Cells[currentRow, 4].Value = orderItem.Quantity;
+                        currentRow++;
+                    }
+                    
+
+
+                    worksheet.Cells[orderStartRow, 5].Value = order.Summary;
+
+                    ExcelRange cell = worksheet.Cells[orderStartRow, 6];
+                    cell.Style.Numberformat.Format = "dd.mm.yyyy hh:mm:ss";
+                    worksheet.Cells[orderStartRow, 6].Value = order.OrderDate;
+
+
+                    worksheet.Cells[orderStartRow, 7].Value = order.Address;
+                    worksheet.Cells[orderStartRow, 8].Value = order.Status;
+                    worksheet.Cells[orderStartRow, 9].Value = order.Note;
+
+                    currentRow++;
+                    // Add more data columns as needed
+                }
+
+                worksheet.Cells.AutoFitColumns();
+
+                // Set response headers for file download
+                Response.Clear();
+                Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                Response.AddHeader("content-disposition", "attachment;  filename=Orders.xlsx");
+                Response.BinaryWrite(package.GetAsByteArray());
+                Response.End();
+
+                return new EmptyResult(); // Вернуть пустой результат, чтобы представление не рендерилось
+            }
+        }
+
+        //private string ExportToExcel(string[] status)
+        //{
+        //    using (var dbContext = new EFDbContext())
+        //    {
+        //        List<Order> orders;
+
+        //        // Применить фильтрацию, если есть параметры
+        //        if (status != null && status.Length > 0)
+        //        {
+        //            orders = dbContext.Orders
+        //                .Where(o => status.Contains(o.Status))
+        //                .Include(o => o.OrderItems)
+        //                .Include(o => o.OrderItems.Select(oi => oi.Product))
+        //                .ToList();
+        //        }
+        //        else
+        //        {
+        //            orders = dbContext.Orders
+        //                .Include(o => o.OrderItems)
+        //                .Include(o => o.OrderItems.Select(oi => oi.Product))
+        //                .ToList();
+        //        }
+        //        var package = new ExcelPackage();
+        //        var worksheet = package.Workbook.Worksheets.Add("Orders");
+
+        //        // Set column headers
+        //        worksheet.Cells[1, 1].Value = "Order ID";
+        //        worksheet.Cells[1, 2].Value = "Status";
+        //        worksheet.Cells[1, 3].Value = "Order Date";
+        //        // Add more columns as needed
+
+        //        // Populate data rows
+        //        foreach (var order in orders)
+        //        {
+        //            worksheet.Cells[worksheet.Dimension.End.Row + 1, 1].Value = order.OrderId;
+        //            worksheet.Cells[worksheet.Dimension.End.Row, 2].Value = order.Status;
+        //            worksheet.Cells[worksheet.Dimension.End.Row, 3].Value = order.OrderDate;
+        //            // Add more data columns as needed
+        //        }
+
+        //        // Set response headers for file download
+        //        Response.Clear();
+        //        Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+        //        Response.AddHeader("content-disposition", "attachment;  filename=Orders.xlsx");
+        //        Response.BinaryWrite(package.GetAsByteArray());
+        //        Response.End();
+
+        //        return null; // Prevent rendering the view
+        //    }
+        //}
+
 
 
         public string GetProductById(int productId)
