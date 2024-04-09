@@ -10,7 +10,7 @@ namespace Dosermana.Domain.Entities
     {
         private List<CartLine> lineCollection = new List<CartLine>();
 
-        public void AddItem(Product product, int quantity)
+        public void AddItem(Product product, int quantity, string note)
         {
             CartLine line = lineCollection
                 .Where(p => p.Product.ProductId == product.ProductId)
@@ -18,9 +18,12 @@ namespace Dosermana.Domain.Entities
 
             if (line == null)
             {
+                product.Name = product.Name + note;
                 lineCollection.Add(new CartLine
                 {
+                    
                     Product = product,
+                    
                     Quantity = quantity
                 });
             }

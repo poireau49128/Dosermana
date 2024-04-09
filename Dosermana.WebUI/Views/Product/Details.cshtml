@@ -40,6 +40,10 @@
                         @Html.HiddenFor(x => x.ProductId)
                         @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
 
+
+                        <input type="text" name="custom_sizes" value="" />
+                        <input type="text" name="custom_holes" value="" />
+
                         <div style="display: flex; flex-direction: row; justify-content: center;">
                             <div class="number-input">
                                 <button onclick="decrementValue(event)" class="minus"></button>

@@ -46,7 +46,7 @@ namespace Dosermana.WebUI.Controllers
         }
 
         //[Authorize]
-        public RedirectToRouteResult AddToCart(Cart cart, int productId, int quantity, string returnUrl)
+        public RedirectToRouteResult AddToCart(Cart cart, int productId, int quantity, string returnUrl, string custom_sizes, string custom_holes)
         {
             if (!User.Identity.IsAuthenticated)
             {
@@ -58,7 +58,8 @@ namespace Dosermana.WebUI.Controllers
 
             if (product != null)
             {
-                cart.AddItem(product, quantity);
+                string note = "(размеры: " + custom_sizes + ", отверстия: " + custom_holes + ")";
+                cart.AddItem(product, quantity, note);
             }
             return RedirectToAction("Index", new { returnUrl });
         }
