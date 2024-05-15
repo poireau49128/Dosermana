@@ -34,6 +34,7 @@ namespace Dosermana.Domain.Concrete
                     dbEntry.Sizes = product.Sizes;
                     dbEntry.Category = product.Category;
                     dbEntry.FileName = product.FileName;
+                    dbEntry.Description = product.Description;
                     //dbEntry.ImageData = product.ImageData;
                     //dbEntry.ImageMimeType = product.ImageMimeType;
                 }

@@ -1,8 +1,8 @@
-﻿@model Dosermana.Domain.Entities.Product
+﻿﻿@model Dosermana.Domain.Entities.Product
 
-    @{
-        ViewBag.Title = "Details";
-    }
+@{
+    ViewBag.Title = $"{@Model.Name} {@Model.Color}";
+}
 <link href="~/Content/details.css" rel="stylesheet" />
 
 <div class="body">
@@ -28,7 +28,7 @@
                     <span class="card-sizes">@Model.Color</span>
                 </div>
                 <div class="prod-details">
-
+                    <span class="card-desc">@Model.Description</span>
                 </div>
                 <div class="prod-buy">
                     @{
@@ -41,10 +41,13 @@
                         @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
 
 
+                        <label style="font-size: 15px; font-weight: 400;" for="custom_sizes">Размеры:&nbsp&nbsp&nbsp&nbsp</label>
                         <input type="text" name="custom_sizes" value="" />
+                        <br />
+                        <label style="font-size: 15px; margin-top: 10px; font-weight: 400;" for="custom_holes">Отверстия:&nbsp</label>
                         <input type="text" name="custom_holes" value="" />
 
-                        <div style="display: flex; flex-direction: row; justify-content: center;">
+                        <div style="display: flex; flex-direction: row; margin-top: 20px;">
                             <div class="number-input">
                                 <button onclick="decrementValue(event)" class="minus"></button>
                                 <input class="form-control" min="1" name="quantity" value="0" type="number">
@@ -52,7 +55,7 @@
                             </div>
 
                         </div>
-                        <input type="submit" class="btn" value="В корзину" style="display: flex; margin: 10px auto; background-color: #955F31; color: white; width: 155px; font-size: 18px; justify-content: center; align-items: center;" />
+                        <input type="submit" class="btn" value="В корзину" style="display: flex; margin: 10px 0; background-color: #955F31; color: white; width: 155px; font-size: 18px; justify-content: center; align-items: center;" />
 
                         <script>
                             function incrementValue(event) {

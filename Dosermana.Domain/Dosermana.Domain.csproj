@@ -91,6 +91,10 @@
     <Compile Include="Migrations\202401161121106_NewRelations.designer.cs">
       <DependentUpon>202401161121106_NewRelations.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202405060727293_AddDescriptionToProduct.cs" />
+    <Compile Include="Migrations\202405060727293_AddDescriptionToProduct.designer.cs">
+      <DependentUpon>202405060727293_AddDescriptionToProduct.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -101,6 +105,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202401161121106_NewRelations.resx">
       <DependentUpon>202401161121106_NewRelations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202405060727293_AddDescriptionToProduct.resx">
+      <DependentUpon>202405060727293_AddDescriptionToProduct.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

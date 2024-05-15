@@ -29,20 +29,51 @@
 
 
 
-.prod{
+.prod {
     display: flex;
     flex-direction: row;
 }
 
-.prod-img{
+.prod-img {
     width: 45%;
 }
+
     .prod-img img {
         width: 100%;
     }
+
 .prod-main {
     width: 45%;
 }
+
+.prod-title {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.card-price {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.card-desc {
+    font-size: 18px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
