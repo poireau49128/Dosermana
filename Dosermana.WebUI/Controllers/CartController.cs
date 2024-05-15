@@ -132,28 +132,6 @@ namespace Dosermana.WebUI.Controllers
             return View(user);
         }
 
-
-        //public ViewResult Checkout(Cart cart, ShippingDetails shippingDetails)
-        //{
-        //    string userId = User.Identity.GetUserId();
-        //    string userEmail = User.Identity.GetUserName();
-
-        //    if (cart.Lines.Count() == 0)
-        //    {
-        //        ModelState.AddModelError("", "Извините, ваша корзина пуста!");
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        orderProcessor.ProcessOrder(cart, shippingDetails, userId, userEmail);
-        //        cart.Clear();
-        //        return View(User);
-        //    }
-        //    else
-        //    {
-        //        return View(shippingDetails);
-        //    }
-        //}
         [HttpPost]
         public ViewResult Checkout(Cart cart, CurrentUser user)
         {
@@ -164,9 +142,12 @@ namespace Dosermana.WebUI.Controllers
 
             if (ModelState.IsValid)
             {
-                orderProcessor.ProcessOrder(cart, user);
+                bool flag = orderProcessor.ProcessOrder(cart, user);
                 cart.Clear();
-                return View("Completed");
+                if (flag)
+                        return View("Completed");
+                else
+                        return View("CheckoutWarning");
             }
             else
             {

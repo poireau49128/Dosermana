@@ -89,5 +89,16 @@ namespace Dosermana.Domain.Concrete
 
             context.SaveChanges();
         }
+
+        public Order DeleteOrder(int orderId)
+        {
+            Order dbEntry = context.Orders.Find(orderId);
+            if (dbEntry != null)
+            {
+                context.Orders.Remove(dbEntry);
+                context.SaveChanges();
+            }
+            return dbEntry;
+        }
     }
 }

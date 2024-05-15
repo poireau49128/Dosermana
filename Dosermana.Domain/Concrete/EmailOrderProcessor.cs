@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.IO;
 using System.Net;
 using System.Net.Mail;
@@ -42,6 +43,7 @@ namespace Dosermana.Domain.Concrete
 
     public class EmailOrderProcessor : IOrderProcessor
     {
+
         private EmailSettings emailSettings;
 
         private readonly EFDbContext _dbContext;
@@ -53,83 +55,27 @@ namespace Dosermana.Domain.Concrete
             _dbContext = dbContext;
         }
 
-        //public void ProcessOrder(Cart cart, ShippingDetails shippingInfo, string userID, string userEmail)
-        //{
-        //    using (var smtpClient = new SmtpClient())
-        //    {
-        //        smtpClient.EnableSsl = emailSettings.UseSsl;
-        //        smtpClient.Host = emailSettings.ServerName;
-        //        smtpClient.Port = emailSettings.ServerPort;
-        //        smtpClient.UseDefaultCredentials = false;
-        //        smtpClient.Credentials
-        //            = new NetworkCredential(emailSettings.Username, emailSettings.Password);
-
-        //        if (emailSettings.WriteAsFile)
-        //        {
-        //            smtpClient.DeliveryMethod
-        //                = SmtpDeliveryMethod.SpecifiedPickupDirectory;
-        //            smtpClient.PickupDirectoryLocation = emailSettings.FileLocation;
-        //            smtpClient.EnableSsl = false;
-        //        }
-
-        //        StringBuilder body = new StringBuilder()
-        //            .AppendLine("Новый заказ обработан")
-        //            .AppendLine("---")
-        //            .AppendLine("Товары:");
-
-        //        foreach (var line in cart.Lines)
-        //        {
-        //            var subtotal = line.Product.Price * line.Quantity;
-        //            body.AppendFormat("{0} x {1} {2} (итого: {3:c}",
-        //                line.Quantity, line.Product.Name, line.Product.Color, subtotal);
-        //        }
-
-        //        body.AppendFormat("Общая стоимость: {0:c}", cart.ComputeTotalValue())
-        //            .AppendLine("---")
-        //            .AppendLine("Доставка:")
-        //            .AppendLine(shippingInfo.Name)
-        //            .AppendLine(shippingInfo.Address)
-        //            .AppendLine("---");
-
-        //        MailMessage mailMessage = new MailMessage(
-        //                               emailSettings.MailFromAddress,	// От кого
-        //                               emailSettings.MailToAddress,		// Кому
-        //                               "Новый заказ отправлен!",		// Тема
-        //                               body.ToString()); 				// Тело письма
-
-        //        if (emailSettings.WriteAsFile)
-        //        {
-        //            mailMessage.BodyEncoding = Encoding.UTF8;
-        //        }
-
-        //        smtpClient.Send(mailMessage);
-        //    }
-
-
-
-        //    foreach (var line in cart.Lines)
-        //    {
-        //        var order = new Order
-        //        {
-        //            UserId = userID,
-        //            UserEmail = userEmail,
-        //            ProductId = line.Product.ProductId,
-        //            Quantity = line.Quantity,
-        //            Status = "В обработке",
-        //            Address = shippingInfo.Address,
-        //            OrderDate = DateTime.Now,
-        //            Summary = line.Product.Price * line.Quantity
-        //        };
-
-        //        _dbContext.Orders.Add(order);
-        //    }
-        //    _dbContext.SaveChanges();
-        //}
-
-        public void ProcessOrder(Cart cart, CurrentUser user)
+        public bool ChangeProductQuantity(Product product, int quantity)
         {
+            Product dbEntry = _dbContext.Products.Find(product.ProductId);
+            if (dbEntry != null)
+            {
+                if (dbEntry.Quantity_Grodno - quantity >= 0)
+                {
+                    dbEntry.Quantity_Grodno = dbEntry.Quantity_Grodno - quantity;
+                    return true;
+                }
+                dbEntry.Quantity_Grodno = 0;
+            }
+            return false;
+        }
+
+        public bool ProcessOrder(Cart cart, CurrentUser user)
+        {
+            bool inStock = true;
             decimal summary = 0;
-            var order = new Order {
+            var order = new Order
+            {
                 UserId = user.Id,
                 UserEmail = user.Email,
                 Status = "Ожидание",
@@ -146,12 +92,31 @@ namespace Dosermana.Domain.Concrete
                     ProductId = line.Product.ProductId,
                     Quantity = line.Quantity,
                 };
+
+                if (!ChangeProductQuantity(line.Product, line.Quantity))
+                    inStock = false;
+
                 order.OrderItems.Add(orderItem);
                 _dbContext.OrderItems.Add(orderItem);
             }
             order.Summary = summary;
             _dbContext.Orders.Add(order);
             _dbContext.SaveChanges();
+
+            return inStock;
+            //catch (DbEntityValidationException e)
+            //{
+            //    foreach (var eve in e.EntityValidationErrors)
+            //    {
+            //        string test1 = $"Entity of type \"{eve.Entry.Entity.GetType().Name}\" in state \"{eve.Entry.State}\" has the following validation errors:";
+            //        foreach (var ve in eve.ValidationErrors)
+            //        {
+            //            string test2 = $" - Property: \"{ve.PropertyName}\", Error: \"{ve.ErrorMessage}\"";
+            //        }
+            //    }
+            //    return false;
+            //}
+            
         }
     }
 }

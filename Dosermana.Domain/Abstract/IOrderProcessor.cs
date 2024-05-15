@@ -10,6 +10,6 @@ namespace Dosermana.Domain.Abstract
     public interface IOrderProcessor
     {
         //void ProcessOrder(Cart cart, ShippingDetails shippingDetails, string userID, string userEmail);
-        void ProcessOrder(Cart cart, CurrentUser user);
+        bool ProcessOrder(Cart cart, CurrentUser user);
     }
 }

@@ -12,5 +12,6 @@ namespace Dosermana.Domain.Abstract
         IEnumerable<Order> Orders { get; }
 
         void SaveOrder(Order order);
+        Order DeleteOrder(int orderId);
     }
 }
