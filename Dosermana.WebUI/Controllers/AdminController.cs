@@ -454,7 +454,7 @@ namespace Dosermana.WebUI.Controllers
                     Product existingProduct = repository.Products.FirstOrDefault(p => p.ProductId == product.ProductId);
                     if (existingProduct != null)
                     {
-                        //product.ImageData = existingProduct.ImageData;
+                        product.FileName = existingProduct.FileName;
                         //product.ImageMimeType = existingProduct.ImageMimeType;
                     }
                 }
