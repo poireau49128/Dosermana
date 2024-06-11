@@ -52,6 +52,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Dosermana.Domain.Concrete;
 using Dosermana.Domain.Entities;
 using Dosermana.WebUI.Models;
 using Microsoft.AspNet.Identity;
@@ -84,6 +85,25 @@ namespace AspNetIdentityApp.Controllers
                 IdentityResult result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    using (var dbContext = new EFDbContext())
+                    {
+                        // Установка коэффициентов по умолчанию
+                        List<ProductCategory> categories = dbContext.ProductCategory.ToList();
+                        List<UserCategoryCoefficient> defaultCoefficients = new List<UserCategoryCoefficient>();
+                        foreach (var category in categories)
+                        {
+                            defaultCoefficients.Add(new UserCategoryCoefficient
+                            {
+                                UserId = user.Id,
+                                Coefficient = 1.0m,
+                                ProductCategory = category
+                            });
+                        }
+                        dbContext.UserCategoryCoefficient.AddRange(defaultCoefficients);
+                        await dbContext.SaveChangesAsync(); // Сохранение изменений в базе данных
+                    }
+                        
+
                     return RedirectToAction("Login", "Account");
                 }
                 else

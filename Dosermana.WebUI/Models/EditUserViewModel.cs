@@ -10,6 +10,10 @@ namespace Dosermana.WebUI.Models
         public string Id { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
-        public decimal Price_coefficient { get; set; }
+        public Dictionary<string, decimal> Price_coefficients { get; set; }
+        //public decimal FrontCoefficient { get; set; }
+        //public decimal MoldingCoefficient { get; set; }
+        //public decimal FurnitureCoefficient { get; set; }
+
     }
 }

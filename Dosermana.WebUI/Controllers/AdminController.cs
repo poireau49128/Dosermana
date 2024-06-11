@@ -63,9 +63,35 @@ namespace Dosermana.WebUI.Controllers
             {
                 return null;
             }
-            EditUserViewModel model = new EditUserViewModel { Id = user.Id, Name = user.UserName, Address = user.Address, Price_coefficient = user.Price_coefficient };
+
+
+
+            EditUserViewModel model;
+            using (var dbContext = new EFDbContext())
+            {
+                List<UserCategoryCoefficient> coefficients = dbContext.UserCategoryCoefficient.Where(c => c.UserId == userID).ToList();
+                model = new EditUserViewModel
+                {
+                    Id = user.Id,
+                    Name = user.UserName,
+                    Address = user.Address,
+                    Price_coefficients = new Dictionary<string, decimal>()
+                };
+
+                foreach (var coefficient in coefficients)
+                {
+                    UserCategoryCoefficient category = dbContext.UserCategoryCoefficient.Find(coefficient.ProductCategory.Id);
+                    if (category != null)
+                    {
+                        model.Price_coefficients[category.ProductCategory.CategoryName] = coefficient.Coefficient;
+                    }
+                }
+
+            }
+
             return View(model);
         }
+        
         [HttpPost]
         public async Task<ActionResult> EditUser(EditUserViewModel model)
         {
@@ -77,11 +103,68 @@ namespace Dosermana.WebUI.Controllers
                     user.Email = model.Name;
                     user.UserName = model.Name;
                     user.Address = model.Address;
-                    user.Price_coefficient = model.Price_coefficient;
+
+                    using (var dbContext = new EFDbContext())
+                    {
+                        //// Удаление старых коэффициентов пользователя
+                        //List<UserCategoryCoefficient> oldCoefficients = dbContext.UserCategoryCoefficient.Where(c => c.UserId == user.Id).ToList();
+                        //dbContext.UserCategoryCoefficient.RemoveRange(oldCoefficients);
+
+                        //// Добавление новых коэффициентов пользователя
+                        //List<UserCategoryCoefficient> newCoefficients = new List<UserCategoryCoefficient>();
+                        //foreach (var entry in model.Price_coefficients)
+                        //{
+                        //    ProductCategory category = dbContext.ProductCategory.FirstOrDefault(c => c.CategoryName == entry.Key);
+                        //    if (category != null)
+                        //    {
+                        //        newCoefficients.Add(new UserCategoryCoefficient
+                        //        {
+                        //            UserId = user.Id,
+                        //            Coefficient = entry.Value,
+                        //            ProductCategory = category
+                        //        });
+                        //    }
+                        //}
+                        //dbContext.UserCategoryCoefficient.AddRange(newCoefficients);
+
+                        // Получение существующих коэффициентов пользователя
+                        List<UserCategoryCoefficient> existingCoefficients = dbContext.UserCategoryCoefficient.Where(c => c.UserId == user.Id).ToList();
+
+                        // Обновление значений коэффициентов
+                        foreach (var entry in model.Price_coefficients)
+                        {
+                            UserCategoryCoefficient coefficient = existingCoefficients.FirstOrDefault(c => c.ProductCategory.CategoryName == entry.Key);
+                            if (coefficient != null)
+                            {
+                                coefficient.Coefficient = entry.Value;
+                            }
+                            else
+                            {
+                                // Если коэффициент не существует, создаем новый
+                                ProductCategory category = dbContext.ProductCategory.FirstOrDefault(c => c.CategoryName == entry.Key);
+                                if (category != null)
+                                {
+                                    existingCoefficients.Add(new UserCategoryCoefficient
+                                    {
+                                        UserId = user.Id,
+                                        Coefficient = entry.Value,
+                                        ProductCategory = category
+                                    });
+                                }
+                            }
+                        }
+
+                    }
+                        
 
                     var result = await _userManager.UpdateAsync(user);
                     if (result.Succeeded)
                     {
+                        using (var dbContext = new EFDbContext())
+                        {
+                            await dbContext.SaveChangesAsync();
+                        }
+                            
                         TempData["message"] = string.Format("Изменения пользователя {0} были сохранены", model.Name);
                         return RedirectToAction("Users");
                     }
