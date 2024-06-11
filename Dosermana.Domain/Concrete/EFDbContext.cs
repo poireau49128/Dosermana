@@ -13,7 +13,8 @@ namespace Dosermana.Domain.Concrete
         public DbSet<Product> Products { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
-
+        public DbSet<UserCategoryCoefficient> UserCategoryCoefficient { get; set; }
+        public DbSet<ProductCategory> ProductCategory { get; set; }
 
         //protected override void OnModelCreating(DbModelBuilder modelBuilder)
         //{

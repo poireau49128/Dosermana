@@ -81,12 +81,14 @@
     <Compile Include="Concrete\EFProductRepository.cs" />
     <Compile Include="Concrete\EmailOrderProcessor.cs" />
     <Compile Include="Entities\Cart.cs" />
+    <Compile Include="Entities\ProductCategory.cs" />
     <Compile Include="Entities\CurrentUser.cs" />
     <Compile Include="Entities\Order.cs" />
     <Compile Include="Entities\OrderItem.cs" />
     <Compile Include="Entities\Product.cs" />
     <Compile Include="Entities\ShippingDetails.cs" />
     <Compile Include="Entities\ShippingViewModel.cs" />
+    <Compile Include="Entities\UserCategoryCoefficient.cs" />
     <Compile Include="Migrations\202401161121106_NewRelations.cs" />
     <Compile Include="Migrations\202401161121106_NewRelations.designer.cs">
       <DependentUpon>202401161121106_NewRelations.cs</DependentUpon>
@@ -94,6 +96,14 @@
     <Compile Include="Migrations\202405060727293_AddDescriptionToProduct.cs" />
     <Compile Include="Migrations\202405060727293_AddDescriptionToProduct.designer.cs">
       <DependentUpon>202405060727293_AddDescriptionToProduct.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202406111052232_UserCategoryCoefficient.cs" />
+    <Compile Include="Migrations\202406111052232_UserCategoryCoefficient.designer.cs">
+      <DependentUpon>202406111052232_UserCategoryCoefficient.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202406111132051_fixUserCategoryCoefficient.cs" />
+    <Compile Include="Migrations\202406111132051_fixUserCategoryCoefficient.designer.cs">
+      <DependentUpon>202406111132051_fixUserCategoryCoefficient.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -108,6 +118,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202405060727293_AddDescriptionToProduct.resx">
       <DependentUpon>202405060727293_AddDescriptionToProduct.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202406111052232_UserCategoryCoefficient.resx">
+      <DependentUpon>202406111052232_UserCategoryCoefficient.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202406111132051_fixUserCategoryCoefficient.resx">
+      <DependentUpon>202406111132051_fixUserCategoryCoefficient.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
