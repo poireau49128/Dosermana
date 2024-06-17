@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Dosermana.Domain.Abstract;
+using Dosermana.Domain.Concrete;
 using Dosermana.Domain.Entities;
 using Dosermana.WebUI.Models;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-
 namespace Dosermana.WebUI.Controllers
 {
     public class ProductController : Controller
@@ -22,17 +23,20 @@ namespace Dosermana.WebUI.Controllers
             repository = repo;
         }
 
-        public ViewResult List(string category, int page = 1)
+        public ViewResult List(string category, string subcategory, int page = 1)
         {
-            decimal Price_coefficient = 1;
+            decimal priceCoefficient = 1;
             if (User.Identity.IsAuthenticated)
             {
                 var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationContext()));
                 var userId = User.Identity.GetUserId();
                 var user = userManager.FindById(userId);
-                Price_coefficient = user.Price_coefficient;
+                using (var dbContext = new EFDbContext())
+                {
+                    priceCoefficient = dbContext.GetCoefficientForUserAndCategory(userId, category);
+                }
             }
-            ViewBag.Price_coefficient = Price_coefficient;
+            ViewBag.Price_coefficient = priceCoefficient;
 
 
             ProductsListViewModel model = new ProductsListViewModel

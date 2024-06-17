@@ -38,7 +38,7 @@
                     //}, new { @class = "dropdown-item btn btn-block btn-default btn-lg"})
                     }, new { @class = "" })*@
 
-                    <a href="@Url.Action("List", "Product", new { category = subcategory, page = 1 })" class="dropdown-item">@subcategory</a>
+                    <a href="@Url.Action("List", "Product", new { category = category.Key, subcategory = subcategory, page = 1 })" class="dropdown-item">@subcategory</a>
                 }
             </span>
         </label>

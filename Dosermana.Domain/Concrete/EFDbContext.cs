@@ -16,6 +16,14 @@ namespace Dosermana.Domain.Concrete
         public DbSet<UserCategoryCoefficient> UserCategoryCoefficient { get; set; }
         public DbSet<ProductCategory> ProductCategory { get; set; }
 
+
+
+        public decimal GetCoefficientForUserAndCategory(string userId, string category)
+        {
+            var coefficient = UserCategoryCoefficient.FirstOrDefault(c => c.UserId == userId && c.ProductCategory.CategoryName == category);
+            return coefficient?.Coefficient ?? 1;
+        }
+
         //protected override void OnModelCreating(DbModelBuilder modelBuilder)
         //{
         //    modelBuilder.Entity<Order>()
