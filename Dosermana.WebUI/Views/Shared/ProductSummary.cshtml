@@ -61,6 +61,6 @@
                 }
             </script>
         }
-        @Html.ActionLink("Подробнее", "Details", "Product", new { productId = Model.ProductId }, null)
+        @Html.ActionLink("Подробнее", "Details", "Product", new { category = Model.Category, name = Model.Name, color = Model.Color }, null)
     </div>
 </div>

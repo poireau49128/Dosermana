@@ -46,6 +46,7 @@ namespace Dosermana.WebUI.Controllers
         }
 
         //[Authorize]
+        [HttpPost]
         public RedirectToRouteResult AddToCart(Cart cart, int productId, int quantity, string returnUrl, string custom_sizes, string custom_holes)
         {
             if (!User.Identity.IsAuthenticated)

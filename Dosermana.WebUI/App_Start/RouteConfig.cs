@@ -13,6 +13,7 @@ namespace Dosermana.WebUI
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            // Маршрут для главной страницы
             routes.MapRoute(null,
                 "",
                 new
@@ -25,33 +26,20 @@ namespace Dosermana.WebUI
                 }
             );
 
-
-
-
-
+            // Маршрут для отображения продуктов по категории, подкатегории и странице
             routes.MapRoute(null,
                 "{category}/{subcategory}/{page}",
                 new { controller = "Product", action = "List" },
                 new { page = @"\d+" }
             );
-            routes.MapRoute(null,
-                "{category}/{subcategory}",
-                new { controller = "Product", action = "List", page = 1 }
-            );
-            routes.MapRoute(null,
-                "{category}",
-                new { controller = "Product", action = "List", page = 1 }
-            );
-            routes.MapRoute(
-                name: null,
-                url: "Page{page}",
-                defaults: new { controller = "Product", action = "List", category = (string)null, subcategory = (string)null },
-                constraints: new { page = @"\d+" }
-            );
-            
 
-            
+            // Маршрут для отображения деталей продукта
+            routes.MapRoute(null,
+                "{category}/{name}/{color}",
+                new { controller = "Product", action = "Details" }
+            );
 
+            // Общий маршрут по умолчанию для контроллера и действия
             routes.MapRoute(null, "{controller}/{action}");
         }
     }

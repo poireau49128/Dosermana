@@ -35,7 +35,7 @@
                         var price = Model.Price * ViewBag.Price_coefficient;
                     }
                     <p class="card-price">@price.ToString("0.00 руб")</p>
-                    @using (Html.BeginForm("AddToCart", "Cart"))
+                    @using (Html.BeginForm("AddToCart", "Cart", FormMethod.Post))
                     {
                         @Html.HiddenFor(x => x.ProductId)
                         @Html.Hidden("returnUrl", Request.Url.PathAndQuery)

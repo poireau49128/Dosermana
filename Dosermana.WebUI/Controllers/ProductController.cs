@@ -61,20 +61,23 @@ namespace Dosermana.WebUI.Controllers
             return View(model);
         }
 
-        public ViewResult Details(int productId)
+        public ViewResult Details(string category, string name, string color)
         {
-            decimal Price_coefficient = 1;
+            decimal priceCoefficient = 1;
             if (User.Identity.IsAuthenticated)
             {
                 var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationContext()));
                 var userId = User.Identity.GetUserId();
                 var user = userManager.FindById(userId);
-                Price_coefficient = user.Price_coefficient;
+                using (var dbContext = new EFDbContext())
+                {
+                    priceCoefficient = dbContext.GetCoefficientForUserAndCategory(userId, category);
+                }
             }
-            ViewBag.Price_coefficient = Price_coefficient;
+            ViewBag.Price_coefficient = priceCoefficient;
 
             Product product = repository.Products
-                .FirstOrDefault(p => p.ProductId == productId);
+                .FirstOrDefault(p => p.Name == name && p.Color == color);
             return View(product);
         }
 
