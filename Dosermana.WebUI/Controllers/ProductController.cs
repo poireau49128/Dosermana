@@ -11,6 +11,8 @@ using Dosermana.Domain.Abstract;
 using Dosermana.Domain.Concrete;
 using Dosermana.Domain.Entities;
 using Dosermana.WebUI.Models;
+using System.Web.Caching;
+
 namespace Dosermana.WebUI.Controllers
 {
     public class ProductController : Controller
@@ -23,7 +25,7 @@ namespace Dosermana.WebUI.Controllers
             repository = repo;
         }
 
-        public ViewResult List(string category, string subcategory, int page = 1)
+        public ViewResult List(string subcategory = "ПН-37", string category = "Погонаж", int page = 1)
         {
             decimal priceCoefficient = 1;
             if (User.Identity.IsAuthenticated)
@@ -42,7 +44,7 @@ namespace Dosermana.WebUI.Controllers
             ProductsListViewModel model = new ProductsListViewModel
             {
                 Products = repository.Products
-            .Where(p => category == null || p.SubCategory == category)
+            .Where(p => p.Category == category && p.SubCategory == subcategory)
             .OrderBy(product => product.ProductId)
             .Skip((page - 1) * pageSize)
             .Take(pageSize),
@@ -52,7 +54,7 @@ namespace Dosermana.WebUI.Controllers
                     ItemsPerPage = pageSize,
                     TotalItems = category == null ?
         repository.Products.Count() :
-        repository.Products.Where(product => product.SubCategory == category).Count()
+        repository.Products.Where(product => product.SubCategory == subcategory).Count()
                 },
                 CurrentCategory = category
             };
@@ -105,5 +107,45 @@ namespace Dosermana.WebUI.Controllers
                 return null;
             }
         }
+
+
+        //private string GetFirstCategory()
+        //{
+        //    var cacheKey = "FirstCategory";
+        //    var cachedValue = HttpRuntime.Cache.Get(cacheKey) as string;
+
+        //    if (cachedValue == null)
+        //    {
+        //        cachedValue = repository.Products
+        //            .OrderBy(p => p.Category)
+        //            .Select(p => p.Category)
+        //            .FirstOrDefault();
+
+        //        HttpRuntime.Cache.Insert(cacheKey, cachedValue, null, DateTime.Now.AddHours(1), Cache.NoSlidingExpiration);
+        //    }
+
+        //    return cachedValue;
+        //}
+
+        //private string GetFirstSubcategory()
+        //{
+        //    var cacheKey = "FirstSubcategory";
+        //    var cachedValue = HttpRuntime.Cache.Get(cacheKey) as string;
+
+        //    if (cachedValue == null)
+        //    {
+        //        var firstCategory = GetFirstCategory();
+
+        //        cachedValue = repository.Products
+        //            .Where(p => p.Category == firstCategory)
+        //            .OrderBy(p => p.SubCategory)
+        //            .Select(p => p.SubCategory)
+        //            .FirstOrDefault();
+
+        //        HttpRuntime.Cache.Insert(cacheKey, cachedValue, null, DateTime.Now.AddHours(1), Cache.NoSlidingExpiration);
+        //    }
+
+        //    return cachedValue;
+        //}
     }
 }
