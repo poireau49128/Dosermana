@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity.Validation;
 using System.IO;
 using System.Net;
 using System.Net.Mail;
@@ -41,41 +40,23 @@ namespace Dosermana.Domain.Concrete
         }
     }
 
-    public class EmailOrderProcessor : IOrderProcessor
+    public class OrderProcessor : IOrderProcessor
     {
-
         private EmailSettings emailSettings;
 
         private readonly EFDbContext _dbContext;
 
-        public EmailOrderProcessor(EmailSettings settings, EFDbContext dbContext)
+        public OrderProcessor(EmailSettings settings, EFDbContext dbContext)
         {
             emailSettings = settings;
 
             _dbContext = dbContext;
         }
 
-        public bool ChangeProductQuantity(Product product, int quantity)
+        public void ProcessOrder(Cart cart, CurrentUser user)
         {
-            Product dbEntry = _dbContext.Products.Find(product.ProductId);
-            if (dbEntry != null)
-            {
-                if (dbEntry.Quantity_Grodno - quantity >= 0)
-                {
-                    dbEntry.Quantity_Grodno = dbEntry.Quantity_Grodno - quantity;
-                    return true;
-                }
-                dbEntry.Quantity_Grodno = 0;
-            }
-            return false;
-        }
-
-        public bool ProcessOrder(Cart cart, CurrentUser user)
-        {
-            bool inStock = true;
             decimal summary = 0;
-            var order = new Order
-            {
+            var order = new Order {
                 UserId = user.Id,
                 UserEmail = user.Email,
                 Status = "Ожидание",
@@ -86,25 +67,19 @@ namespace Dosermana.Domain.Concrete
 
             foreach (var line in cart.Lines)
             {
-                decimal priceCoefficient = _dbContext.GetCoefficientForUserAndCategory(user.Id, line.Product.Category);
-                summary += line.Product.Price * line.Quantity * priceCoefficient;
+                summary += line.Product.Price * line.Quantity * user.Price_coefficient;
                 var orderItem = new OrderItem
                 {
                     ProductId = line.Product.ProductId,
                     Quantity = line.Quantity,
+                    Order_note = line.Note
                 };
-
-                if (!ChangeProductQuantity(line.Product, line.Quantity))
-                    inStock = false;
-
                 order.OrderItems.Add(orderItem);
                 _dbContext.OrderItems.Add(orderItem);
             }
             order.Summary = summary;
             _dbContext.Orders.Add(order);
             _dbContext.SaveChanges();
-
-            return inStock;            
         }
     }
 }

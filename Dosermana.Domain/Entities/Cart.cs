@@ -38,9 +38,9 @@ namespace Dosermana.Domain.Entities
             lineCollection.RemoveAll(l => l.Product.ProductId == product.ProductId);
         }
 
-        public decimal ComputeTotalValue()
+        public decimal ComputeTotalValue(Dictionary<string, decimal> coefs)
         {
-            return lineCollection.Sum(e => e.Product.Price * e.Quantity);
+            return lineCollection.Sum(e => e.Product.Price * e.Quantity * coefs[e.Product.Category]);
 
         }
         public void Clear()

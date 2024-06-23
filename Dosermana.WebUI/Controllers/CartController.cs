@@ -80,7 +80,19 @@ namespace Dosermana.WebUI.Controllers
         public ViewResult Index(Cart cart, string returnUrl)
         {
             var currentUser = UserManager.FindById(User.Identity.GetUserId());
-            ViewBag.Price_coefficient = currentUser.Price_coefficient;
+            using (var dbContext = new EFDbContext())
+            {
+                var categories = dbContext.ProductCategory.ToList();
+                var coefficients = new Dictionary<string, decimal>();
+
+                foreach (var category in categories)
+                {
+                    var coefficient = dbContext.GetCoefficientForUserAndCategory(currentUser.Id, category.CategoryName);
+                    coefficients.Add(category.CategoryName, coefficient);
+                }
+                ViewBag.Coefficients = coefficients;
+            }
+
             return View(new CartIndexViewModel
             {
                 Cart = cart,

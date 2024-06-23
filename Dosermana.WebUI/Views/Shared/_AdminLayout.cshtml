@@ -19,6 +19,12 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
+    <div class="header">
+        <a href="@Url.Action("Index", "Admin")" class="admin-button">Админ-товары</a>
+        <a href="@Url.Action("Orders", "Admin")" class="admin-button">Админ-заказы</a>
+        <a href="@Url.Action("Users", "Admin")" class="admin-button">Админ-пользователи</a>
+        <a href="/" class="home-button">На главную</a>
+    </div>
     <div>
         @if (TempData["message"] != null)
         {

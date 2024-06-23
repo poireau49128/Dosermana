@@ -92,6 +92,10 @@
         font-weight: 500;
     }
 
+    .card-body a{
+        color: black;
+    }
+
 
 
 

@@ -12,12 +12,12 @@
 
 
 <h2>Ваша корзина</h2>
-<table id="cartTable" class="table">
+<table id="cartTable" class="table" style="font-size: 15px;">
     <thead>
         <tr>
-            <th>Кол-во</th>
             <th>Продукт</th>
-            <th class="text-right">Цена</th>
+            <th class="text-center">Кол-во</th>
+            <th class="text-center">Цена</th>
             <th class="text-right">Общая цена</th>
         </tr>
     </thead>
@@ -25,12 +25,13 @@
         @foreach (var line in Model.Cart.Lines)
         {
         <tr>
-            <td class="text-center">@line.Quantity</td>
             <td class="text-left">@line.Product.Name @line.Product.Color</td>
+            <td class="text-center">@line.Quantity</td>
             @{ 
-                decimal price = line.Product.Price * ViewBag.Price_coefficient;
+                //decimal price = line.Product.Price * ViewBag.Price_coefficient;
+                decimal price = line.Product.Price * ViewBag.Coefficients[line.Product.Category];
             }
-            <td class="text-right">@price.ToString("0.00 руб")</td>
+            <td class="text-center">@price.ToString("0.00 руб")</td>
             <td class="text-right">
                 @((line.Quantity * price).ToString("0.00 руб"))
             </td>
@@ -47,12 +48,14 @@
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="3" class="text-right">Итого:</td>
+            <td colspan="3" class="text-right"><b>Итого:</b></td>
             <td class="text-right">
-                @{
-                    decimal summ = Model.Cart.ComputeTotalValue() * ViewBag.Price_coefficient;
-                }
-                @summ.ToString("0.00 руб")
+                <b>
+                    @{
+                        decimal summ = Model.Cart.ComputeTotalValue(ViewBag.Coefficients);
+                    }
+                    @summ.ToString("0.00 руб")
+                </b>
             </td>
         </tr>
     </tfoot>

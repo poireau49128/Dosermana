@@ -23,13 +23,5 @@ namespace Dosermana.Domain.Concrete
             var coefficient = UserCategoryCoefficient.FirstOrDefault(c => c.UserId == userId && c.ProductCategory.CategoryName == category);
             return coefficient?.Coefficient ?? 1;
         }
-
-        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        //{
-        //    modelBuilder.Entity<Order>()
-        //        .HasRequired(o => o.Product)
-        //        .WithMany()
-        //        .HasForeignKey(o => o.ProductId);
-        //}
     }
 }

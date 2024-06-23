@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Dosermana.WebUI.Models.ApplicationUser>
+﻿@*@model IEnumerable<Dosermana.WebUI.Models.ApplicationUser>*@
+@model Tuple<List<Dosermana.Domain.Entities.ProductCategory>, List<Dosermana.WebUI.Models.EditUserViewModel>>
 
 @using Microsoft.AspNet.Identity
 
@@ -19,22 +20,39 @@
     <div class="panel-heading">
         <h3>Список пользователей</h3>
     </div>
-
+    z
     <div class="panel-body">
         <table class="table table-striped table-condensed table-bordered">
             <tr>
                 <th class="text-center">Имя пользователя</th>
                 <th class="text-center">Адрес</th>
-                <th class="text-center">Ценовой коэффициент</th>
+                @foreach (var category in Model.Item1)
+                {
+                    <th class="text-center">@category.CategoryName</th>
+                }
                 <th class="text-center">Администратор?</th>
                 <th class="text-center">Изменить</th>
             </tr>
-            @foreach (var user in Model)
+            @foreach (var user in Model.Item2)
             {
                 <tr>
-                    <td class="text-center">@user.UserName</td>
+                    <td class="text-center">@user.Name</td>
                     <td class="text-center">@user.Address</td>
-                    <td class="text-center">@user.Price_coefficient</td>
+                    @for (int i = 0; i < Model.Item1.Count; i++)
+                    {
+
+                        try
+                        {
+                            var coef = @user.CategoryCoefficients[i].Coefficient;
+                            <td class="text-center">@user.CategoryCoefficients[i].Coefficient</td>
+                        }
+
+                        catch
+                        {
+                            <td class="text-center">н/з(1)</td>
+                        }
+                    }
+
                     <td class="text-center">@(userManager.IsInRole(user.Id, "admin") ? "Yes" : "No")</td>
                     <td class="text-center">
                         <button type="button" class="btn btn-default">
@@ -47,105 +65,3 @@
     </div>
 
 </div>
-
-
-
-@*<h2>Users</h2>
-
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EmailConfirmed)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PasswordHash)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SecurityStamp)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PhoneNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PhoneNumberConfirmed)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TwoFactorEnabled)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LockoutEndDateUtc)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LockoutEnabled)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AccessFailedCount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Address)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price_coefficient)
-            </th>
-            <th></th>
-        </tr>
-
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EmailConfirmed)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PasswordHash)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SecurityStamp)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhoneNumberConfirmed)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TwoFactorEnabled)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LockoutEndDateUtc)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LockoutEnabled)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AccessFailedCount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price_coefficient)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-            </td>
-        </tr>
-    }
-
-    </table>*@
