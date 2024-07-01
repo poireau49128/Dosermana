@@ -1,0 +1,46 @@
+﻿@using Dosermana.Domain.Entities
+@model IEnumerable<News>
+@{
+    ViewBag.Title = "Новости";
+}
+<link href="~/Content/news.css" rel="stylesheet" />
+
+
+@if (User.IsInRole("admin")) 
+{
+    <a href="@Url.Action("Create", "News")" class="create-button">Создать новость</a>
+}
+
+
+
+
+@if (Model != null && Model.Any())
+{
+    foreach (var newsItem in Model)
+    {
+<div class="news-item">
+    @if (User.IsInRole("admin"))
+    {
+        <span id="Header" runat="server" class="news-header">@Html.ActionLink(@newsItem.NewsTitle, "Edit", new { @newsItem.NewsId })</span>
+    }
+    else
+    {
+        <span id="Header" runat="server" class="news-header">@newsItem.NewsTitle</span>
+    }
+
+    <span id="Date" runat="server" class="news-date">@newsItem.Date</span>
+
+    @if (@newsItem.FileName != null)
+    {
+        string imageUrl = $"~/Images/{@newsItem.FileName}";
+        <img class="news-img" src="@Url.Content(imageUrl)" alt="Card image cap">
+    }
+
+    <span id="Text" runat="server" class="news-text">@newsItem.Content</span>
+</div>            
+    }
+}
+else
+{
+    <p>Нет доступных новостей.</p>
+}

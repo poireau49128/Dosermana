@@ -15,6 +15,7 @@ namespace Dosermana.Domain.Concrete
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<UserCategoryCoefficient> UserCategoryCoefficient { get; set; }
         public DbSet<ProductCategory> ProductCategory { get; set; }
+        public DbSet<News> News { get; set; }
 
 
 

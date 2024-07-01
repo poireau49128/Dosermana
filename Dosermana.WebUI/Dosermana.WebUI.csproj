@@ -192,6 +192,7 @@
     <Content Include="Content\js\swiper.js" />
     <Content Include="Content\Layout.css" />
     <Content Include="Content\Login.css" />
+    <Content Include="Content\news.css" />
     <Content Include="Content\products.css" />
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -221,6 +222,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\NavController.cs" />
+    <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -283,6 +285,8 @@
     <Content Include="Views\Product\Details.cshtml" />
     <Content Include="Views\Cart\CheckoutWarning.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Decimal.cshtml" />
+    <Content Include="Views\News\List.cshtml" />
+    <Content Include="Views\News\Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

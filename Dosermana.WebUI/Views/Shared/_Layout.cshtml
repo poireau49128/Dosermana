@@ -110,7 +110,8 @@
                 <li><hr style="width: 100%; background-color: #999999; height: 1px;"></li>
                 <li><a class="menu__item" href="#">О нас</a></li>
                 <li><a class="menu__item" href="/">Каталог</a></li>
-                <li><a class="menu__item" href="#">Новости</a></li>
+                <li>@Html.ActionLink("Новости", "List", "News", null, new { @class = "menu__item" })</li>
+                @*<li><a class="menu__item" href="#">Новости</a></li>*@
                 <li><a class="menu__item" href="#">Где купить</a></li>
                 <li><a class="menu__item" href="#">Доствка</a></li>
                 <li><hr style="width: 100%; background-color: #999999; height: 1px;"></li>
@@ -242,7 +243,8 @@
             <ul class="menu">
                 <li><a href="#">О НАС</a></li>
                 <li><a href="/">КАТАЛОГ</a></li>
-                <li><a href="#">НОВОСТИ</a></li>
+                <li>@Html.ActionLink("НОВОСТИ", "List", "News")</li>
+                @*<li><a href="#">НОВОСТИ</a></li>*@
                 <li><a href="#">ГДЕ КУПИТЬ</a></li>
                 <li><a href="#">ДОСТАВКА</a></li>
             </ul>

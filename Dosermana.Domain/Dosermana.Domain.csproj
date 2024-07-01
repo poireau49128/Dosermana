@@ -73,14 +73,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\INewsRepository.cs" />
     <Compile Include="Abstract\IOrderProcessor.cs" />
     <Compile Include="Abstract\IOrderRepository.cs" />
     <Compile Include="Abstract\IProductRepository.cs" />
     <Compile Include="Concrete\EFDbContext.cs" />
+    <Compile Include="Concrete\EFNewsRepository.cs" />
     <Compile Include="Concrete\EFOrderRepository.cs" />
     <Compile Include="Concrete\EFProductRepository.cs" />
     <Compile Include="Concrete\EmailOrderProcessor.cs" />
     <Compile Include="Entities\Cart.cs" />
+    <Compile Include="Entities\News.cs" />
     <Compile Include="Entities\ProductCategory.cs" />
     <Compile Include="Entities\CurrentUser.cs" />
     <Compile Include="Entities\Order.cs" />
@@ -109,6 +112,14 @@
     <Compile Include="Migrations\202406111208167_changeUserCategoryCoefficientFieldType.designer.cs">
       <DependentUpon>202406111208167_changeUserCategoryCoefficientFieldType.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202407010811492_AddNewsModel.cs" />
+    <Compile Include="Migrations\202407010811492_AddNewsModel.designer.cs">
+      <DependentUpon>202407010811492_AddNewsModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202407011044256_RenameFieldInNewsModel.cs" />
+    <Compile Include="Migrations\202407011044256_RenameFieldInNewsModel.designer.cs">
+      <DependentUpon>202407011044256_RenameFieldInNewsModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -131,6 +142,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202406111208167_changeUserCategoryCoefficientFieldType.resx">
       <DependentUpon>202406111208167_changeUserCategoryCoefficientFieldType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202407010811492_AddNewsModel.resx">
+      <DependentUpon>202407010811492_AddNewsModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202407011044256_RenameFieldInNewsModel.resx">
+      <DependentUpon>202407011044256_RenameFieldInNewsModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
