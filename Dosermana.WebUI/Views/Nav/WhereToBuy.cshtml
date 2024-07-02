@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewBag.Title = "Где купить";
+}
+
+<head>
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=ваш API-ключ&lang=ru_RU" type="text/javascript">
+    </script>
+</head>
+
+<div id="map" style="width: 100%; height: 600px;"></div>
+
+<script type="text/javascript">
+    ymaps.ready(init);
+    //function init() {
+    //    var myMap = new ymaps.Map("map", {
+    //        center: [53.6755985708436, 23.813664499999994],
+    //        zoom: 15
+    //    });
+
+    //    myMap.geoObjects
+    //        .add(myGeoObject)
+    //        .add(myPieChart)
+    //        .add(new ymaps.Placemark([53.6755985708436, 23.813664499999994], {
+    //            balloonContent: 'цвет <strong>красный</strong>'
+    //        }, {
+    //            preset: 'islands#redSportIcon'
+    //        }));
+    //}
+    function init() {
+        var myMap = new ymaps.Map("map", {
+            center: [53.6755985708436, 23.813664499999994],
+            zoom: 15
+        }, {
+            searchControlProvider: 'yandex#search',
+            autoFitToViewport: 'always'
+        });
+
+        myMap.geoObjects
+            .add(new ymaps.Placemark([53.67616855526797, 23.814524876431047], {
+                balloonContent: 'bekmanwood.by'
+            }, {
+                preset: 'islands#redFactoryIcon'
+            }));
+    }
+</script>

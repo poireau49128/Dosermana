@@ -34,12 +34,16 @@ namespace Dosermana.WebUI.Controllers
 
                 categoryDictionary.Add(category, subcategories);
             }
-
-            //IEnumerable<string> categories = repository.Products
-            //    .Select(product => product.Category)
-            //    .Distinct()
-            //    .OrderBy(x => x);
             return PartialView("FlexMenu", categoryDictionary);
+        }
+
+        public ViewResult WhereToBuy()
+        {
+            return View();
+        }
+        public ViewResult About()
+        {
+            return View();
         }
     }
 }

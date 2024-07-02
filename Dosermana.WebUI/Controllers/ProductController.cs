@@ -25,7 +25,7 @@ namespace Dosermana.WebUI.Controllers
             repository = repo;
         }
 
-        public ViewResult List(string subcategory = "ПН-37", string category = "Погонаж", int page = 1)
+        public ViewResult List(string subcategory, string category = "Погонаж", int page = 1)
         {
             decimal priceCoefficient = 1;
             if (User.Identity.IsAuthenticated)
@@ -41,10 +41,16 @@ namespace Dosermana.WebUI.Controllers
             ViewBag.Price_coefficient = priceCoefficient;
 
 
+
+            int totalItems = string.IsNullOrEmpty(subcategory)
+    ? repository.Products.Count(p => p.Category == category)
+    : repository.Products.Count(p => p.Category == category && p.SubCategory == subcategory);
+
             ProductsListViewModel model = new ProductsListViewModel
             {
                 Products = repository.Products
-            .Where(p => p.Category == category && p.SubCategory == subcategory)
+            //.Where(p => p.Category == category && p.SubCategory == subcategory)
+            .Where(p => p.Category == category && (string.IsNullOrEmpty(subcategory) || p.SubCategory == subcategory))
             .OrderBy(product => product.ProductId)
             .Skip((page - 1) * pageSize)
             .Take(pageSize),
@@ -52,14 +58,57 @@ namespace Dosermana.WebUI.Controllers
                 {
                     CurrentPage = page,
                     ItemsPerPage = pageSize,
-                    TotalItems = category == null ?
-        repository.Products.Count() :
-        repository.Products.Where(product => product.SubCategory == subcategory).Count()
+                    TotalItems = totalItems
+                    //            TotalItems = category == null ?
+                    //repository.Products.Count() :
+                    //repository.Products.Where(product => product.SubCategory == subcategory).Count()
                 },
                 CurrentCategory = category
             };
             return View(model);
         }
+        //public ViewResult List(string subcategory, string category = "Погонаж", int page = 1)
+        //{
+        //    decimal priceCoefficient = 1;
+        //    if (User.Identity.IsAuthenticated)
+        //    {
+        //        var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationContext()));
+        //        var userId = User.Identity.GetUserId();
+        //        var user = userManager.FindById(userId);
+        //        using (var dbContext = new EFDbContext())
+        //        {
+        //            priceCoefficient = dbContext.GetCoefficientForUserAndCategory(userId, category);
+        //        }
+        //    }
+        //    ViewBag.Price_coefficient = priceCoefficient;
+
+        //    int pageSize = 10; // Количество товаров на странице
+
+        //    var productsQuery = repository.Products
+        //        .Where(p => p.Category == category && (string.IsNullOrEmpty(subcategory) || p.SubCategory == subcategory));
+
+        //    var totalItems = productsQuery.Count();
+
+        //    var products = productsQuery
+        //        .OrderBy(product => product.ProductId)
+        //        .Skip((page - 1) * pageSize)
+        //        .Take(pageSize)
+        //        .ToList();
+
+        //    var model = new ProductsListViewModel
+        //    {
+        //        Products = products,
+        //        PagingInfo = new PagingInfo
+        //        {
+        //            CurrentPage = page,
+        //            ItemsPerPage = pageSize,
+        //            TotalItems = totalItems
+        //        },
+        //        CurrentCategory = category
+        //    };
+
+        //    return View(model);
+        //}
 
         public ViewResult Details(string category, string name, string color)
         {
