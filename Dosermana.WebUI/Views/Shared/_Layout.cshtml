@@ -113,7 +113,7 @@
                 <li>@Html.ActionLink("Новости", "List", "News", null, new { @class = "menu__item" })</li>
                 @*<li><a class="menu__item" href="#">Новости</a></li>*@
                 <li><a class="menu__item" href="@Url.Action("WhereToBuy", "Nav")">Где купить</a></li>
-                <li><a class="menu__item" href="#">Доствка</a></li>
+                <li><a class="menu__item" href="@Url.Action("Delivery", "Nav")">Доставка</a></li>
                 <li><hr style="width: 100%; background-color: #999999; height: 1px;"></li>
                 <li class="menu__item__info"><img src="~/Content/images/clock.png" alt="Время работы" /><span class="menu__item menu__item__info">Режим работы:<br /> пн-пт 8:00-18:00</span></li>
                 <li class="menu__item__info"><img src="~/Content/images/marker.png" alt="Адрес" /><span class="menu__item menu__item__info">ул. Краснопартизанская 53<br />230011 г. Гродно<br />Республика Беларусь</span></li>
@@ -246,7 +246,7 @@
                 <li>@Html.ActionLink("НОВОСТИ", "List", "News")</li>
                 @*<li><a href="#">НОВОСТИ</a></li>*@
                 <li><a href="@Url.Action("WhereToBuy", "Nav")">ГДЕ КУПИТЬ</a></li>
-                <li><a href="#">ДОСТАВКА</a></li>
+                <li><a href="@Url.Action("Delivery", "Nav")">ДОСТАВКА</a></li>
             </ul>
         </nav>
     </header>
@@ -266,7 +266,7 @@
                                 <div class="text">
                                     Мебельные фасады для кухонь, гостиных, гардеробов и другой корпусной мебели
                                 </div>
-                                <button><a href="/Production?type=0" style="color: white">Подробнее</a></button>
+                                <button><a href="@Url.Action("List", "Product", new { category = "Фасады", page = 1 })" style="color: white">Подробнее</a></button>
                             </div>
                         </div>
                         <div class="image">
@@ -276,34 +276,12 @@
                                 <div class="text">
                                     Мебельные фасады для кухонь, гостиных,<br> гардеробов и другой корпусной мебели
                                 </div>
-                                <button><a href="/Production?type=0" style="color: white">Подробнее</a></button>
+                                <button><a href="@Url.Action("List", "Product", new { category = "Фасады", page = 1 })" style="color: white">Подробнее</a></button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="swiper-slide">
-                    <div class="block">
-                        <div class="sub-block">
-                            <div class="sub-content">
-                                <h1>Интерьерные декоры</h1>
-                                <div class="text">
-                                    Декоративные рейки в интерьере - современный прием для отделки стен и зонирования
-                                </div>
-                                <button><a href="/Production?type=5" style="color: white">Подробнее</a></button>
-                            </div>
-                        </div>
-                        <div class="image">
-                            <img src="~/Content/images/decors.jpg" alt="" />
-                            <div class="sub-block">
-                                <h1>Интерьерные декоры</h1>
-                                <div class="text">
-                                    Декоративные рейки в интерьере -<br> современный прием для отделки стен и зонирования
-                                </div>
-                                <button><a href="/Production?type=5" style="color: white">Подробнее</a></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
                 <div class="swiper-slide">
                     <div class="block">
                         <div class="sub-block">
@@ -312,7 +290,7 @@
                                 <div class="text">
                                     Декоротивные элементы придают кухне особенный индивидуальный вид.
                                 </div>
-                                <button><a href="/Production?type=1" style="color: white">Подробнее</a></button>
+                                <button><a href="@Url.Action("List", "Product", new { category = "Погонаж", page = 1 })" style="color: white">Подробнее</a></button>
                             </div>
                         </div>
                         <div class="image">
@@ -322,7 +300,7 @@
                                 <div class="text">
                                     Декоротивные элементы придают кухне <br> особенный индивидуальный вид.
                                 </div>
-                                <button><a href="/Production?type=1" style="color: white">Подробнее</a></button>
+                                <button><a href="@Url.Action("List", "Product", new { category = "Погонаж", page = 1 })" style="color: white">Подробнее</a></button>
                             </div>
                         </div>
                     </div>
@@ -335,7 +313,7 @@
                                 <div class="text">
                                     В нашем каталоге мебели можно выбрать как классические модели гостиных и стенок, так и ультра современные комплекты.
                                 </div>
-                                <button><a href="/Production?type=2" style="color: white">Подробнее</a></button>
+                                <button><a href="@Url.Action("List", "Product", new { category = "Мебель", page = 1 })" style="color: white">Подробнее</a></button>
                             </div>
                         </div>
                         <div class="image">
@@ -345,7 +323,7 @@
                                 <div class="text">
                                     В нашем каталоге мебели можно выбрать как классические модели <br> гостиных и стенок, так и ультра современные комплекты.
                                 </div>
-                                <button><a href="/Production?type=2" style="color: white">Подробнее</a></button>
+                                <button><a href="@Url.Action("List", "Product", new { category = "Мебель", page = 1 })" style="color: white">Подробнее</a></button>
                             </div>
                         </div>
                     </div>

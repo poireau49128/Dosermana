@@ -173,6 +173,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\delivery.css" />
     <Content Include="Content\details.css" />
     <Content Include="Content\ErrorStyles.css" />
     <Content Include="Content\flex-menu.css" />
@@ -290,6 +291,7 @@
     <Content Include="Views\News\Edit.cshtml" />
     <Content Include="Views\Nav\WhereToBuy.cshtml" />
     <Content Include="Views\Nav\About.cshtml" />
+    <Content Include="Views\Nav\Delivery.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

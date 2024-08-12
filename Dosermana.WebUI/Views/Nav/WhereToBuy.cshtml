@@ -3,30 +3,12 @@
     ViewBag.Title = "Где купить";
 }
 
-<head>
-    <script src="https://api-maps.yandex.ru/2.1/?apikey=ваш API-ключ&lang=ru_RU" type="text/javascript">
-    </script>
-</head>
+<script src="https://api-maps.yandex.ru/2.1/?apikey=235e29ff-b191-43b3-8acf-3765b3f02f3d&lang=ru_RU" type="text/javascript"></script>
 
 <div id="map" style="width: 100%; height: 600px;"></div>
 
 <script type="text/javascript">
     ymaps.ready(init);
-    //function init() {
-    //    var myMap = new ymaps.Map("map", {
-    //        center: [53.6755985708436, 23.813664499999994],
-    //        zoom: 15
-    //    });
-
-    //    myMap.geoObjects
-    //        .add(myGeoObject)
-    //        .add(myPieChart)
-    //        .add(new ymaps.Placemark([53.6755985708436, 23.813664499999994], {
-    //            balloonContent: 'цвет <strong>красный</strong>'
-    //        }, {
-    //            preset: 'islands#redSportIcon'
-    //        }));
-    //}
     function init() {
         var myMap = new ymaps.Map("map", {
             center: [53.6755985708436, 23.813664499999994],

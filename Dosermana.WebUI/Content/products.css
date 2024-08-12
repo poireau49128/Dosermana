@@ -52,13 +52,19 @@
     padding: 10px;
     justify-content: end;
 }
+    .card-body{
+        width: 280px;
+    }
     .card img {
-        width: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        width: auto;
+        height: auto;
     }
     .card-image{
         background-color: white;
-        padding: 20px 10px;
-        height: 100%;
+        padding: 0px 10px;
+        height: 200px;
 
         display: flex;
         justify-content: center;
@@ -67,18 +73,35 @@
     .card-title {
         display: flex;
         color: white;
+        width: 100%;
         
         font-size: 18px;
         font-weight: 500;
     }
-        .card-name{
+        .card-title span{
+            padding: 0 10px;
+        }
+        .card-name {
             background-color: #955F31;
             padding: 5px;
+            width: 105px;
+            align-items: center;
+            display: flex;
+            justify-content: center;
         }
-        .card-sizes {
+
+        .card-type{
+            font-size: 17px;
+            font-weight: 600;
+        }
+
+        .card-sizes, .card-color {
             background-color: #DADADA;
             padding: 5px;
             color: black;
+
+            display: inline-block;
+            width: 100%;
         }
     .card-quantity{
         font-size: 15px;

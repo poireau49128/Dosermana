@@ -45,5 +45,9 @@ namespace Dosermana.WebUI.Controllers
         {
             return View();
         }
+        public ViewResult Delivery()
+        {
+            return View();
+        }
     }
 }

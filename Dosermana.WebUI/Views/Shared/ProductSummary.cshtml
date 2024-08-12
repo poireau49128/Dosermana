@@ -15,12 +15,29 @@
             string imageUrl = $"~/Images/{Model.FileName}";
             <img class="card-img-top" src="@Url.Content(imageUrl)" alt="Card image cap">
         }
+
+
     </div>
     <div class="card-body">
+        @{
+            string type = "";
+            string id = Model.Name;
+            try
+            {
+                type = Model.Name.Substring(0, Model.Name.LastIndexOf(' '));
+                id = Model.Name.Substring(Model.Name.LastIndexOf(' ') + 1);
+            }
+            catch
+            {
+            }
+        }
+        <span class="card-type">@type</span>
         <div class="card-title">
-            <span class="card-name">@Model.Name</span>
-            <span class="card-sizes">@Model.Sizes</span>
-            <span class="card-sizes">@Model.Color</span>
+            <span class="card-name">@id</span>
+            <div style="width: 175px">
+                <span class="card-sizes">@Model.Sizes</span>
+                <span class="card-color">@Model.Color</span>
+            </div>
         </div>
         <p class="card-quantity">На складе в Гродно: @Model.Quantity_Grodno</p>
         <p class="card-quantity">На складе в Москве: @Model.Quantity_Moscow</p>
@@ -61,6 +78,6 @@
                 }
             </script>
         }
-        @Html.ActionLink("Подробнее", "Details", "Product", new { category = Model.Category, name = Model.Name, color = Model.Color }, null)
+        @Html.ActionLink("Подробнее", "Details", "Product", new { category = Model.Category, name = Model.Name, color = Model.Color }, new { style = "color: black; font-weight: bold;" })
     </div>
 </div>

@@ -61,7 +61,7 @@ body {
     font-family: Montserrat;
     font-size: 12px;
     line-height: 1.5;
-    background-color: #f2f2f2;
+    /*background-color: #f2f2f2;*/
     color: #333333;
     overflow-x: hidden;
 }
@@ -436,6 +436,7 @@ label.m-menu__toggle {
     .header-block{
         display: flex;
         align-items: center;
+        margin-right: 10px;
 
     }
         .header-block img {
