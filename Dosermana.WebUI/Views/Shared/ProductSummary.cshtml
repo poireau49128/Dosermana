@@ -24,11 +24,14 @@
             string id = Model.Name;
             try
             {
-                type = Model.Name.Substring(0, Model.Name.LastIndexOf(' '));
-                id = Model.Name.Substring(Model.Name.LastIndexOf(' ') + 1);
+                if((!string.IsNullOrEmpty(Model.Name))){
+                    type = Model.Name.Substring(0, Model.Name.LastIndexOf(' '));
+                    id = Model.Name.Substring(Model.Name.LastIndexOf(' ') + 1);
+                }
             }
-            catch
+            catch(Exception ex)
             {
+                Console.WriteLine(ex);
             }
         }
         <span class="card-type">@type</span>
